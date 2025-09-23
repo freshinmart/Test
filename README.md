@@ -1,11 +1,12 @@
-<html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QRISku - Pembayaran QRIS</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Reset dan Base Styles */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -33,6 +34,7 @@
             position: relative;
         }
 
+        /* Container */
         .container {
             max-width: 480px;
             margin: 0 auto;
@@ -48,12 +50,12 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
-        /* Header - Satu Warna */
+        /* Header */
         header {
             text-align: center;
             margin-bottom: 16px;
             padding: 12px 16px;
-            background: #3b82f6; /* Warna solid */
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
             color: #ffffff;
             border-radius: 12px;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
@@ -73,10 +75,9 @@
             font-weight: 400;
         }
 
-        .profile-btn {
+        .profile-btn, .fullscreen-btn {
             position: absolute;
             top: 12px;
-            right: 12px;
             background: rgba(255, 255, 255, 0.15);
             border: none;
             color: #ffffff;
@@ -91,22 +92,12 @@
             transition: background-color 0.2s ease, transform 0.2s ease;
         }
 
+        .profile-btn {
+            right: 12px;
+        }
+
         .fullscreen-btn {
-            position: absolute;
-            top: 12px;
             left: 12px;
-            background: rgba(255, 255, 255, 0.15);
-            border: none;
-            color: #ffffff;
-            font-size: 1.25rem;
-            cursor: pointer;
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: background-color 0.2s ease, transform 0.2s ease;
         }
 
         .profile-btn:hover, .fullscreen-btn:hover {
@@ -114,11 +105,11 @@
             transform: scale(1.05);
         }
 
-        /* Input Section */
+        /* Input Section - Beranda (Keypad lebih kecil) */
         .input-section {
             margin-bottom: 16px;
             background-color: #ffffff;
-            padding: 16px;
+            padding: 12px;
             border-radius: 12px;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
             border: 1px solid #e2e8f0;
@@ -129,9 +120,9 @@
         }
 
         .input-section h3 {
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             color: #1e293b;
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 500;
             text-align: center;
             flex-shrink: 0;
@@ -139,15 +130,15 @@
 
         .amount-display, .phone-display, .calculator-display {
             text-align: right;
-            font-size: 1.75rem;
+            font-size: 1.5rem;
             font-weight: 600;
-            margin-bottom: 12px;
-            padding: 12px;
+            margin-bottom: 10px;
+            padding: 10px;
             background-color: #f1f5f9;
             border-radius: 8px;
             border: 1px solid #e2e8f0;
             color: #1e293b;
-            min-height: 60px;
+            min-height: 50px;
             display: flex;
             align-items: center;
             justify-content: flex-end;
@@ -155,7 +146,7 @@
             flex-shrink: 0;
         }
 
-        /* Numeric Keypad - Tetap Kecil */
+        /* Keypads - Beranda (Keypad lebih kecil) */
         .numeric-keypad-container {
             flex: 1;
             display: flex;
@@ -166,7 +157,7 @@
         .numeric-keypad {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 6px; /* Gap lebih kecil */
+            gap: 6px;
             flex: 1;
             min-height: 0;
         }
@@ -174,23 +165,23 @@
         .calculator-keypad {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 6px; /* Gap lebih kecil */
+            gap: 8px;
             flex: 1;
             min-height: 0;
         }
 
         .key {
-            padding: 10px; /* Padding lebih kecil */
+            padding: 8px;
             background: linear-gradient(145deg, #ffffff, #f1f5f9);
             color: #1e293b;
             border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 1.125rem; /* Font lebih kecil */
+            border-radius: 6px;
+            font-size: 1rem;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s ease;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            min-height: 40px; /* Height lebih kecil */
+            min-height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -222,18 +213,19 @@
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
         }
 
+        /* Action Buttons */
         .action-buttons {
             display: grid;
             grid-template-columns: 2fr 1fr;
-            gap: 8px;
-            margin-top: 12px;
+            gap: 6px;
+            margin-top: 10px;
             flex-shrink: 0;
         }
 
         .convert-button, .clear-button, .save-button, .confirm-payment {
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 0.9375rem;
+            padding: 8px;
+            border-radius: 6px;
+            font-size: 0.875rem;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -249,7 +241,7 @@
         .confirm-payment {
             background: linear-gradient(135deg, #15803d, #22c55e);
             color: #ffffff;
-            margin-top: 8px;
+            margin-top: 6px;
         }
 
         .clear-button {
@@ -273,7 +265,7 @@
             transform: translateY(-1px);
         }
 
-        /* Bottom Navigation */
+        /* Navigation */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -317,7 +309,6 @@
             transform: translateY(-1px);
         }
 
-        /* Inventory Button (FAB) */
         .inventory-btn {
             position: fixed;
             bottom: 80px;
@@ -343,7 +334,53 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
-        /* Modal */
+        /* Pages */
+        .page {
+            display: none;
+            animation: fadeIn 0.3s ease;
+            height: 100%;
+            flex-direction: column;
+        }
+
+        .page.active {
+            display: flex;
+        }
+
+        /* Tabs */
+        .finance-tabs, .settings-tabs {
+            display: flex;
+            margin-bottom: 16px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .finance-tab, .tab-btn {
+            flex: 1;
+            padding: 10px;
+            background: none;
+            border: none;
+            border-bottom: 2px solid transparent;
+            font-weight: 500;
+            color: #64748b;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .finance-tab.active, .tab-btn.active {
+            color: #1e3a8a;
+            border-bottom-color: #1e3a8a;
+        }
+
+        .tab-content {
+            display: none;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Modal - Diperbaiki ukuran dan scroll */
         .settings-modal, .payment-modal, .pulsa-modal, .password-modal, .debt-edit-modal, .inventory-edit-modal {
             display: none;
             position: fixed;
@@ -372,8 +409,57 @@
             animation: slideUp 0.3s ease;
         }
 
+        /* Modal Pembayaran - Diperbaiki ukuran dan tata letak */
         .payment-content {
-            max-width: 360px;
+            max-width: 320px;
+            max-height: 85vh;
+            padding: 15px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .payment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .payment-time {
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .payment-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .payment-subtitle {
+            text-align: center;
+            color: #64748b;
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+        }
+
+        .payment-amount {
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 15px;
+            color: #1e293b;
+            background-color: #f1f5f9;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .payment-qr {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
         }
 
         .payment-qr img {
@@ -382,6 +468,29 @@
             max-width: 100%;
             border-radius: 8px;
             border: 1px solid #e2e8f0;
+        }
+
+        .payment-info {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+        }
+
+        .info-label {
+            font-weight: 500;
+            color: #64748b;
+        }
+
+        .info-value {
+            font-weight: 500;
+            color: #1e293b;
         }
 
         .close-btn {
@@ -430,7 +539,7 @@
             outline: none;
         }
 
-        /* Transaction, Debt, Inventory Items */
+        /* Items */
         .transaction-item, .debt-item, .inventory-item, .calculator-history-item {
             background: #ffffff;
             padding: 12px;
@@ -438,140 +547,37 @@
             margin-bottom: 8px;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
             border: 1px solid #e2e8f0;
+            position: relative;
         }
 
-        .transaction-amount, .debt-amount, .inventory-stock {
-            font-size: 1rem;
-            font-weight: 500;
-        }
-
-        /* Management Buttons */
-        .management-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        .management-buttons button, .management-buttons label {
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
-            background: #ffffff;
-            color: #1e293b;
-            font-weight: 500;
-            font-size: 0.875rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-align: center;
-        }
-
-        .management-buttons button:hover, .management-buttons label:hover {
-            background: #f1f5f9;
-            transform: translateY(-1px);
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes slideUp {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        /* Page Styling */
-        .page {
-            display: none;
-            animation: fadeIn 0.3s ease;
+        /* Kalkulator - Riwayat dipisahkan */
+        .calculator-container {
+            display: flex;
+            flex-direction: column;
             height: 100%;
+        }
+
+        .calculator-main {
+            display: flex;
+            flex: 1;
+            gap: 10px;
+        }
+
+        .calculator-display-section {
+            flex: 1;
+            display: flex;
             flex-direction: column;
         }
 
-        .page.active {
-            display: flex;
-        }
-
-        /* QR Code Display */
-        .qrcode-display img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
-        }
-
-        /* History Items */
-        .history-item {
-            padding: 12px;
-            font-size: 0.875rem;
-            background: #ffffff;
-            border-radius: 8px;
-            margin-bottom: 8px;
-            border: 1px solid #e2e8f0;
-        }
-
-        /* Text Overflow Handling */
-        .transaction-id, .debt-name, .inventory-name {
-            word-break: break-word;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        /* Form Styling */
-        .debt-form, .inventory-form {
-            padding: 12px;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 24px;
-            padding: 12px;
-            color: #64748b;
-            font-size: 0.75rem;
-            flex-shrink: 0;
-        }
-
-        /* Finance Tabs */
-        .finance-tabs {
-            display: flex;
-            margin-bottom: 16px;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .finance-tab {
+        .calculator-history-section {
             flex: 1;
-            padding: 10px;
-            text-align: center;
-            background: none;
-            border: none;
-            border-bottom: 3px solid transparent;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            color: #64748b;
+            display: flex;
+            flex-direction: column;
+            max-height: 300px;
         }
 
-        .finance-tab.active {
-            color: #3b82f6;
-            border-bottom-color: #3b82f6;
-        }
-
-        .tab-content {
-            display: none;
-            flex: 1;
-            overflow-y: auto;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        /* Calculator History */
         .calculator-history {
-            margin-top: 16px;
-            max-height: 200px;
+            flex: 1;
             overflow-y: auto;
             border: 1px solid #e2e8f0;
             border-radius: 8px;
@@ -604,7 +610,52 @@
             text-align: right;
         }
 
-        /* Media Queries */
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 24px;
+            padding: 12px;
+            color: #64748b;
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Loading */
+        .loading {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f1f5f9;
+            border-top: 4px solid #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 12px;
+        }
+
+        /* Responsive */
         @media (max-width: 360px) {
             .container {
                 padding: 12px;
@@ -617,23 +668,23 @@
                 font-size: 1.25rem;
             }
             .amount-display, .phone-display, .calculator-display {
-                font-size: 1.5rem;
-                min-height: 56px;
-                padding: 10px;
+                font-size: 1.3rem;
+                min-height: 45px;
+                padding: 8px;
             }
             .key {
-                padding: 8px;
-                font-size: 1rem;
-                min-height: 36px;
+                padding: 6px;
+                font-size: 0.9rem;
+                min-height: 35px;
             }
             .numeric-keypad, .calculator-keypad {
                 gap: 4px;
             }
             .input-section {
-                padding: 12px;
+                padding: 10px;
             }
             .input-section h3 {
-                font-size: 0.9375rem;
+                font-size: 0.85rem;
             }
             .nav-btn {
                 font-size: 0.6875rem;
@@ -648,94 +699,23 @@
                 height: 44px;
                 font-size: 1.125rem;
             }
-        }
-
-        @media (min-width: 768px) {
-            .container {
-                max-width: 640px;
-                padding: 24px;
+            .payment-content {
+                max-width: 300px;
+                padding: 12px;
             }
-            .numeric-keypad, .calculator-keypad {
-                gap: 8px;
+            .payment-qr img {
+                width: 160px;
+                height: 160px;
             }
-            .key {
-                font-size: 1.25rem;
-                min-height: 48px;
+            .calculator-main {
+                flex-direction: column;
             }
-            .input-section {
-                padding: 20px;
+            .calculator-history-section {
+                max-height: 200px;
             }
         }
 
-        @media (min-width: 1024px) {
-            .container {
-                max-width: 800px;
-                padding: 32px;
-            }
-            .numeric-keypad, .calculator-keypad {
-                gap: 10px;
-            }
-            .key {
-                font-size: 1.375rem;
-                min-height: 56px;
-            }
-            .input-section h3 {
-                font-size: 1.125rem;
-            }
-        }
-
-        /* Landscape Orientation */
-        @media (max-width: 768px) and (orientation: landscape) {
-            .container {
-                padding-bottom: 64px;
-            }
-            .bottom-nav {
-                padding: 6px 0;
-            }
-            .nav-btn {
-                padding: 6px;
-            }
-            .nav-btn i {
-                margin-bottom: 2px;
-            }
-        }
-
-        /* Prevent hover effects on touch devices */
-        @media (hover: none) {
-            .key:hover, .convert-button:hover, .clear-button:hover, 
-            .save-button:hover, .confirm-payment:hover, .profile-btn:hover,
-            .nav-btn:hover, .inventory-btn:hover, .fullscreen-btn:hover {
-                transform: none;
-                background: initial;
-            }
-            .key:active, .convert-button:active, .clear-button:active, 
-            .save-button:active, .confirm-payment:active, .profile-btn:active,
-            .nav-btn:active, .inventory-btn:active, .fullscreen-btn:active {
-                transform: scale(0.98);
-                opacity: 0.9;
-            }
-        }
-
-        /* Scrollbar Styling */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #f1f5f9;
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #94a3b8;
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #64748b;
-        }
-
-        /* Fullscreen styles */
+        /* Fullscreen */
         body:fullscreen {
             background-color: #f8fafc;
         }
@@ -749,6 +729,7 @@
 </head>
 <body>
     <div class="container">
+        <!-- Home Page -->
         <div class="page active" id="homePage">
             <header>
                 <button class="fullscreen-btn" id="fullscreenBtn"><i class="fas fa-expand"></i></button>
@@ -908,7 +889,7 @@
             </footer>
         </div>
 
-        <!-- Calculator Page -->
+        <!-- Calculator Page - Diperbaiki dengan riwayat terpisah -->
         <div class="page" id="calculatorPage">
             <header>
                 <button class="fullscreen-btn"><i class="fas fa-expand"></i></button>
@@ -917,41 +898,45 @@
                 <button class="profile-btn" id="calculatorProfileBtn"><i class="fas fa-user"></i></button>
             </header>
 
-            <div class="input-section">
-                <div class="calculator-display" id="calculatorDisplay">0</div>
-                
-                <div class="numeric-keypad-container">
-                    <div class="calculator-keypad">
-                        <button class="key clear-key" id="calculatorClear">C</button>
-                        <button class="key clear-key" id="calculatorClearEntry">CE</button>
-                        <button class="key operator-key" data-operator="backspace"><i class="fas fa-backspace"></i></button>
-                        <button class="key operator-key" data-operator="/">÷</button>
+            <div class="calculator-container">
+                <div class="calculator-main">
+                    <div class="calculator-display-section">
+                        <div class="calculator-display" id="calculatorDisplay">0</div>
                         
-                        <button class="key" data-value="7">7</button>
-                        <button class="key" data-value="8">8</button>
-                        <button class="key" data-value="9">9</button>
-                        <button class="key operator-key" data-operator="*">×</button>
-                        
-                        <button class="key" data-value="4">4</button>
-                        <button class="key" data-value="5">5</button>
-                        <button class="key" data-value="6">6</button>
-                        <button class="key operator-key" data-operator="-">-</button>
-                        
-                        <button class="key" data-value="1">1</button>
-                        <button class="key" data-value="2">2</button>
-                        <button class="key" data-value="3">3</button>
-                        <button class="key operator-key" data-operator="+">+</button>
-                        
-                        <button class="key" data-value="0">0</button>
-                        <button class="key" data-value=".">.</button>
-                        <button class="key operator-key" data-operator="%">%</button>
-                        <button class="key equals-key" id="calculatorEquals">=</button>
+                        <div class="numeric-keypad-container">
+                            <div class="calculator-keypad">
+                                <button class="key clear-key" id="calculatorClear">C</button>
+                                <button class="key clear-key" id="calculatorClearEntry">CE</button>
+                                <button class="key operator-key" id="calculatorBackspace"><i class="fas fa-backspace"></i></button>
+                                <button class="key operator-key" data-operator="/">÷</button>
+                                
+                                <button class="key" data-value="7">7</button>
+                                <button class="key" data-value="8">8</button>
+                                <button class="key" data-value="9">9</button>
+                                <button class="key operator-key" data-operator="*">×</button>
+                                
+                                <button class="key" data-value="4">4</button>
+                                <button class="key" data-value="5">5</button>
+                                <button class="key" data-value="6">6</button>
+                                <button class="key operator-key" data-operator="-">-</button>
+                                
+                                <button class="key" data-value="1">1</button>
+                                <button class="key" data-value="2">2</button>
+                                <button class="key" data-value="3">3</button>
+                                <button class="key operator-key" data-operator="+">+</button>
+                                
+                                <button class="key" data-value="0">0</button>
+                                <button class="key" data-value=".">.</button>
+                                <button class="key operator-key" data-operator="%">%</button>
+                                <button class="key equals-key" id="calculatorEquals">=</button>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                
-                <div class="calculator-history">
-                    <div class="calculator-history-title">Riwayat Perhitungan</div>
-                    <div id="calculatorHistoryList"></div>
+                    
+                    <div class="calculator-history-section">
+                        <div class="calculator-history-title">Riwayat Perhitungan</div>
+                        <div class="calculator-history" id="calculatorHistoryList"></div>
+                    </div>
                 </div>
             </div>
 
@@ -1027,6 +1012,7 @@
         </div>
     </div>
 
+    <!-- Bottom Navigation -->
     <div class="bottom-nav">
         <button class="nav-btn active" data-page="homePage"><i class="fas fa-home"></i><span>Beranda</span></button>
         <button class="nav-btn" data-page="financePage"><i class="fas fa-chart-line"></i><span>Keuangan</span></button>
@@ -1072,17 +1058,6 @@
                     <textarea class="text-input" id="qrisStaticCode" placeholder="Tempel Kode QRIS statis di sini..." rows="4"></textarea>
                 </div>
                 
-                <div class="drop-area" id="qrisDropArea">
-                    <i class="fas fa-cloud-upload-alt"></i>
-                    <p>Drag & drop gambar QRIS di sini atau klik untuk memilih file</p>
-                    <input type="file" id="qrisInput" accept="image/*" style="display: none;">
-                </div>
-                
-                <div class="qris-preview" id="qrisPreview" style="display: none;">
-                    <p>Preview QRIS:</p>
-                    <img id="qrisPreviewImg" src="" alt="QRIS Preview">
-                </div>
-                
                 <button class="clear-button" id="resetQrisButton">Reset QRIS</button>
             </div>
             
@@ -1126,6 +1101,7 @@
         </div>
     </div>
 
+    <!-- Modal Pembayaran - Diperbaiki ukuran dan tata letak -->
     <div class="payment-modal" id="paymentModal">
         <div class="payment-content">
             <div class="payment-header">
@@ -1263,1357 +1239,790 @@
     </div>
 
     <script>
-        // Elements
-        const profileBtn = document.getElementById('profileBtn');
-        const financeProfileBtn = document.getElementById('financeProfileBtn');
-        const qrcodeProfileBtn = document.getElementById('qrcodeProfileBtn');
-        const pulsaProfileBtn = document.getElementById('pulsaProfileBtn');
-        const inventoryProfileBtn = document.getElementById('inventoryProfileBtn');
-        const calculatorProfileBtn = document.getElementById('calculatorProfileBtn');
-        const inventoryButton = document.getElementById('inventoryButton');
-        const passwordModal = document.getElementById('passwordModal');
-        const passwordInput = document.getElementById('passwordInput');
-        const passwordError = document.getElementById('passwordError');
-        const closePassword = document.getElementById('closePassword');
-        const submitPassword = document.getElementById('submitPassword');
-        const settingsModal = document.getElementById('settingsModal');
-        const closeSettings = document.getElementById('closeSettings');
-        const amountDisplay = document.getElementById('amountDisplay');
-        const convertButton = document.getElementById('convertButton');
-        const clearButton = document.getElementById('clearButton');
-        const paymentModal = document.getElementById('paymentModal');
-        const paymentMerchant = document.getElementById('paymentMerchant');
-        const paymentAmount = document.getElementById('paymentAmount');
-        const paymentTitle = document.getElementById('paymentTitle');
-        const paymentQr = document.getElementById('paymentQr');
-        const closePayment = document.getElementById('closePayment');
-        const confirmPayment = document.getElementById('confirmPayment');
-        const closePaymentModal = document.getElementById('closePaymentModal');
-        const loading = document.getElementById('loading');
-        const qrisDropArea = document.getElementById('qrisDropArea');
-        const qrisInput = document.getElementById('qrisInput');
-        const saveButton = document.getElementById('saveButton');
-        const backspaceBtn = document.getElementById('backspaceBtn');
-        const merchantName = document.getElementById('merchantName');
-        const paymentTime = document.getElementById('paymentTime');
-        const transactionId = document.getElementById('transactionId');
-        const headerTitle = document.getElementById('headerTitle');
-        const headerSubtitle = document.getElementById('headerSubtitle');
-        const footerText = document.getElementById('footerText');
-        const headerTitleInput = document.getElementById('headerTitleInput');
-        const headerSubtitleInput = document.getElementById('headerSubtitleInput');
-        const footerTextInput = document.getElementById('footerTextInput');
-        const tabBtns = document.querySelectorAll('.tab-btn');
-        const tabContents = document.querySelectorAll('.tab-content');
-        const navBtns = document.querySelectorAll('.nav-btn');
-        const pages = document.querySelectorAll('.page');
-        const phoneDisplay = document.getElementById('phoneDisplay');
-        const savePhoneButton = document.getElementById('savePhoneButton');
-        const clearPhoneButton = document.getElementById('clearPhoneButton');
-        const pulsaBackspaceBtn = document.getElementById('pulsaBackspaceBtn');
-        const phoneHistory = document.getElementById('phoneHistory');
-        const transactionList = document.getElementById('transactionList');
-        const qrcodeDisplay = document.getElementById('qrcodeDisplay');
-        const pulsaModal = document.getElementById('pulsaModal');
-        const closePulsaModal = document.getElementById('closePulsaModal');
-        const pulsaOptions = document.querySelectorAll('.pulsa-option');
-        const customAmountGroup = document.getElementById('customAmountGroup');
-        const customAmount = document.getElementById('customAmount');
-        const confirmPulsaButton = document.getElementById('confirmPulsaButton');
-        const phoneName = document.getElementById('phoneName');
-        const financeTabs = document.querySelectorAll('.finance-tab');
-        const financeTabContents = document.querySelectorAll('#financePage .tab-content');
-        const debtName = document.getElementById('debtName');
-        const debtPhone = document.getElementById('debtPhone');
-        const debtItem = document.getElementById('debtItem');
-        const debtAmount = document.getElementById('debtAmount');
-        const addDebtButton = document.getElementById('addDebtButton');
-        const debtList = document.getElementById('debtList');
-        const debtNameList = document.getElementById('debtNameList');
-        const qrisPreview = document.getElementById('qrisPreview');
-        const qrisPreviewImg = document.getElementById('qrisPreviewImg');
-        const resetQrisButton = document.getElementById('resetQrisButton');
-        const currentPassword = document.getElementById('currentPassword');
-        const newPassword = document.getElementById('newPassword');
-        const confirmPassword = document.getElementById('confirmPassword');
-        const changePasswordButton = document.getElementById('changePasswordButton');
-        const debtEditModal = document.getElementById('debtEditModal');
-        const editDebtName = document.getElementById('editDebtName');
-        const editDebtPhone = document.getElementById('editDebtPhone');
-        const editDebtItem = document.getElementById('editDebtItem');
-        const editDebtAmount = document.getElementById('editDebtAmount');
-        const saveEditDebtButton = document.getElementById('saveEditDebtButton');
-        const closeEditDebtModal = document.getElementById('closeEditDebtModal');
-        const qrisStaticCode = document.getElementById('qrisStaticCode');
-        
-        // Inventory elements
-        const itemName = document.getElementById('itemName');
-        const itemPrice = document.getElementById('itemPrice');
-        const itemCategory = document.getElementById('itemCategory');
-        const itemStock = document.getElementById('itemStock');
-        const itemMinStock = document.getElementById('itemMinStock');
-        const addItemButton = document.getElementById('addItemButton');
-        const inventoryList = document.getElementById('inventoryList');
-        const shoppingList = document.getElementById('shoppingList');
-        const inventoryEditModal = document.getElementById('inventoryEditModal');
-        const editItemName = document.getElementById('editItemName');
-        const editItemPrice = document.getElementById('editItemPrice');
-        const editItemCategory = document.getElementById('editItemCategory');
-        const editItemStock = document.getElementById('editItemStock');
-        const editItemMinStock = document.getElementById('editItemMinStock');
-        const saveEditItemButton = document.getElementById('saveEditItemButton');
-        const closeEditItemModal = document.getElementById('closeEditItemModal');
-        const downloadCsvButton = document.getElementById('downloadCsvButton');
-        const backupButton = document.getElementById('backupButton');
-        const restoreInput = document.getElementById('restoreInput');
-        const importCsvInput = document.getElementById('importCsvInput');
-        
-        // Fullscreen button
-        const fullscreenBtn = document.getElementById('fullscreenBtn');
-        const fullscreenBtns = document.querySelectorAll('.fullscreen-btn');
-        
-        // Calculator elements
-        const calculatorDisplay = document.getElementById('calculatorDisplay');
-        const calculatorClear = document.getElementById('calculatorClear');
-        const calculatorClearEntry = document.getElementById('calculatorClearEntry');
-        const calculatorEquals = document.getElementById('calculatorEquals');
-        const calculatorHistoryList = document.getElementById('calculatorHistoryList');
-        const calculatorKeys = document.querySelectorAll('#calculatorPage .key[data-value], #calculatorPage .key[data-operator]');
-        
-        // State
-        let currentAmount = '0';
-        let currentPhone = '0';
-        let savedQrisImage = localStorage.getItem('qrisImage') || '';
-        let savedMerchant = localStorage.getItem('merchantName') || 'Merchant';
-        let savedHeaderTitle = localStorage.getItem('headerTitle') || 'QRISku';
-        let savedHeaderSubtitle = localStorage.getItem('headerSubtitle') || 'Pembayaran QRIS Mudah dan Cepat';
-        let savedFooterText = localStorage.getItem('footerText') || '© 2025 QRISku - Pembayaran QRIS';
-        let savedQrisStaticCode = localStorage.getItem('qrisStaticCode') || '';
-        let currentQrUrl = '';
-        let currentTransactionIdForConfirmation = null;
-        let phoneHistoryData = JSON.parse(localStorage.getItem('phoneHistory')) || [];
-        let transactions = JSON.parse(localStorage.getItem('transactions')) || [];
-        let selectedPulsaAmount = 0;
-        let selectedPhoneNumber = '';
-        let debts = JSON.parse(localStorage.getItem('debts')) || [];
-        let appPassword = localStorage.getItem('appPassword') || '131313';
-        let currentDebtId = null;
-        let passwordContext = null;
-        let inventory = JSON.parse(localStorage.getItem('inventory')) || [];
-        let currentItemId = null;
-        
-        // Calculator state
-        let calculatorCurrentInput = '0';
-        let calculatorPreviousInput = '';
-        let calculatorOperator = '';
-        let calculatorShouldResetDisplay = false;
-        let calculatorHistory = JSON.parse(localStorage.getItem('calculatorHistory')) || [];
-        
-        // Helper Functions
-        function formatNumber(num) {
-            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-        }
-        
-        function updateAmountDisplay() {
-            amountDisplay.textContent = formatNumber(currentAmount);
-        }
-        
-        function updatePhoneDisplay() {
-            phoneDisplay.textContent = currentPhone;
-        }
-        
-        function updateCalculatorDisplay() {
-            calculatorDisplay.textContent = calculatorCurrentInput;
-        }
-        
-        // Fullscreen functionality
-        function toggleFullscreen() {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen().catch(err => {
-                    console.log(`Error attempting to enable fullscreen: ${err.message}`);
-                });
-            } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                }
-            }
-        }
-        
-        // Update fullscreen button icon based on fullscreen state
-        document.addEventListener('fullscreenchange', () => {
-            const iconClass = document.fullscreenElement ? 'fa-compress' : 'fa-expand';
-            fullscreenBtns.forEach(btn => {
-                const icon = btn.querySelector('i');
-                icon.className = `fas ${iconClass}`;
-            });
-        });
-        
-        // Calculator functions
-        function calculatorInput(value) {
-            if (calculatorShouldResetDisplay) {
-                calculatorCurrentInput = '';
-                calculatorShouldResetDisplay = false;
-            }
-            
-            if (value === '.' && calculatorCurrentInput.includes('.')) {
-                return;
-            }
-            
-            if (calculatorCurrentInput === '0' && value !== '.') {
-                calculatorCurrentInput = value;
-            } else {
-                calculatorCurrentInput += value;
-            }
-            
-            updateCalculatorDisplay();
-        }
-        
-        function calculatorSetOperator(operator) {
-            if (calculatorOperator && !calculatorShouldResetDisplay) {
-                calculatorCalculate();
-            }
-            
-            calculatorPreviousInput = calculatorCurrentInput;
-            calculatorOperator = operator;
-            calculatorShouldResetDisplay = true;
-        }
-        
-        function calculatorCalculate() {
-            let result;
-            const prev = parseFloat(calculatorPreviousInput);
-            const current = parseFloat(calculatorCurrentInput);
-            
-            if (isNaN(prev) || isNaN(current)) return;
-            
-            switch (calculatorOperator) {
-                case '+':
-                    result = prev + current;
-                    break;
-                case '-':
-                    result = prev - current;
-                    break;
-                case '*':
-                    result = prev * current;
-                    break;
-                case '/':
-                    if (current === 0) {
-                        alert('Tidak dapat membagi dengan nol');
-                        return;
-                    }
-                    result = prev / current;
-                    break;
-                case '%':
-                    result = prev % current;
-                    break;
-                default:
-                    return;
-            }
-            
-            const calculation = {
-                expression: `${calculatorPreviousInput} ${calculatorOperator} ${calculatorCurrentInput}`,
-                result: result.toString()
-            };
-            
-            calculatorHistory.unshift(calculation);
-            if (calculatorHistory.length > 10) {
-                calculatorHistory.pop();
-            }
-            
-            localStorage.setItem('calculatorHistory', JSON.stringify(calculatorHistory));
-            renderCalculatorHistory();
-            
-            calculatorCurrentInput = result.toString();
-            calculatorOperator = '';
-            calculatorShouldResetDisplay = true;
-            updateCalculatorDisplay();
-        }
-        
-        function calculatorClear() {
-            calculatorCurrentInput = '0';
-            calculatorPreviousInput = '';
-            calculatorOperator = '';
-            calculatorShouldResetDisplay = false;
-            updateCalculatorDisplay();
-        }
-        
-        function calculatorClearEntry() {
-            calculatorCurrentInput = '0';
-            updateCalculatorDisplay();
-        }
-        
-        function calculatorBackspace() {
-            if (calculatorCurrentInput.length > 1) {
-                calculatorCurrentInput = calculatorCurrentInput.slice(0, -1);
-            } else {
-                calculatorCurrentInput = '0';
-            }
-            updateCalculatorDisplay();
-        }
-        
-        function renderCalculatorHistory() {
-            calculatorHistoryList.innerHTML = '';
-            
-            if (calculatorHistory.length === 0) {
-                calculatorHistoryList.innerHTML = '<div style="text-align: center; color: #64748b; padding: 10px;">Belum ada riwayat perhitungan</div>';
-                return;
-            }
-            
-            calculatorHistory.forEach(item => {
-                const historyItem = document.createElement('div');
-                historyItem.className = 'calculator-history-item';
-                historyItem.innerHTML = `
-                    <div class="calculator-history-expression">${item.expression} =</div>
-                    <div class="calculator-history-result">${item.result}</div>
-                `;
-                
-                historyItem.addEventListener('click', () => {
-                    calculatorCurrentInput = item.result;
-                    updateCalculatorDisplay();
-                });
-                
-                calculatorHistoryList.appendChild(historyItem);
-            });
-        }
-        
-        // Initialize
-        function initializeApp() {
-            merchantName.value = savedMerchant;
-            headerTitleInput.value = savedHeaderTitle;
-            headerSubtitleInput.value = savedHeaderSubtitle;
-            footerTextInput.value = savedFooterText;
-            qrisStaticCode.value = savedQrisStaticCode;
-            paymentMerchant.textContent = savedMerchant;
-            headerTitle.textContent = savedHeaderTitle;
-            headerSubtitle.textContent = savedHeaderSubtitle;
-            footerText.textContent = savedFooterText;
-            paymentTitle.textContent = savedHeaderTitle;
-            renderPhoneHistory();
-            renderTransactions();
-            updateQrCodeDisplay();
-            renderDebts();
-            updateDebtNameList();
-            renderInventory();
-            renderShoppingList();
-            renderCalculatorHistory();
-            
-            if (savedQrisImage) {
-                qrisPreview.style.display = 'block';
-                qrisPreviewImg.src = savedQrisImage;
-            }
-        }
-        
-        // Finance tabs functionality
-        financeTabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                const tabId = tab.getAttribute('data-tab');
-                
-                financeTabs.forEach(t => t.classList.remove('active'));
-                financeTabContents.forEach(content => content.classList.remove('active'));
-                
-                tab.classList.add('active');
-                document.getElementById(tabId).classList.add('active');
-            });
-        });
-        
-        // Settings tabs functionality
-        tabBtns.forEach(tabBtn => {
-            tabBtn.addEventListener('click', () => {
-                const tabId = tabBtn.getAttribute('data-tab');
-                
-                tabBtns.forEach(btn => btn.classList.remove('active'));
-                tabContents.forEach(content => content.classList.remove('active'));
-                
-                tabBtn.classList.add('active');
-                document.getElementById(tabId).classList.add('active');
-            });
-        });
-        
-        // Navigation functionality
-        function switchPage(pageId) {
-            navBtns.forEach(btn => {
-                if(btn.getAttribute('data-page') === pageId) {
-                    btn.classList.add('active');
-                } else {
-                    btn.classList.remove('active');
-                }
-            });
-             pages.forEach(page => {
-                if(page.id === pageId) {
-                    page.classList.add('active');
-                } else {
-                    page.classList.remove('active');
-                }
-            });
+        // Inisialisasi state aplikasi
+        const state = {
+            currentAmount: '0',
+            currentPhone: '0',
+            savedQrisImage: localStorage.getItem('qrisImage') || '',
+            savedMerchant: localStorage.getItem('merchantName') || 'Merchant',
+            savedHeaderTitle: localStorage.getItem('headerTitle') || 'QRISku',
+            savedHeaderSubtitle: localStorage.getItem('headerSubtitle') || 'Pembayaran QRIS Mudah dan Cepat',
+            savedFooterText: localStorage.getItem('footerText') || '© 2025 QRISku - Pembayaran QRIS',
+            savedQrisStaticCode: localStorage.getItem('qrisStaticCode') || '',
+            currentQrUrl: '',
+            currentTransactionIdForConfirmation: null,
+            phoneHistoryData: JSON.parse(localStorage.getItem('phoneHistory')) || [],
+            transactions: JSON.parse(localStorage.getItem('transactions')) || [],
+            selectedPulsaAmount: 0,
+            selectedPhoneNumber: '',
+            debts: JSON.parse(localStorage.getItem('debts')) || [],
+            appPassword: localStorage.getItem('appPassword') || '131313',
+            currentDebtId: null,
+            passwordContext: null,
+            inventory: JSON.parse(localStorage.getItem('inventory')) || [],
+            currentItemId: null,
+            // State kalkulator
+            calculatorCurrentInput: '0',
+            calculatorPreviousInput: '',
+            calculatorOperator: '',
+            calculatorShouldResetDisplay: false,
+            calculatorHistory: JSON.parse(localStorage.getItem('calculatorHistory')) || []
+        };
 
-             if (pageId === 'financePage') {
-                 renderTransactions();
-                 renderDebts();
-             } else if (pageId === 'qrcodePage') {
-                 updateQrCodeDisplay();
-             } else if (pageId === 'inventoryPage') {
-                 renderInventory();
-                 renderShoppingList();
-             } else if (pageId === 'calculatorPage') {
-                 renderCalculatorHistory();
-             }
-        }
-
-        navBtns.forEach(navBtn => {
-            navBtn.addEventListener('click', () => {
-                const pageId = navBtn.getAttribute('data-page');
-                switchPage(pageId);
-            });
-        });
-        
-        // Inventory button functionality
-        inventoryButton.addEventListener('click', () => {
-            switchPage('inventoryPage');
-        });
-        
-        // Update time
-        function updateTime() {
-            const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            paymentTime.textContent = `${hours}:${minutes}`;
-        }
-        
-        // Generate random transaction ID
-        function generateTransactionId() {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            let result = 'TRX-';
-            for (let i = 0; i < 6; i++) {
-                result += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            return result;
-        }
-        
-        // Render phone history
-        function renderPhoneHistory() {
-            phoneHistory.innerHTML = '<h3>Riwayat Nomor</h3>';
+        // Helper functions
+        const helpers = {
+            formatNumber: (num) => {
+                return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            },
             
-            if (phoneHistoryData.length === 0) {
-                phoneHistory.innerHTML += '<p style="text-align: center; color: #64748b; padding: 10px;">Belum ada riwayat nomor handphone</p>';
-                return;
-            }
+            updateAmountDisplay: () => {
+                document.getElementById('amountDisplay').textContent = helpers.formatNumber(state.currentAmount);
+            },
             
-            phoneHistoryData.forEach(item => {
-                const historyItem = document.createElement('div');
-                historyItem.className = 'history-item';
-                historyItem.dataset.phone = item.phone;
-                
-                historyItem.innerHTML = `
-                    <div class="history-phone">${item.phone}</div>
-                    <div class="history-name">${item.name || 'Tidak ada nama'}</div>
-                `;
-                
-                historyItem.addEventListener('click', () => {
-                    currentPhone = item.phone;
-                    updatePhoneDisplay();
-                });
-                
-                phoneHistory.appendChild(historyItem);
-            });
-        }
-        
-        // Render transactions
-        function renderTransactions() {
-            transactionList.innerHTML = '';
+            updatePhoneDisplay: () => {
+                document.getElementById('phoneDisplay').textContent = state.currentPhone;
+            },
             
-            const confirmedTransactions = transactions.filter(t => t.status === 'success').sort((a, b) => new Date(b.rawDate) - new Date(a.rawDate));
+            updateCalculatorDisplay: () => {
+                document.getElementById('calculatorDisplay').textContent = state.calculatorCurrentInput;
+            },
             
-            if (confirmedTransactions.length === 0) {
-                transactionList.innerHTML = '<p style="text-align: center; color: #64748b; padding: 20px;">Belum ada transaksi</p>';
-                return;
-            }
-            
-            confirmedTransactions.forEach(transaction => {
-                const transactionItem = document.createElement('div');
-                transactionItem.className = 'transaction-item';
-                
-                transactionItem.innerHTML = `
-                    <div class="transaction-header">
-                        <div class="transaction-id">${transaction.id}</div>
-                        <div class="transaction-date">${transaction.date}</div>
-                    </div>
-                    <div class="transaction-details">
-                        <div class="transaction-amount">Rp ${formatNumber(transaction.amount)}</div>
-                        <div class="transaction-status status-success">Berhasil</div>
-                    </div>
-                `;
-                
-                transactionList.appendChild(transactionItem);
-            });
-        }
-        
-        // Render debts
-        function renderDebts() {
-            debtList.innerHTML = '<h3>Daftar Hutang</h3>';
-            
-            if (debts.length === 0) {
-                debtList.innerHTML += '<p style="text-align: center; color: #64748b; padding: 20px;">Belum ada catatan hutang</p>';
-                return;
-            }
-            
-            debts.forEach(debt => {
-                const debtItem = document.createElement('div');
-                debtItem.className = 'debt-item';
-                debtItem.dataset.id = debt.id;
-                
-                debtItem.innerHTML = `
-                    <button class="debt-item-menu"><i class="fas fa-ellipsis-v"></i></button>
-                    <div class="debt-item-menu-content">
-                        <button class="edit-debt" data-id="${debt.id}">Edit</button>
-                        <button class="delete-debt" data-id="${debt.id}">Hapus</button>
-                    </div>
-                    <div class="debt-header">
-                        <div>
-                            <div class="debt-name">${debt.name}</div>
-                            <div class="debt-phone">${debt.phone}</div>
-                        </div>
-                    </div>
-                    <div class="debt-details">
-                        <div>
-                            <div class="debt-item-name">${debt.item}</div>
-                            <div class="debt-amount">Rp ${formatNumber(debt.amount)}</div>
-                        </div>
-                        <div class="debt-status status-${debt.status}" data-id="${debt.id}">${debt.status === 'paid' ? 'Lunas' : 'Belum Lunas'}</div>
-                    </div>
-                `;
-                
-                const menuBtn = debtItem.querySelector('.debt-item-menu');
-                const menuContent = debtItem.querySelector('.debt-item-menu-content');
-                
-                menuBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    document.querySelectorAll('.debt-item-menu-content').forEach(menu => {
-                        if (menu !== menuContent) menu.style.display = 'none';
+            toggleFullscreen: () => {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen().catch(err => {
+                        console.log(`Error attempting to enable fullscreen: ${err.message}`);
                     });
-                    menuContent.style.display = menuContent.style.display === 'block' ? 'none' : 'block';
-                });
-                
-                debtItem.querySelector('.edit-debt').addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const debtId = e.target.getAttribute('data-id');
-                    showPasswordPrompt('edit', debtId);
-                    menuContent.style.display = 'none';
-                });
-                
-                debtItem.querySelector('.delete-debt').addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const debtId = e.target.getAttribute('data-id');
-                    if (confirm('Apakah Anda yakin ingin menghapus hutang ini?')) {
-                        debts = debts.filter(d => d.id !== debtId);
-                        localStorage.setItem('debts', JSON.stringify(debts));
-                        renderDebts();
-                    }
-                    menuContent.style.display = 'none';
-                });
-                
-                const statusElement = debtItem.querySelector('.debt-status');
-                statusElement.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const debtId = e.target.getAttribute('data-id');
-                    const debt = debts.find(d => d.id === debtId);
-                    
-                    if (debt.status === 'pending') {
-                        showPasswordPrompt('status', debtId);
-                    }
-                });
-                
-                debtList.appendChild(debtItem);
-            });
-            
-            document.addEventListener('click', () => {
-                document.querySelectorAll('.debt-item-menu-content').forEach(menu => {
-                    menu.style.display = 'none';
-                });
-            });
-        }
-        
-        // Update debt name list for autocomplete
-        function updateDebtNameList() {
-            debtNameList.innerHTML = '';
-            const uniqueNames = [...new Set(debts.map(debt => debt.name))];
-            
-            uniqueNames.forEach(name => {
-                const option = document.createElement('option');
-                option.value = name;
-                debtNameList.appendChild(option);
-            });
-        }
-        
-        debtName.addEventListener('input', () => {
-            const selectedName = debtName.value;
-            const existingDebt = debts.find(debt => debt.name === selectedName);
-            
-            if (existingDebt) {
-                debtPhone.value = existingDebt.phone;
-            }
-        });
-        
-        function showPasswordPrompt(context, debtId) {
-            passwordContext = context;
-            currentDebtId = debtId;
-            passwordModal.style.display = 'flex';
-            passwordInput.value = '';
-            passwordError.style.display = 'none';
-            passwordInput.focus();
-        }
-        
-        function updateQrCodeDisplay() {
-            qrcodeDisplay.innerHTML = '';
-            
-            if (savedQrisImage) {
-                qrcodeDisplay.innerHTML = `
-                    <h3>${savedMerchant}</h3>
-                    <p> </p>
-                    <img src="${savedQrisImage}" alt="QRIS Code" style="max-width: 100%; height: auto; border: 1px solid #e2e8f0; border-radius: 8px;">
-                    <p>Scan Kode QRIS di atas untuk pembayaran</p>
-                `;
-            } else {
-                qrcodeDisplay.innerHTML = `
-                    <h3>${savedMerchant}</h3>
-                    <p> </p>
-                    <div style="background-color: #f1f5f9; padding: 20px; display: inline-block; margin: 15px 0;">
-                        <i class="fas fa-qrcode" style="font-size: 120px; color: #1e293b;"></i>
-                    </div>
-                    <p>Upload gambar QRIS melalui pengaturan</p>
-                `;
-            }
-        }
-        
-        // Render inventory
-        function renderInventory() {
-            inventoryList.innerHTML = '<h3>Daftar Inventori</h3>';
-            
-            if (inventory.length === 0) {
-                inventoryList.innerHTML += '<p style="text-align: center; color: #64748b; padding: 20px;">Belum ada data inventori</p>';
-                return;
-            }
-            
-            inventory.forEach(item => {
-                const inventoryItem = document.createElement('div');
-                inventoryItem.className = 'inventory-item';
-                inventoryItem.dataset.id = item.id;
-                
-                const stockStatus = item.stock <= item.minStock ? 'stock-warning' : 'stock-adequate';
-                const stockText = item.stock <= item.minStock ? 'Stok Rendah!' : 'Stok Cukup';
-                
-                inventoryItem.innerHTML = `
-                    <button class="inventory-item-menu"><i class="fas fa-ellipsis-v"></i></button>
-                    <div class="inventory-item-menu-content">
-                        <button class="edit-item" data-id="${item.id}">Edit</button>
-                        <button class="delete-item" data-id="${item.id}">Hapus</button>
-                    </div>
-                    <div class="inventory-header">
-                        <div>
-                            <div class="inventory-name">${item.name}</div>
-                            <div class="inventory-category">${getCategoryName(item.category)}</div>
-                        </div>
-                        <div class="inventory-price">Rp ${formatNumber(item.price || 0)}</div>
-                    </div>
-                    <div class="inventory-details">
-                        <div>
-                            <div class="inventory-stock">Stok: ${item.stock}</div>
-                            <div class="${stockStatus}">${stockText}</div>
-                        </div>
-                        <div class="inventory-action">
-                            <button class="inventory-btn-small decrease-stock" data-id="${item.id}">-</button>
-                            <button class="inventory-btn-small increase-stock" data-id="${item.id}">+</button>
-                            <button class="inventory-btn-small sell sell-item" data-id="${item.id}">Jual</button>
-                        </div>
-                    </div>
-                `;
-                
-                const menuBtn = inventoryItem.querySelector('.inventory-item-menu');
-                const menuContent = inventoryItem.querySelector('.inventory-item-menu-content');
-                
-                menuBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    document.querySelectorAll('.inventory-item-menu-content').forEach(menu => {
-                        if (menu !== menuContent) menu.style.display = 'none';
-                    });
-                    menuContent.style.display = menuContent.style.display === 'block' ? 'none' : 'block';
-                });
-                
-                inventoryItem.querySelector('.edit-item').addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const itemId = e.target.getAttribute('data-id');
-                    const item = inventory.find(i => i.id === itemId);
-                    
-                    if (item) {
-                        editItemName.value = item.name;
-                        editItemPrice.value = item.price;
-                        editItemCategory.value = item.category;
-                        editItemStock.value = item.stock;
-                        editItemMinStock.value = item.minStock;
-                        currentItemId = itemId;
-                        inventoryEditModal.style.display = 'flex';
-                    }
-                    menuContent.style.display = 'none';
-                });
-                
-                inventoryItem.querySelector('.delete-item').addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const itemId = e.target.getAttribute('data-id');
-                    if (confirm('Apakah Anda yakin ingin menghapus barang ini?')) {
-                        inventory = inventory.filter(i => i.id !== itemId);
-                        localStorage.setItem('inventory', JSON.stringify(inventory));
-                        renderInventory();
-                        renderShoppingList();
-                    }
-                    menuContent.style.display = 'none';
-                });
-                
-                inventoryItem.querySelector('.decrease-stock').addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const itemId = e.target.getAttribute('data-id');
-                    const itemIndex = inventory.findIndex(i => i.id === itemId);
-                    
-                    if (itemIndex >= 0 && inventory[itemIndex].stock > 0) {
-                        inventory[itemIndex].stock--;
-                        localStorage.setItem('inventory', JSON.stringify(inventory));
-                        renderInventory();
-                        renderShoppingList();
-                    }
-                });
-                
-                inventoryItem.querySelector('.increase-stock').addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const itemId = e.target.getAttribute('data-id');
-                    const itemIndex = inventory.findIndex(i => i.id === itemId);
-                    
-                    if (itemIndex >= 0) {
-                        inventory[itemIndex].stock++;
-                        localStorage.setItem('inventory', JSON.stringify(inventory));
-                        renderInventory();
-                        renderShoppingList();
-                    }
-                });
-                
-                // POS Sell button
-                inventoryItem.querySelector('.sell-item').addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const itemId = e.target.getAttribute('data-id');
-                    const itemIndex = inventory.findIndex(i => i.id === itemId);
-                    const item = inventory[itemIndex];
-
-                    const quantity = prompt(`Berapa banyak "${item.name}" yang ingin dijual?\nStok tersedia: ${item.stock}`, "1");
-
-                    if (quantity === null || quantity.trim() === '') return;
-
-                    const qty = parseInt(quantity);
-                    if (isNaN(qty) || qty <= 0) {
-                        alert("Jumlah tidak valid.");
-                        return;
-                    }
-                    if (qty > item.stock) {
-                        alert(`Stok tidak mencukupi. Stok tersisa hanya ${item.stock}.`);
-                        return;
-                    }
-
-                    // Calculate total and update stock
-                    const total = qty * item.price;
-                    inventory[itemIndex].stock -= qty;
-                    localStorage.setItem('inventory', JSON.stringify(inventory));
-
-                    // Switch to home page and set amount
-                    currentAmount = String(total);
-                    updateAmountDisplay();
-                    switchPage('homePage');
-                    
-                    // Re-render inventory in background
-                    renderInventory();
-                    renderShoppingList();
-                });
-
-                
-                inventoryList.appendChild(inventoryItem);
-            });
-            
-            document.addEventListener('click', () => {
-                document.querySelectorAll('.inventory-item-menu-content').forEach(menu => {
-                    menu.style.display = 'none';
-                });
-            });
-        }
-        
-        // Render shopping list
-        function renderShoppingList() {
-            shoppingList.innerHTML = '';
-            
-            const lowStockItems = inventory.filter(item => item.stock <= item.minStock);
-            
-            if (lowStockItems.length === 0) {
-                shoppingList.innerHTML = '<h3 style="margin-top:20px;">Daftar Belanja</h3><p style="text-align: center; color: #64748b; padding: 20px;">Tidak ada barang yang perlu dibeli</p>';
-                return;
-            }
-            
-            shoppingList.innerHTML = '<h3 style="margin-top:20px;">Daftar Belanja (Stok Rendah)</h3>';
-            
-            lowStockItems.forEach(item => {
-                const shoppingItem = document.createElement('div');
-                shoppingItem.className = 'inventory-item';
-                
-                const needed = Math.max(0, item.minStock - item.stock + 1);
-
-                shoppingItem.innerHTML = `
-                    <div class="inventory-header">
-                        <div>
-                            <div class="inventory-name">${item.name}</div>
-                            <div class="inventory-category">${getCategoryName(item.category)}</div>
-                        </div>
-                    </div>
-                    <div class="inventory-details">
-                        <div>
-                            <div class="stock-warning">Stok: ${item.stock} (Min: ${item.minStock})</div>
-                            <div>Perlu dibeli: setidaknya ${needed}</div>
-                        </div>
-                    </div>
-                `;
-                
-                shoppingList.appendChild(shoppingItem);
-            });
-        }
-        
-        function getCategoryName(category) {
-            const categories = {
-                'makanan': 'Makanan', 'minuman': 'Minuman', 'snack': 'Snack',
-                'sembako': 'Sembako', 'lainnya': 'Lainnya'
-            };
-            return categories[category] || 'Lainnya';
-        }
-        
-        // Event Listeners
-        [profileBtn, financeProfileBtn, qrcodeProfileBtn, pulsaProfileBtn, inventoryProfileBtn, calculatorProfileBtn].forEach(btn => {
-            btn.addEventListener('click', () => {
-                passwordContext = 'settings';
-                passwordModal.style.display = 'flex';
-                passwordInput.value = '';
-                passwordError.style.display = 'none';
-                passwordInput.focus();
-            });
-        });
-
-        // Fullscreen button event listeners
-        fullscreenBtns.forEach(btn => {
-            btn.addEventListener('click', toggleFullscreen);
-        });
-
-        closePassword.addEventListener('click', () => { passwordModal.style.display = 'none'; });
-        
-        submitPassword.addEventListener('click', () => {
-            if (passwordInput.value === appPassword) {
-                passwordModal.style.display = 'none';
-                
-                if (passwordContext === 'status') {
-                    const debtIndex = debts.findIndex(d => d.id === currentDebtId);
-                    if (debtIndex >= 0) {
-                        debts[debtIndex].status = 'paid';
-                        localStorage.setItem('debts', JSON.stringify(debts));
-                        renderDebts();
-                    }
-                } else if (passwordContext === 'edit') {
-                    const debt = debts.find(d => d.id === currentDebtId);
-                    if (debt) {
-                        editDebtName.value = debt.name;
-                        editDebtPhone.value = debt.phone;
-                        editDebtItem.value = debt.item;
-                        editDebtAmount.value = debt.amount;
-                        debtEditModal.style.display = 'flex';
-                    }
                 } else {
-                    settingsModal.style.display = 'flex';
-                }
-            } else {
-                passwordError.style.display = 'block';
-                passwordInput.value = '';
-                setTimeout(() => { passwordError.style.display = 'none'; }, 2000);
-            }
-        });
-        
-        closeSettings.addEventListener('click', () => { settingsModal.style.display = 'none'; });
-        closeEditDebtModal.addEventListener('click', () => { debtEditModal.style.display = 'none'; });
-        closeEditItemModal.addEventListener('click', () => { inventoryEditModal.style.display = 'none'; });
-        closePaymentModal.addEventListener('click', () => { paymentModal.style.display = 'none'; });
-        closePulsaModal.addEventListener('click', () => { pulsaModal.style.display = 'none'; });
-        
-        [passwordModal, settingsModal, debtEditModal, inventoryEditModal, paymentModal, pulsaModal].forEach(modal => {
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) modal.style.display = 'none';
-            });
-        });
-        
-        document.querySelectorAll('#homePage .key[data-value]').forEach(key => {
-            key.addEventListener('click', () => {
-                const value = key.getAttribute('data-value');
-                currentAmount = (currentAmount === '0') ? value : currentAmount + value;
-                updateAmountDisplay();
-            });
-        });
-        
-        document.querySelectorAll('#pulsaPage .key[data-value]').forEach(key => {
-            key.addEventListener('click', () => {
-                const value = key.getAttribute('data-value');
-                currentPhone = (currentPhone === '0') ? value : currentPhone + value;
-                updatePhoneDisplay();
-            });
-        });
-        
-        // Calculator key listeners
-        calculatorKeys.forEach(key => {
-            key.addEventListener('click', () => {
-                const value = key.getAttribute('data-value');
-                const operator = key.getAttribute('data-operator');
-                
-                if (value) {
-                    calculatorInput(value);
-                } else if (operator) {
-                    if (operator === 'backspace') {
-                        calculatorBackspace();
-                    } else {
-                        calculatorSetOperator(operator);
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
                     }
                 }
-            });
-        });
-        
-        calculatorClear.addEventListener('click', calculatorClear);
-        calculatorClearEntry.addEventListener('click', calculatorClearEntry);
-        calculatorEquals.addEventListener('click', calculatorCalculate);
-        
-        backspaceBtn.addEventListener('click', () => {
-            currentAmount = (currentAmount.length > 1) ? currentAmount.slice(0, -1) : '0';
-            updateAmountDisplay();
-        });
-        
-        pulsaBackspaceBtn.addEventListener('click', () => {
-            currentPhone = (currentPhone.length > 1) ? currentPhone.slice(0, -1) : '0';
-            updatePhoneDisplay();
-        });
-        
-        clearButton.addEventListener('click', () => {
-            currentAmount = '0';
-            updateAmountDisplay();
-        });
-        
-        clearPhoneButton.addEventListener('click', () => {
-            currentPhone = '0';
-            updatePhoneDisplay();
-        });
-        
-        savePhoneButton.addEventListener('click', () => {
-            if (currentPhone === '0' || currentPhone.length < 10) {
-                alert('Harap masukkan nomor handphone yang valid!');
-                return;
-            }
+            },
             
-            selectedPhoneNumber = currentPhone;
-            phoneName.value = '';
-            pulsaModal.style.display = 'flex';
+            updateTime: () => {
+                const now = new Date();
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                document.getElementById('paymentTime').textContent = `${hours}:${minutes}`;
+            },
             
-            pulsaOptions.forEach(option => option.classList.remove('active'));
-            customAmountGroup.style.display = 'none';
-            selectedPulsaAmount = 0;
-        });
-        
-        pulsaOptions.forEach(option => {
-            option.addEventListener('click', () => {
-                pulsaOptions.forEach(opt => opt.classList.remove('active'));
-                option.classList.add('active');
-                
-                const amount = option.getAttribute('data-amount');
-                selectedPulsaAmount = parseInt(amount);
-                
-                customAmountGroup.style.display = (amount === '0') ? 'block' : 'none';
-            });
-        });
-        
-        customAmount.addEventListener('input', () => { selectedPulsaAmount = parseInt(customAmount.value) || 0; });
-        
-        confirmPulsaButton.addEventListener('click', () => {
-            if (selectedPulsaAmount <= 0) {
-                alert('Harap pilih nominal pulsa!');
-                return;
-            }
-            
-            const name = phoneName.value.trim() || 'Tidak ada nama';
-            const existingIndex = phoneHistoryData.findIndex(item => item.phone === selectedPhoneNumber);
-            
-            if (existingIndex >= 0) phoneHistoryData[existingIndex].name = name;
-            else phoneHistoryData.push({ phone: selectedPhoneNumber, name: name });
-            
-            localStorage.setItem('phoneHistory', JSON.stringify(phoneHistoryData));
-            
-            const now = new Date();
-            const newTransaction = {
-                id: generateTransactionId(),
-                amount: selectedPulsaAmount,
-                date: now.toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
-                rawDate: now.toISOString(),
-                status: 'success', // Auto confirm for pulsa
-                type: 'pulsa',
-                phone: selectedPhoneNumber
-            };
-            
-            transactions.push(newTransaction);
-            localStorage.setItem('transactions', JSON.stringify(transactions));
-            
-            pulsaModal.style.display = 'none';
-            alert('Pembelian pulsa berhasil!');
-            
-            renderPhoneHistory();
-            if (document.getElementById('financePage').classList.contains('active')) {
-                renderTransactions();
-            }
-        });
-        
-        addDebtButton.addEventListener('click', () => {
-            const name = debtName.value.trim();
-            const phone = debtPhone.value.trim();
-            const itemName = debtItem.value.trim();
-            const amount = parseInt(debtAmount.value);
-            
-            if (!name || !phone || !itemName || !amount) {
-                alert('Harap isi semua field!');
-                return;
-            }
-            
-            debts.push({
-                id: Date.now().toString(), name, phone, item: itemName, amount,
-                status: 'pending', date: new Date().toLocaleDateString('id-ID')
-            });
-            localStorage.setItem('debts', JSON.stringify(debts));
-            
-            debtName.value = ''; debtPhone.value = ''; debtItem.value = ''; debtAmount.value = '';
-            
-            renderDebts();
-            updateDebtNameList();
-        });
-        
-        saveEditDebtButton.addEventListener('click', () => {
-            const name = editDebtName.value.trim();
-            const phone = editDebtPhone.value.trim();
-            const itemName = editDebtItem.value.trim();
-            const amount = parseInt(editDebtAmount.value);
-            
-            if (!name || !phone || !itemName || !amount) {
-                alert('Harap isi semua field!');
-                return;
-            }
-            
-            const debtIndex = debts.findIndex(d => d.id === currentDebtId);
-            if (debtIndex >= 0) {
-                debts[debtIndex] = {...debts[debtIndex], name, phone, item: itemName, amount};
-                localStorage.setItem('debts', JSON.stringify(debts));
-                renderDebts();
-                updateDebtNameList();
-                debtEditModal.style.display = 'none';
-            }
-        });
-        
-        addItemButton.addEventListener('click', () => {
-            const name = itemName.value.trim();
-            const price = parseFloat(itemPrice.value) || 0;
-            const category = itemCategory.value;
-            const stock = parseInt(itemStock.value) || 0;
-            const minStock = parseInt(itemMinStock.value) || 0;
-            
-            if (!name || !category) {
-                alert('Harap isi nama dan kategori barang!');
-                return;
-            }
-            
-            inventory.push({ id: Date.now().toString(), name, price, category, stock, minStock });
-            localStorage.setItem('inventory', JSON.stringify(inventory));
-            
-            itemName.value = ''; itemPrice.value = ''; itemCategory.value = 'makanan';
-            itemStock.value = ''; itemMinStock.value = '';
-            
-            renderInventory();
-            renderShoppingList();
-        });
-        
-        saveEditItemButton.addEventListener('click', () => {
-            const name = editItemName.value.trim();
-            const price = parseFloat(editItemPrice.value) || 0;
-            const category = editItemCategory.value;
-            const stock = parseInt(editItemStock.value) || 0;
-            const minStock = parseInt(editItemMinStock.value) || 0;
-            
-            if (!name || !category) {
-                alert('Harap isi nama dan kategori barang!');
-                return;
-            }
-            
-            const itemIndex = inventory.findIndex(i => i.id === currentItemId);
-            if (itemIndex >= 0) {
-                inventory[itemIndex] = { ...inventory[itemIndex], name, price, category, stock, minStock };
-                localStorage.setItem('inventory', JSON.stringify(inventory));
-                renderInventory();
-                renderShoppingList();
-                inventoryEditModal.style.display = 'none';
-            }
-        });
-        
-        convertButton.addEventListener('click', async () => {
-            if (currentAmount === '0') {
-                alert('Harap masukkan nominal terlebih dahulu!');
-                return;
-            }
-            
-            loading.style.display = 'block';
-            
-            try {
-                const qrisData = savedQrisStaticCode;
-                if (!qrisData) {
-                    alert('Harap masukkan Kode QRIS statis di pengaturan dahulu!');
-                    loading.style.display = 'none';
-                    return;
+            generateTransactionId: () => {
+                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+                let result = 'TRX-';
+                for (let i = 0; i < 6; i++) {
+                    result += chars.charAt(Math.floor(Math.random() * chars.length));
                 }
-                
-                const encodedQris = encodeURIComponent(qrisData);
-                const response = await fetch(`https://cekid-ariepulsa.my.id/api/?qris_data=${encodedQris}&nominal=${currentAmount}`);
-                const data = await response.json();
-                
-                if (data.status === 'success') {
-                    paymentAmount.textContent = `Rp ${formatNumber(currentAmount)}`;
-                    paymentQr.src = data.link_qris;
-                    paymentMerchant.textContent = savedMerchant;
-                    currentQrUrl = data.link_qris;
-                    
-                    updateTime();
-                    const newId = generateTransactionId();
-                    transactionId.textContent = newId;
-                    currentTransactionIdForConfirmation = newId;
-
-                    const now = new Date();
-                    const newTransaction = {
-                        id: newId,
-                        amount: parseInt(currentAmount),
-                        date: now.toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
-                        rawDate: now.toISOString(),
-                        status: 'pending',
-                        type: 'qris'
-                    };
-                    
-                    transactions.push(newTransaction);
-                    localStorage.setItem('transactions', JSON.stringify(transactions));
-                    paymentModal.style.display = 'flex';
-                } else {
-                    alert('API mengembalikan status error: ' + (data.message || 'Unknown error'));
-                }
-            } catch (error) {
-                alert('Terjadi kesalahan: ' + error.message);
-            } finally {
-                loading.style.display = 'none';
-            }
-        });
-
-        confirmPayment.addEventListener('click', () => {
-             if (currentTransactionIdForConfirmation) {
-                const transactionIndex = transactions.findIndex(t => t.id === currentTransactionIdForConfirmation);
-                if (transactionIndex >= 0) {
-                    transactions[transactionIndex].status = 'success';
-                    localStorage.setItem('transactions', JSON.stringify(transactions));
-                    alert(`Transaksi ${currentTransactionIdForConfirmation} dikonfirmasi berhasil!`);
-                    
-                    paymentModal.style.display = 'none';
-                    currentTransactionIdForConfirmation = null;
-
-                    if (document.getElementById('financePage').classList.contains('active')) {
-                        renderTransactions();
-                    }
-                }
-             }
-        });
-        
-        closePayment.addEventListener('click', () => { paymentModal.style.display = 'none'; });
-        
-        qrisDropArea.addEventListener('click', () => qrisInput.click());
-        
-        qrisInput.addEventListener('change', (e) => {
-            if (e.target.files.length) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    savedQrisImage = event.target.result;
-                    localStorage.setItem('qrisImage', savedQrisImage);
-                    qrisPreview.style.display = 'block';
-                    qrisPreviewImg.src = savedQrisImage;
-                    if (document.getElementById('qrcodePage').classList.contains('active')) {
-                        updateQrCodeDisplay();
-                    }
+                return result;
+            },
+            
+            getCategoryName: (category) => {
+                const categories = {
+                    'makanan': 'Makanan', 'minuman': 'Minuman', 'snack': 'Snack',
+                    'sembako': 'Sembako', 'lainnya': 'Lainnya'
                 };
-                reader.readAsDataURL(e.target.files[0]);
+                return categories[category] || 'Lainnya';
             }
-        });
-        
-        resetQrisButton.addEventListener('click', () => {
-            if (confirm('Apakah Anda yakin ingin menghapus gambar QRIS?')) {
-                savedQrisImage = '';
-                localStorage.removeItem('qrisImage');
-                qrisPreview.style.display = 'none';
-                if (document.getElementById('qrcodePage').classList.contains('active')) {
-                    updateQrCodeDisplay();
+        };
+
+        // Fungsi kalkulator
+        const calculator = {
+            input: (value) => {
+                if (state.calculatorShouldResetDisplay) {
+                    state.calculatorCurrentInput = '';
+                    state.calculatorShouldResetDisplay = false;
+                }
+                
+                if (value === '.' && state.calculatorCurrentInput.includes('.')) {
+                    return;
+                }
+                
+                if (state.calculatorCurrentInput === '0' && value !== '.') {
+                    state.calculatorCurrentInput = value;
+                } else {
+                    state.calculatorCurrentInput += value;
+                }
+                
+                helpers.updateCalculatorDisplay();
+            },
+            
+            setOperator: (operator) => {
+                if (state.calculatorOperator && !state.calculatorShouldResetDisplay) {
+                    calculator.calculate();
+                }
+                
+                state.calculatorPreviousInput = state.calculatorCurrentInput;
+                state.calculatorOperator = operator;
+                state.calculatorShouldResetDisplay = true;
+            },
+            
+            calculate: () => {
+                let result;
+                const prev = parseFloat(state.calculatorPreviousInput);
+                const current = parseFloat(state.calculatorCurrentInput);
+                
+                if (isNaN(prev) || isNaN(current)) return;
+                
+                switch (state.calculatorOperator) {
+                    case '+':
+                        result = prev + current;
+                        break;
+                    case '-':
+                        result = prev - current;
+                        break;
+                    case '*':
+                        result = prev * current;
+                        break;
+                    case '/':
+                        if (current === 0) {
+                            alert('Tidak dapat membagi dengan nol');
+                            return;
+                        }
+                        result = prev / current;
+                        break;
+                    case '%':
+                        result = prev % current;
+                        break;
+                    default:
+                        return;
+                }
+                
+                const calculation = {
+                    expression: `${state.calculatorPreviousInput} ${state.calculatorOperator} ${state.calculatorCurrentInput}`,
+                    result: result.toString()
+                };
+                
+                state.calculatorHistory.unshift(calculation);
+                if (state.calculatorHistory.length > 10) {
+                    state.calculatorHistory.pop();
+                }
+                
+                localStorage.setItem('calculatorHistory', JSON.stringify(state.calculatorHistory));
+                calculator.renderHistory();
+                
+                state.calculatorCurrentInput = result.toString();
+                state.calculatorOperator = '';
+                state.calculatorShouldResetDisplay = true;
+                helpers.updateCalculatorDisplay();
+            },
+            
+            clear: () => {
+                state.calculatorCurrentInput = '0';
+                state.calculatorPreviousInput = '';
+                state.calculatorOperator = '';
+                state.calculatorShouldResetDisplay = false;
+                helpers.updateCalculatorDisplay();
+            },
+            
+            clearEntry: () => {
+                state.calculatorCurrentInput = '0';
+                helpers.updateCalculatorDisplay();
+            },
+            
+            backspace: () => {
+                if (state.calculatorCurrentInput.length > 1) {
+                    state.calculatorCurrentInput = state.calculatorCurrentInput.slice(0, -1);
+                } else {
+                    state.calculatorCurrentInput = '0';
+                }
+                helpers.updateCalculatorDisplay();
+            },
+            
+            renderHistory: () => {
+                const calculatorHistoryList = document.getElementById('calculatorHistoryList');
+                calculatorHistoryList.innerHTML = '';
+                
+                if (state.calculatorHistory.length === 0) {
+                    calculatorHistoryList.innerHTML = '<div style="text-align: center; color: #64748b; padding: 10px;">Belum ada riwayat perhitungan</div>';
+                    return;
+                }
+                
+                state.calculatorHistory.forEach(item => {
+                    const historyItem = document.createElement('div');
+                    historyItem.className = 'calculator-history-item';
+                    historyItem.innerHTML = `
+                        <div class="calculator-history-expression">${item.expression} =</div>
+                        <div class="calculator-history-result">${item.result}</div>
+                    `;
+                    
+                    historyItem.addEventListener('click', () => {
+                        state.calculatorCurrentInput = item.result;
+                        helpers.updateCalculatorDisplay();
+                    });
+                    
+                    calculatorHistoryList.appendChild(historyItem);
+                });
+            }
+        };
+
+        // Fungsi render data
+        const render = {
+            phoneHistory: () => {
+                const phoneHistory = document.getElementById('phoneHistory');
+                phoneHistory.innerHTML = '<h3>Riwayat Nomor</h3>';
+                
+                if (state.phoneHistoryData.length === 0) {
+                    phoneHistory.innerHTML += '<p style="text-align: center; color: #64748b; padding: 10px;">Belum ada riwayat nomor handphone</p>';
+                    return;
+                }
+                
+                state.phoneHistoryData.forEach(item => {
+                    const historyItem = document.createElement('div');
+                    historyItem.className = 'history-item';
+                    historyItem.dataset.phone = item.phone;
+                    
+                    historyItem.innerHTML = `
+                        <div class="history-phone">${item.phone}</div>
+                        <div class="history-name">${item.name || 'Tidak ada nama'}</div>
+                    `;
+                    
+                    historyItem.addEventListener('click', () => {
+                        state.currentPhone = item.phone;
+                        helpers.updatePhoneDisplay();
+                    });
+                    
+                    phoneHistory.appendChild(historyItem);
+                });
+            },
+            
+            transactions: () => {
+                const transactionList = document.getElementById('transactionList');
+                transactionList.innerHTML = '';
+                
+                const confirmedTransactions = state.transactions.filter(t => t.status === 'success').sort((a, b) => new Date(b.rawDate) - new Date(a.rawDate));
+                
+                if (confirmedTransactions.length === 0) {
+                    transactionList.innerHTML = '<p style="text-align: center; color: #64748b; padding: 20px;">Belum ada transaksi</p>';
+                    return;
+                }
+                
+                confirmedTransactions.forEach(transaction => {
+                    const transactionItem = document.createElement('div');
+                    transactionItem.className = 'transaction-item';
+                    
+                    transactionItem.innerHTML = `
+                        <div class="transaction-header">
+                            <div class="transaction-id">${transaction.id}</div>
+                            <div class="transaction-date">${transaction.date}</div>
+                        </div>
+                        <div class="transaction-details">
+                            <div class="transaction-amount">Rp ${helpers.formatNumber(transaction.amount)}</div>
+                            <div class="transaction-status status-success">Berhasil</div>
+                        </div>
+                    `;
+                    
+                    transactionList.appendChild(transactionItem);
+                });
+            },
+            
+            debts: () => {
+                const debtList = document.getElementById('debtList');
+                debtList.innerHTML = '<h3>Daftar Hutang</h3>';
+                
+                if (state.debts.length === 0) {
+                    debtList.innerHTML += '<p style="text-align: center; color: #64748b; padding: 20px;">Belum ada catatan hutang</p>';
+                    return;
+                }
+                
+                state.debts.forEach(debt => {
+                    const debtItem = document.createElement('div');
+                    debtItem.className = 'debt-item';
+                    debtItem.dataset.id = debt.id;
+                    
+                    debtItem.innerHTML = `
+                        <div class="debt-header">
+                            <div>
+                                <div class="debt-name">${debt.name}</div>
+                                <div class="debt-phone">${debt.phone}</div>
+                            </div>
+                        </div>
+                        <div class="debt-details">
+                            <div>
+                                <div class="debt-item-name">${debt.item}</div>
+                                <div class="debt-amount">Rp ${helpers.formatNumber(debt.amount)}</div>
+                            </div>
+                            <div class="debt-status status-${debt.status}" data-id="${debt.id}">${debt.status === 'paid' ? 'Lunas' : 'Belum Lunas'}</div>
+                        </div>
+                    `;
+                    
+                    const statusElement = debtItem.querySelector('.debt-status');
+                    statusElement.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const debtId = e.target.getAttribute('data-id');
+                        const debt = state.debts.find(d => d.id === debtId);
+                        
+                        if (debt.status === 'pending') {
+                            modals.showPasswordPrompt('status', debtId);
+                        }
+                    });
+                    
+                    debtList.appendChild(debtItem);
+                });
+            },
+            
+            inventory: () => {
+                const inventoryList = document.getElementById('inventoryList');
+                inventoryList.innerHTML = '<h3>Daftar Inventori</h3>';
+                
+                if (state.inventory.length === 0) {
+                    inventoryList.innerHTML += '<p style="text-align: center; color: #64748b; padding: 20px;">Belum ada data inventori</p>';
+                    return;
+                }
+                
+                state.inventory.forEach(item => {
+                    const inventoryItem = document.createElement('div');
+                    inventoryItem.className = 'inventory-item';
+                    inventoryItem.dataset.id = item.id;
+                    
+                    const stockStatus = item.stock <= item.minStock ? 'stock-warning' : 'stock-adequate';
+                    const stockText = item.stock <= item.minStock ? 'Stok Rendah!' : 'Stok Cukup';
+                    
+                    inventoryItem.innerHTML = `
+                        <div class="inventory-header">
+                            <div>
+                                <div class="inventory-name">${item.name}</div>
+                                <div class="inventory-category">${helpers.getCategoryName(item.category)}</div>
+                            </div>
+                            <div class="inventory-price">Rp ${helpers.formatNumber(item.price || 0)}</div>
+                        </div>
+                        <div class="inventory-details">
+                            <div>
+                                <div class="inventory-stock">Stok: ${item.stock}</div>
+                                <div class="${stockStatus}">${stockText}</div>
+                            </div>
+                            <div class="inventory-action">
+                                <button class="inventory-btn-small decrease-stock" data-id="${item.id}">-</button>
+                                <button class="inventory-btn-small increase-stock" data-id="${item.id}">+</button>
+                                <button class="inventory-btn-small sell sell-item" data-id="${item.id}">Jual</button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Event listeners untuk tombol stok
+                    inventoryItem.querySelector('.decrease-stock').addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const itemId = e.target.getAttribute('data-id');
+                        const itemIndex = state.inventory.findIndex(i => i.id === itemId);
+                        
+                        if (itemIndex >= 0 && state.inventory[itemIndex].stock > 0) {
+                            state.inventory[itemIndex].stock--;
+                            localStorage.setItem('inventory', JSON.stringify(state.inventory));
+                            render.inventory();
+                            render.shoppingList();
+                        }
+                    });
+                    
+                    inventoryItem.querySelector('.increase-stock').addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const itemId = e.target.getAttribute('data-id');
+                        const itemIndex = state.inventory.findIndex(i => i.id === itemId);
+                        
+                        if (itemIndex >= 0) {
+                            state.inventory[itemIndex].stock++;
+                            localStorage.setItem('inventory', JSON.stringify(state.inventory));
+                            render.inventory();
+                            render.shoppingList();
+                        }
+                    });
+                    
+                    // Tombol jual
+                    inventoryItem.querySelector('.sell-item').addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const itemId = e.target.getAttribute('data-id');
+                        const itemIndex = state.inventory.findIndex(i => i.id === itemId);
+                        const item = state.inventory[itemIndex];
+
+                        const quantity = prompt(`Berapa banyak "${item.name}" yang ingin dijual?\nStok tersedia: ${item.stock}`, "1");
+
+                        if (quantity === null || quantity.trim() === '') return;
+
+                        const qty = parseInt(quantity);
+                        if (isNaN(qty) || qty <= 0) {
+                            alert("Jumlah tidak valid.");
+                            return;
+                        }
+                        if (qty > item.stock) {
+                            alert(`Stok tidak mencukupi. Stok tersisa hanya ${item.stock}.`);
+                            return;
+                        }
+
+                        // Hitung total dan update stok
+                        const total = qty * item.price;
+                        state.inventory[itemIndex].stock -= qty;
+                        localStorage.setItem('inventory', JSON.stringify(state.inventory));
+
+                        // Pindah ke halaman beranda dan set amount
+                        state.currentAmount = String(total);
+                        helpers.updateAmountDisplay();
+                        navigation.switchPage('homePage');
+                        
+                        // Render ulang inventori di background
+                        render.inventory();
+                        render.shoppingList();
+                    });
+                    
+                    inventoryList.appendChild(inventoryItem);
+                });
+            },
+            
+            shoppingList: () => {
+                const shoppingList = document.getElementById('shoppingList');
+                shoppingList.innerHTML = '';
+                
+                const lowStockItems = state.inventory.filter(item => item.stock <= item.minStock);
+                
+                if (lowStockItems.length === 0) {
+                    shoppingList.innerHTML = '<h3 style="margin-top:20px;">Daftar Belanja</h3><p style="text-align: center; color: #64748b; padding: 20px;">Tidak ada barang yang perlu dibeli</p>';
+                    return;
+                }
+                
+                shoppingList.innerHTML = '<h3 style="margin-top:20px;">Daftar Belanja (Stok Rendah)</h3>';
+                
+                lowStockItems.forEach(item => {
+                    const shoppingItem = document.createElement('div');
+                    shoppingItem.className = 'inventory-item';
+                    
+                    const needed = Math.max(0, item.minStock - item.stock + 1);
+
+                    shoppingItem.innerHTML = `
+                        <div class="inventory-header">
+                            <div>
+                                <div class="inventory-name">${item.name}</div>
+                                <div class="inventory-category">${helpers.getCategoryName(item.category)}</div>
+                            </div>
+                        </div>
+                        <div class="inventory-details">
+                            <div>
+                                <div class="stock-warning">Stok: ${item.stock} (Min: ${item.minStock})</div>
+                                <div>Perlu dibeli: setidaknya ${needed}</div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    shoppingList.appendChild(shoppingItem);
+                });
+            },
+            
+            qrCodeDisplay: () => {
+                const qrcodeDisplay = document.getElementById('qrcodeDisplay');
+                qrcodeDisplay.innerHTML = '';
+                
+                if (state.savedQrisImage) {
+                    qrcodeDisplay.innerHTML = `
+                        <h3>${state.savedMerchant}</h3>
+                        <p> </p>
+                        <img src="${state.savedQrisImage}" alt="QRIS Code" style="max-width: 100%; height: auto; border: 1px solid #e2e8f0; border-radius: 8px;">
+                        <p>Scan Kode QRIS di atas untuk pembayaran</p>
+                    `;
+                } else {
+                    qrcodeDisplay.innerHTML = `
+                        <h3>${state.savedMerchant}</h3>
+                        <p> </p>
+                        <div style="background-color: #f1f5f9; padding: 20px; display: inline-block; margin: 15px 0;">
+                            <i class="fas fa-qrcode" style="font-size: 120px; color: #1e293b;"></i>
+                        </div>
+                        <p>Masukkan kode QRIS statis di pengaturan</p>
+                    `;
                 }
             }
-        });
-        
-        changePasswordButton.addEventListener('click', () => {
-            const current = currentPassword.value;
-            const newPass = newPassword.value;
-            const confirmPass = confirmPassword.value;
-            
-            if (current !== appPassword) return alert('Sandi saat ini tidak benar!');
-            if (newPass.length !== 6) return alert('Sandi baru harus 6 digit!');
-            if (newPass !== confirmPass) return alert('Konfirmasi sandi tidak sesuai!');
-            
-            appPassword = newPass;
-            localStorage.setItem('appPassword', appPassword);
-            alert('Sandi berhasil diubah!');
-            currentPassword.value = ''; newPassword.value = ''; confirmPassword.value = '';
-        });
-        
-        saveButton.addEventListener('click', () => {
-            const merchant = merchantName.value.trim();
-            const headerTitleText = headerTitleInput.value.trim();
-            const headerSubtitleText = headerSubtitleInput.value.trim();
-            const footerTextContent = footerTextInput.value.trim();
-            const qrisCode = qrisStaticCode.value.trim();
-            
-            if (!merchant || !headerTitleText || !headerSubtitleText || !footerTextContent || !qrisCode) {
-                return alert('Harap isi semua field!');
-            }
-            
-            savedMerchant = merchant;
-            savedHeaderTitle = headerTitleText;
-            savedHeaderSubtitle = headerSubtitleText;
-            savedFooterText = footerTextContent;
-            savedQrisStaticCode = qrisCode;
-            
-            localStorage.setItem('merchantName', merchant);
-            localStorage.setItem('headerTitle', headerTitleText);
-            localStorage.setItem('headerSubtitle', headerSubtitleText);
-            localStorage.setItem('footerText', footerTextContent);
-            localStorage.setItem('qrisStaticCode', qrisCode);
-            
-            paymentMerchant.textContent = merchant;
-            headerTitle.textContent = headerTitleText;
-            headerSubtitle.textContent = headerSubtitleText;
-            footerText.textContent = footerTextContent;
-            paymentTitle.textContent = headerTitleText;
-            
-            settingsModal.style.display = 'none';
-        });
-        
-        // Inventory Data Management
-        downloadCsvButton.addEventListener('click', () => {
-            if (inventory.length === 0) return alert("Inventori kosong.");
-            
-            const headers = "ID,Nama Barang,Harga,Kategori,Stok,Stok Minimum";
-            const csvContent = inventory.map(item => 
-                [item.id, `"${item.name}"`, item.price, item.category, item.stock, item.minStock].join(',')
-            ).join('\n');
-            
-            const blob = new Blob([headers + '\n' + csvContent], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement("a");
-            const url = URL.createObjectURL(blob);
-            link.setAttribute("href", url);
-            link.setAttribute("download", "inventory.csv");
-            link.style.visibility = 'hidden';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        });
-        
-        backupButton.addEventListener('click', () => {
-            const dataStr = JSON.stringify(inventory, null, 2);
-            const blob = new Blob([dataStr], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = 'inventory-backup.json';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        });
-        
-        restoreInput.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-            
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                try {
-                    const data = JSON.parse(event.target.result);
-                    if (Array.isArray(data)) {
-                        inventory = data;
-                        localStorage.setItem('inventory', JSON.stringify(inventory));
-                        renderInventory();
-                        renderShoppingList();
-                        alert('Data inventori berhasil dipulihkan!');
+        };
+
+        // Fungsi navigasi
+        const navigation = {
+            switchPage: (pageId) => {
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                    if(btn.getAttribute('data-page') === pageId) {
+                        btn.classList.add('active');
                     } else {
-                        alert('Format file tidak valid.');
+                        btn.classList.remove('active');
+                    }
+                });
+                
+                document.querySelectorAll('.page').forEach(page => {
+                    if(page.id === pageId) {
+                        page.classList.add('active');
+                    } else {
+                        page.classList.remove('active');
+                    }
+                });
+
+                if (pageId === 'financePage') {
+                    render.transactions();
+                    render.debts();
+                } else if (pageId === 'qrcodePage') {
+                    render.qrCodeDisplay();
+                } else if (pageId === 'inventoryPage') {
+                    render.inventory();
+                    render.shoppingList();
+                } else if (pageId === 'calculatorPage') {
+                    calculator.renderHistory();
+                }
+            }
+        };
+
+        // Fungsi modals
+        const modals = {
+            showPasswordPrompt: (context, debtId) => {
+                state.passwordContext = context;
+                state.currentDebtId = debtId;
+                document.getElementById('passwordModal').style.display = 'flex';
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordError').style.display = 'none';
+                document.getElementById('passwordInput').focus();
+            },
+            
+            closeAllModals: () => {
+                document.querySelectorAll('.settings-modal, .payment-modal, .pulsa-modal, .password-modal, .debt-edit-modal, .inventory-edit-modal').forEach(modal => {
+                    modal.style.display = 'none';
+                });
+            }
+        };
+
+        // Inisialisasi aplikasi
+        const initializeApp = () => {
+            // Set nilai default
+            document.getElementById('merchantName').value = state.savedMerchant;
+            document.getElementById('headerTitleInput').value = state.savedHeaderTitle;
+            document.getElementById('headerSubtitleInput').value = state.savedHeaderSubtitle;
+            document.getElementById('footerTextInput').value = state.savedFooterText;
+            document.getElementById('qrisStaticCode').value = state.savedQrisStaticCode;
+            
+            document.getElementById('paymentMerchant').textContent = state.savedMerchant;
+            document.getElementById('headerTitle').textContent = state.savedHeaderTitle;
+            document.getElementById('headerSubtitle').textContent = state.savedHeaderSubtitle;
+            document.getElementById('footerText').textContent = state.savedFooterText;
+            document.getElementById('paymentTitle').textContent = state.savedHeaderTitle;
+            
+            // Render data awal
+            render.phoneHistory();
+            render.transactions();
+            render.qrCodeDisplay();
+            render.debts();
+            render.inventory();
+            render.shoppingList();
+            calculator.renderHistory();
+            
+            // Update waktu
+            helpers.updateTime();
+            
+            // Event listener untuk fullscreen
+            document.addEventListener('fullscreenchange', () => {
+                const iconClass = document.fullscreenElement ? 'fa-compress' : 'fa-expand';
+                document.querySelectorAll('.fullscreen-btn').forEach(btn => {
+                    const icon = btn.querySelector('i');
+                    icon.className = `fas ${iconClass}`;
+                });
+            });
+        };
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            // Inisialisasi aplikasi
+            initializeApp();
+            
+            // Navigation
+            document.querySelectorAll('.nav-btn').forEach(navBtn => {
+                navBtn.addEventListener('click', () => {
+                    const pageId = navBtn.getAttribute('data-page');
+                    navigation.switchPage(pageId);
+                });
+            });
+            
+            // Tombol inventori
+            document.getElementById('inventoryButton').addEventListener('click', () => {
+                navigation.switchPage('inventoryPage');
+            });
+            
+            // Tombol fullscreen
+            document.querySelectorAll('.fullscreen-btn').forEach(btn => {
+                btn.addEventListener('click', helpers.toggleFullscreen);
+            });
+            
+            // Tombol profile (buka modal password)
+            document.querySelectorAll('.profile-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    modals.showPasswordPrompt('settings');
+                });
+            });
+            
+            // Modal password
+            document.getElementById('closePassword').addEventListener('click', () => {
+                document.getElementById('passwordModal').style.display = 'none';
+            });
+            
+            document.getElementById('submitPassword').addEventListener('click', () => {
+                if (document.getElementById('passwordInput').value === state.appPassword) {
+                    document.getElementById('passwordModal').style.display = 'none';
+                    
+                    if (state.passwordContext === 'status') {
+                        const debtIndex = state.debts.findIndex(d => d.id === state.currentDebtId);
+                        if (debtIndex >= 0) {
+                            state.debts[debtIndex].status = 'paid';
+                            localStorage.setItem('debts', JSON.stringify(state.debts));
+                            render.debts();
+                        }
+                    } else {
+                        document.getElementById('settingsModal').style.display = 'flex';
+                    }
+                } else {
+                    document.getElementById('passwordError').style.display = 'block';
+                    document.getElementById('passwordInput').value = '';
+                    setTimeout(() => {
+                        document.getElementById('passwordError').style.display = 'none';
+                    }, 2000);
+                }
+            });
+            
+            // Keypad beranda
+            document.querySelectorAll('#homePage .key[data-value]').forEach(key => {
+                key.addEventListener('click', () => {
+                    const value = key.getAttribute('data-value');
+                    state.currentAmount = (state.currentAmount === '0') ? value : state.currentAmount + value;
+                    helpers.updateAmountDisplay();
+                });
+            });
+            
+            // Keypad pulsa
+            document.querySelectorAll('#pulsaPage .key[data-value]').forEach(key => {
+                key.addEventListener('click', () => {
+                    const value = key.getAttribute('data-value');
+                    state.currentPhone = (state.currentPhone === '0') ? value : state.currentPhone + value;
+                    helpers.updatePhoneDisplay();
+                });
+            });
+            
+            // Keypad kalkulator
+            document.querySelectorAll('#calculatorPage .key[data-value]').forEach(key => {
+                key.addEventListener('click', () => {
+                    const value = key.getAttribute('data-value');
+                    calculator.input(value);
+                });
+            });
+            
+            document.querySelectorAll('#calculatorPage .key[data-operator]').forEach(key => {
+                key.addEventListener('click', () => {
+                    const operator = key.getAttribute('data-operator');
+                    calculator.setOperator(operator);
+                });
+            });
+            
+            // Tombol kalkulator khusus
+            document.getElementById('calculatorClear').addEventListener('click', calculator.clear);
+            document.getElementById('calculatorClearEntry').addEventListener('click', calculator.clearEntry);
+            document.getElementById('calculatorBackspace').addEventListener('click', calculator.backspace);
+            document.getElementById('calculatorEquals').addEventListener('click', calculator.calculate);
+            
+            // Tombol backspace
+            document.getElementById('backspaceBtn').addEventListener('click', () => {
+                state.currentAmount = (state.currentAmount.length > 1) ? state.currentAmount.slice(0, -1) : '0';
+                helpers.updateAmountDisplay();
+            });
+            
+            document.getElementById('pulsaBackspaceBtn').addEventListener('click', () => {
+                state.currentPhone = (state.currentPhone.length > 1) ? state.currentPhone.slice(0, -1) : '0';
+                helpers.updatePhoneDisplay();
+            });
+            
+            // Tombol clear
+            document.getElementById('clearButton').addEventListener('click', () => {
+                state.currentAmount = '0';
+                helpers.updateAmountDisplay();
+            });
+            
+            document.getElementById('clearPhoneButton').addEventListener('click', () => {
+                state.currentPhone = '0';
+                helpers.updatePhoneDisplay();
+            });
+            
+            // Tombol konversi (generate QR)
+            document.getElementById('convertButton').addEventListener('click', async () => {
+                if (state.currentAmount === '0') {
+                    alert('Harap masukkan nominal terlebih dahulu!');
+                    return;
+                }
+                
+                document.getElementById('loading').style.display = 'block';
+                
+                try {
+                    const qrisData = state.savedQrisStaticCode;
+                    if (!qrisData) {
+                        alert('Harap masukkan Kode QRIS statis di pengaturan dahulu!');
+                        document.getElementById('loading').style.display = 'none';
+                        return;
+                    }
+                    
+                    const encodedQris = encodeURIComponent(qrisData);
+                    const response = await fetch(`https://cekid-ariepulsa.my.id/api/?qris_data=${encodedQris}&nominal=${state.currentAmount}`);
+                    const data = await response.json();
+                    
+                    if (data.status === 'success') {
+                        document.getElementById('paymentAmount').textContent = `Rp ${helpers.formatNumber(state.currentAmount)}`;
+                        document.getElementById('paymentQr').src = data.link_qris;
+                        document.getElementById('paymentMerchant').textContent = state.savedMerchant;
+                        state.currentQrUrl = data.link_qris;
+                        
+                        helpers.updateTime();
+                        const newId = helpers.generateTransactionId();
+                        document.getElementById('transactionId').textContent = newId;
+                        state.currentTransactionIdForConfirmation = newId;
+
+                        const now = new Date();
+                        const newTransaction = {
+                            id: newId,
+                            amount: parseInt(state.currentAmount),
+                            date: now.toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
+                            rawDate: now.toISOString(),
+                            status: 'pending',
+                            type: 'qris'
+                        };
+                        
+                        state.transactions.push(newTransaction);
+                        localStorage.setItem('transactions', JSON.stringify(state.transactions));
+                        document.getElementById('paymentModal').style.display = 'flex';
+                    } else {
+                        alert('API mengembalikan status error: ' + (data.message || 'Unknown error'));
                     }
                 } catch (error) {
-                    alert('Terjadi kesalahan saat membaca file: ' + error.message);
+                    alert('Terjadi kesalahan: ' + error.message);
+                } finally {
+                    document.getElementById('loading').style.display = 'none';
                 }
-            };
-            reader.readAsText(file);
-            e.target.value = ''; // Reset input
-        });
-        
-        importCsvInput.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
+            });
             
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                try {
-                    const csvText = event.target.result;
-                    const lines = csvText.split('\n');
-                    const headers = lines[0].split(',');
-                    
-                    // Skip header row and process data
-                    for (let i = 1; i < lines.length; i++) {
-                        if (lines[i].trim() === '') continue;
+            // Konfirmasi pembayaran
+            document.getElementById('confirmPayment').addEventListener('click', () => {
+                if (state.currentTransactionIdForConfirmation) {
+                    const transactionIndex = state.transactions.findIndex(t => t.id === state.currentTransactionIdForConfirmation);
+                    if (transactionIndex >= 0) {
+                        state.transactions[transactionIndex].status = 'success';
+                        localStorage.setItem('transactions', JSON.stringify(state.transactions));
+                        alert(`Transaksi ${state.currentTransactionIdForConfirmation} dikonfirmasi berhasil!`);
                         
-                        const values = lines[i].split(',');
-                        if (values.length >= 6) {
-                            const item = {
-                                id: values[0].replace(/"/g, ''),
-                                name: values[1].replace(/"/g, ''),
-                                price: parseFloat(values[2]) || 0,
-                                category: values[3],
-                                stock: parseInt(values[4]) || 0,
-                                minStock: parseInt(values[5]) || 0
-                            };
-                            
-                            // Check if item already exists
-                            const existingIndex = inventory.findIndex(i => i.id === item.id);
-                            if (existingIndex >= 0) {
-                                inventory[existingIndex] = item;
-                            } else {
-                                inventory.push(item);
-                            }
+                        document.getElementById('paymentModal').style.display = 'none';
+                        state.currentTransactionIdForConfirmation = null;
+
+                        if (document.getElementById('financePage').classList.contains('active')) {
+                            render.transactions();
                         }
                     }
-                    
-                    localStorage.setItem('inventory', JSON.stringify(inventory));
-                    renderInventory();
-                    renderShoppingList();
-                    alert('Data CSV berhasil diimpor!');
-                } catch (error) {
-                    alert('Terjadi kesalahan saat membaca file CSV: ' + error.message);
                 }
-            };
-            reader.readAsText(file);
-            e.target.value = ''; // Reset input
+            });
+            
+            // Tutup modal dengan klik di luar
+            document.querySelectorAll('.settings-modal, .payment-modal, .pulsa-modal, .password-modal, .debt-edit-modal, .inventory-edit-modal').forEach(modal => {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) modal.style.display = 'none';
+                });
+            });
+            
+            // Tutup modal pembayaran dengan tombol tutup
+            document.getElementById('closePaymentModal').addEventListener('click', () => {
+                document.getElementById('paymentModal').style.display = 'none';
+            });
+            
+            document.getElementById('closePayment').addEventListener('click', () => {
+                document.getElementById('paymentModal').style.display = 'none';
+            });
         });
-
-        // Initialize the app
-        initializeApp();
     </script>
 </body>
 </html>
