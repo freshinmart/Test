@@ -1,12 +1,11 @@
-<html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
     <title>QRISku - Pembayaran QRIS</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Reset dan Base Styles */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -34,7 +33,6 @@
             position: relative;
         }
 
-        /* Container */
         .container {
             max-width: 480px;
             margin: 0 auto;
@@ -105,11 +103,11 @@
             transform: scale(1.05);
         }
 
-        /* Input Section - Beranda (Keypad lebih kecil) */
-        .input-section {
+        /* Beranda - Tampilan Baru dengan Riwayat Transaksi dan Carousel */
+        .payment-section {
             margin-bottom: 16px;
             background-color: #ffffff;
-            padding: 12px;
+            padding: 16px;
             border-radius: 12px;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
             border: 1px solid #e2e8f0;
@@ -119,13 +117,172 @@
             overflow: hidden;
         }
 
+        .payment-header {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .payment-header h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        /* Carousel Styles */
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            margin-bottom: 16px;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .carousel {
+            display: flex;
+            transition: transform 0.3s ease;
+            height: 150px;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .carousel-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .carousel-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .carousel-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #cbd5e1;
+            margin: 0 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .carousel-indicator.active {
+            background-color: #3b82f6;
+        }
+
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .carousel-prev {
+            left: 10px;
+        }
+
+        .carousel-next {
+            right: 10px;
+        }
+
+        /* Riwayat Transaksi Terbaru */
+        .recent-transactions {
+            margin-top: 16px;
+        }
+
+        .recent-transactions h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #1e293b;
+        }
+
+        .transaction-card {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-left: 4px solid #10b981;
+        }
+
+        .transaction-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .transaction-id {
+            font-size: 0.75rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .transaction-date {
+            font-size: 0.7rem;
+            color: #94a3b8;
+        }
+
+        .transaction-amount {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #059669;
+        }
+
+        .no-transactions {
+            text-align: center;
+            padding: 20px;
+            color: #64748b;
+            font-style: italic;
+        }
+
+        /* Input Section untuk nominal pembayaran */
+        .input-section {
+            margin-bottom: 16px;
+            background-color: #ffffff;
+            padding: 12px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+        }
+
         .input-section h3 {
             margin-bottom: 10px;
             color: #1e293b;
             font-size: 0.9rem;
             font-weight: 500;
             text-align: center;
-            flex-shrink: 0;
         }
 
         .amount-display, .phone-display, .calculator-display {
@@ -143,31 +300,24 @@
             align-items: center;
             justify-content: flex-end;
             word-break: break-all;
-            flex-shrink: 0;
         }
 
-        /* Keypads - Beranda (Keypad lebih kecil) */
+        /* Keypads */
         .numeric-keypad-container {
-            flex: 1;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
         }
 
         .numeric-keypad {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 6px;
-            flex: 1;
-            min-height: 0;
         }
 
         .calculator-keypad {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 8px;
-            flex: 1;
-            min-height: 0;
         }
 
         .key {
@@ -219,7 +369,6 @@
             grid-template-columns: 2fr 1fr;
             gap: 6px;
             margin-top: 10px;
-            flex-shrink: 0;
         }
 
         .convert-button, .clear-button, .save-button, .confirm-payment {
@@ -380,7 +529,7 @@
             display: block;
         }
 
-        /* Modal - Diperbaiki ukuran dan scroll */
+        /* Modal - Diperbaiki dengan pengaturan yang lebih baik */
         .settings-modal, .payment-modal, .pulsa-modal, .password-modal, .debt-edit-modal, .inventory-edit-modal {
             display: none;
             position: fixed;
@@ -409,7 +558,7 @@
             animation: slideUp 0.3s ease;
         }
 
-        /* Modal Pembayaran - Diperbaiki ukuran dan tata letak */
+        /* Modal Pembayaran - Diperbaiki */
         .payment-content {
             max-width: 320px;
             max-height: 85vh;
@@ -539,6 +688,40 @@
             outline: none;
         }
 
+        /* Drop Area untuk upload QRIS dan Carousel */
+        .drop-area {
+            border: 2px dashed #cbd5e1;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 16px;
+        }
+
+        .drop-area:hover, .drop-area.dragover {
+            border-color: #3b82f6;
+            background-color: #f0f9ff;
+        }
+
+        .drop-area i {
+            font-size: 2rem;
+            color: #94a3b8;
+            margin-bottom: 10px;
+        }
+
+        .qris-preview, .carousel-preview {
+            text-align: center;
+            margin: 16px 0;
+        }
+
+        .qris-preview img, .carousel-preview img {
+            max-width: 200px;
+            height: auto;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
         /* Items */
         .transaction-item, .debt-item, .inventory-item, .calculator-history-item {
             background: #ffffff;
@@ -550,7 +733,7 @@
             position: relative;
         }
 
-        /* Kalkulator - Riwayat dipisahkan */
+        /* Kalkulator */
         .calculator-container {
             display: flex;
             flex-direction: column;
@@ -655,6 +838,98 @@
             margin-bottom: 12px;
         }
 
+        /* Password Strength Indicator */
+        .password-strength {
+            height: 4px;
+            background: #e2e8f0;
+            border-radius: 2px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .password-strength-bar {
+            height: 100%;
+            width: 0;
+            transition: width 0.3s ease, background-color 0.3s ease;
+        }
+
+        .password-strength.weak .password-strength-bar {
+            width: 33%;
+            background-color: #dc2626;
+        }
+
+        .password-strength.medium .password-strength-bar {
+            width: 66%;
+            background-color: #d97706;
+        }
+
+        .password-strength.strong .password-strength-bar {
+            width: 100%;
+            background-color: #16a34a;
+        }
+
+        /* Error and Success Messages */
+        .error-message {
+            color: #dc2626;
+            font-size: 0.75rem;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .success-message {
+            color: #16a34a;
+            font-size: 0.75rem;
+            margin-top: 4px;
+            display: none;
+        }
+
+        /* Button Group */
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .save-button, .reset-button, .clear-button {
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            flex: 1;
+        }
+
+        .save-button {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: #ffffff;
+        }
+
+        .reset-button {
+            background: #f1f5f9;
+            color: #1e293b;
+            border: 1px solid #e2e8f0;
+        }
+
+        .clear-button {
+            background: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+        }
+
+        .save-button:hover {
+            background: linear-gradient(135deg, #1e40af, #60a5fa);
+        }
+
+        .reset-button:hover {
+            background: #e2e8f0;
+        }
+
+        .clear-button:hover {
+            background: #fee2e2;
+        }
+
         /* Responsive */
         @media (max-width: 360px) {
             .container {
@@ -680,11 +955,14 @@
             .numeric-keypad, .calculator-keypad {
                 gap: 4px;
             }
-            .input-section {
+            .input-section, .payment-section {
                 padding: 10px;
             }
-            .input-section h3 {
-                font-size: 0.85rem;
+            .payment-header h2 {
+                font-size: 1.1rem;
+            }
+            .carousel {
+                height: 120px;
             }
             .nav-btn {
                 font-size: 0.6875rem;
@@ -729,7 +1007,7 @@
 </head>
 <body>
     <div class="container">
-        <!-- Home Page -->
+        <!-- Home Page - Diperbarui dengan Riwayat Transaksi dan Carousel -->
         <div class="page active" id="homePage">
             <header>
                 <button class="fullscreen-btn" id="fullscreenBtn"><i class="fas fa-expand"></i></button>
@@ -738,6 +1016,38 @@
                 <button class="profile-btn" id="profileBtn"><i class="fas fa-user"></i></button>
             </header>
 
+            <!-- Section Pembayaran dengan Carousel dan Riwayat Transaksi -->
+            <div class="payment-section">
+                <div class="payment-header">
+                    <h2>Riwayat Transaksi Terbaru</h2>
+                </div>
+
+                <!-- Carousel untuk gambar yang dapat diatur di pengaturan -->
+                <div class="carousel-container">
+                    <div class="carousel" id="carousel">
+                        <!-- Slide akan diisi oleh JavaScript -->
+                    </div>
+                    <button class="carousel-nav carousel-prev" id="carouselPrev">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="carousel-nav carousel-next" id="carouselNext">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <div class="carousel-indicators" id="carouselIndicators">
+                        <!-- Indicator akan diisi oleh JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Riwayat Transaksi Terbaru -->
+                <div class="recent-transactions">
+                    <h3>Transaksi Berhasil Terbaru</h3>
+                    <div id="recentTransactionsList">
+                        <!-- Daftar transaksi akan diisi oleh JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Section untuk nominal pembayaran -->
             <div class="input-section">
                 <h3>Tambah Nominal</h3>
                 <div class="amount-display" id="amountDisplay">0</div>
@@ -760,7 +1070,7 @@
                 </div>
                 
                 <div class="action-buttons">
-                    <button class="convert-button" id="convertButton">Terapkan</button>
+                    <button class="convert-button" id="convertButton">Buat QR Pembayaran</button>
                     <button class="clear-button" id="clearButton">Clear</button>
                 </div>
                 
@@ -889,7 +1199,7 @@
             </footer>
         </div>
 
-        <!-- Calculator Page - Diperbaiki dengan riwayat terpisah -->
+        <!-- Calculator Page -->
         <div class="page" id="calculatorPage">
             <header>
                 <button class="fullscreen-btn"><i class="fas fa-expand"></i></button>
@@ -1036,6 +1346,7 @@
         </div>
     </div>
 
+    <!-- Modal Pengaturan yang Diperbaiki dengan Tab Carousel -->
     <div class="settings-modal" id="settingsModal">
         <div class="settings-content">
             <button class="close-btn" id="closeSettings"><i class="fas fa-times"></i></button>
@@ -1044,69 +1355,153 @@
             <div class="settings-tabs">
                 <button class="tab-btn active" data-tab="qris-settings">QRIS</button>
                 <button class="tab-btn" data-tab="text-settings">Teks</button>
+                <button class="tab-btn" data-tab="carousel-settings">Carousel</button>
                 <button class="tab-btn" data-tab="security-settings">Keamanan</button>
+                <button class="tab-btn" data-tab="backup-settings">Backup & Reset</button>
             </div>
             
             <div class="tab-content active" id="qris-settings">
                 <div class="form-group">
-                    <label for="merchantName">Nama Merchant</label>
-                    <input type="text" id="merchantName" placeholder="Nama Merchant">
+                    <label for="merchantName">Nama Merchant *</label>
+                    <input type="text" id="merchantName" placeholder="Nama Merchant" required>
+                    <div class="error-message" id="merchantNameError">Nama merchant harus diisi</div>
                 </div>
 
                 <div class="form-group">
-                    <label for="qrisStaticCode">Kode QRIS Statis</label>
-                    <textarea class="text-input" id="qrisStaticCode" placeholder="Tempel Kode QRIS statis di sini..." rows="4"></textarea>
+                    <label for="qrisStaticCode">Kode QRIS Statis *</label>
+                    <textarea class="text-input" id="qrisStaticCode" placeholder="Tempel Kode QRIS statis di sini..." rows="4" required></textarea>
+                    <div class="error-message" id="qrisStaticCodeError">Kode QRIS statis harus diisi</div>
                 </div>
                 
-                <button class="clear-button" id="resetQrisButton">Reset QRIS</button>
+                <div class="drop-area" id="qrisDropArea">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>Drag & drop gambar QRIS di sini atau klik untuk memilih file</p>
+                    <input type="file" id="qrisInput" accept="image/*" style="display: none;">
+                </div>
+                
+                <div class="qris-preview" id="qrisPreview" style="display: none;">
+                    <p>Preview QRIS:</p>
+                    <img id="qrisPreviewImg" src="" alt="QRIS Preview">
+                </div>
+                
+                <div class="button-group">
+                    <button class="clear-button" id="resetQrisButton">Reset QRIS</button>
+                    <button class="save-button" id="saveQrisButton">Simpan Pengaturan QRIS</button>
+                </div>
             </div>
             
             <div class="tab-content" id="text-settings">
                 <div class="form-group">
-                    <label for="headerTitleInput">Judul Halaman</label>
-                    <input type="text" id="headerTitleInput" placeholder="Judul Halaman">
+                    <label for="headerTitleInput">Judul Halaman *</label>
+                    <input type="text" id="headerTitleInput" placeholder="Judul Halaman" required>
+                    <div class="error-message" id="headerTitleError">Judul halaman harus diisi</div>
                 </div>
                 
                 <div class="form-group">
-                    <label for="headerSubtitleInput">Subjudul Halaman</label>
-                    <input type="text" id="headerSubtitleInput" placeholder="Subjudul Halaman">
+                    <label for="headerSubtitleInput">Subjudul Halaman *</label>
+                    <input type="text" id="headerSubtitleInput" placeholder="Subjudul Halaman" required>
+                    <div class="error-message" id="headerSubtitleError">Subjudul halaman harus diisi</div>
                 </div>
                 
                 <div class="form-group">
-                    <label for="footerTextInput">Teks Footer</label>
-                    <textarea id="footerTextInput" placeholder="Teks Footer" rows="2"></textarea>
+                    <label for="footerTextInput">Teks Footer *</label>
+                    <textarea id="footerTextInput" placeholder="Teks Footer" rows="2" required></textarea>
+                    <div class="error-message" id="footerTextError">Teks footer harus diisi</div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="reset-button" id="resetTextButton">Reset ke Default</button>
+                    <button class="save-button" id="saveTextButton">Simpan Pengaturan Teks</button>
+                </div>
+            </div>
+            
+            <div class="tab-content" id="carousel-settings">
+                <div class="form-group">
+                    <label>Gambar Carousel</label>
+                    <p style="font-size: 0.875rem; color: #64748b; margin-bottom: 10px;">Upload gambar untuk ditampilkan di carousel beranda</p>
+                    <div class="drop-area" id="carouselDropArea">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Drag & drop gambar carousel di sini atau klik untuk memilih file</p>
+                        <input type="file" id="carouselInput" accept="image/*" style="display: none;" multiple>
+                    </div>
+                </div>
+                
+                <div class="carousel-preview" id="carouselPreview" style="display: none;">
+                    <p>Preview Carousel:</p>
+                    <div id="carouselPreviewImages"></div>
+                </div>
+                
+                <div class="button-group">
+                    <button class="clear-button" id="resetCarouselButton">Reset Carousel</button>
+                    <button class="save-button" id="saveCarouselButton">Simpan Pengaturan Carousel</button>
                 </div>
             </div>
             
             <div class="tab-content" id="security-settings">
                 <div class="form-group">
-                    <label for="currentPassword">Sandi Saat Ini</label>
-                    <input type="password" id="currentPassword" placeholder="Masukkan sandi saat ini">
+                    <label for="currentPassword">Sandi Saat Ini *</label>
+                    <input type="password" id="currentPassword" placeholder="Masukkan sandi saat ini" required>
+                    <div class="error-message" id="currentPasswordError">Sandi saat ini harus diisi</div>
                 </div>
                 
                 <div class="form-group">
-                    <label for="newPassword">Sandi Baru</label>
-                    <input type="password" id="newPassword" placeholder="Masukkan sandi baru (6 digit)">
+                    <label for="newPassword">Sandi Baru (6 digit) *</label>
+                    <input type="password" id="newPassword" placeholder="Masukkan sandi baru (6 digit)" maxlength="6" required>
+                    <div class="error-message" id="newPasswordError">Sandi baru harus 6 digit</div>
+                    <div class="password-strength" id="passwordStrength">
+                        <div class="password-strength-bar"></div>
+                    </div>
                 </div>
                 
                 <div class="form-group">
-                    <label for="confirmPassword">Konfirmasi Sandi Baru</label>
-                    <input type="password" id="confirmPassword" placeholder="Konfirmasi sandi baru">
+                    <label for="confirmPassword">Konfirmasi Sandi Baru *</label>
+                    <input type="password" id="confirmPassword" placeholder="Konfirmasi sandi baru" maxlength="6" required>
+                    <div class="error-message" id="confirmPasswordError">Konfirmasi sandi tidak sesuai</div>
                 </div>
                 
-                <button class="save-button" id="changePasswordButton">Ubah Sandi</button>
+                <div class="button-group">
+                    <button class="reset-button" id="resetPasswordButton">Reset Sandi ke Default</button>
+                    <button class="save-button" id="changePasswordButton">Ubah Sandi</button>
+                </div>
+                <div class="success-message" id="passwordSuccess">Sandi berhasil diubah!</div>
             </div>
             
-            <button class="save-button" id="saveButton">Simpan Pengaturan</button>
+            <div class="tab-content" id="backup-settings">
+                <div class="form-group">
+                    <label>Backup Data</label>
+                    <p style="font-size: 0.875rem; color: #64748b; margin-bottom: 10px;">Buat cadangan data aplikasi Anda</p>
+                    <div class="button-group">
+                        <button class="save-button" id="backupDataButton">Backup Data ke JSON</button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Restore Data</label>
+                    <p style="font-size: 0.875rem; color: #64748b; margin-bottom: 10px;">Pulihkan data dari file backup</p>
+                    <div class="drop-area" id="restoreDropArea">
+                        <i class="fas fa-file-import"></i>
+                        <p>Drag & drop file backup JSON di sini atau klik untuk memilih file</p>
+                        <input type="file" id="restoreInput" accept=".json" style="display: none;">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Reset Aplikasi</label>
+                    <p style="font-size: 0.875rem; color: #64748b; margin-bottom: 10px;">Hapus semua data dan reset ke pengaturan default</p>
+                    <div class="button-group">
+                        <button class="clear-button" id="resetAllButton">Reset Semua Data</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Modal Pembayaran - Diperbaiki ukuran dan tata letak -->
+    <!-- Modal Pembayaran -->
     <div class="payment-modal" id="paymentModal">
         <div class="payment-content">
             <div class="payment-header">
                 <div class="payment-time" id="paymentTime">17:05</div>
-                <div class="payment-close" id="closePaymentModal"><i class="fas fa-times"></i></div>
+                <div class="payment-close" id="closePaymentModal"><i class="fas fa-times"></i></button>
             </div>
             
             <div class="payment-title" id="paymentTitle">QRISku</div>
@@ -1249,6 +1644,7 @@
             savedHeaderSubtitle: localStorage.getItem('headerSubtitle') || 'Pembayaran QRIS Mudah dan Cepat',
             savedFooterText: localStorage.getItem('footerText') || '© 2025 QRISku - Pembayaran QRIS',
             savedQrisStaticCode: localStorage.getItem('qrisStaticCode') || '',
+            carouselImages: JSON.parse(localStorage.getItem('carouselImages')) || [],
             currentQrUrl: '',
             currentTransactionIdForConfirmation: null,
             phoneHistoryData: JSON.parse(localStorage.getItem('phoneHistory')) || [],
@@ -1266,7 +1662,10 @@
             calculatorPreviousInput: '',
             calculatorOperator: '',
             calculatorShouldResetDisplay: false,
-            calculatorHistory: JSON.parse(localStorage.getItem('calculatorHistory')) || []
+            calculatorHistory: JSON.parse(localStorage.getItem('calculatorHistory')) || [],
+            // State carousel
+            currentCarouselIndex: 0,
+            carouselInterval: null
         };
 
         // Helper functions
@@ -1321,6 +1720,172 @@
                     'sembako': 'Sembako', 'lainnya': 'Lainnya'
                 };
                 return categories[category] || 'Lainnya';
+            },
+            
+            showError: (elementId, message) => {
+                const errorElement = document.getElementById(elementId);
+                errorElement.textContent = message;
+                errorElement.style.display = 'block';
+            },
+            
+            hideError: (elementId) => {
+                const errorElement = document.getElementById(elementId);
+                errorElement.style.display = 'none';
+            },
+            
+            validateRequiredFields: (fields) => {
+                let isValid = true;
+                
+                fields.forEach(field => {
+                    if (!field.input.value.trim()) {
+                        helpers.showError(field.errorId, field.message);
+                        isValid = false;
+                    } else {
+                        helpers.hideError(field.errorId);
+                    }
+                });
+                
+                return isValid;
+            },
+            
+            checkPasswordStrength: (password) => {
+                let strength = 0;
+                
+                if (password.length >= 6) strength++;
+                if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength++;
+                if (password.match(/\d/)) strength++;
+                if (password.match(/[^a-zA-Z\d]/)) strength++;
+                
+                const passwordStrength = document.getElementById('passwordStrength');
+                passwordStrength.className = 'password-strength';
+                if (strength > 0) {
+                    if (strength < 2) passwordStrength.classList.add('weak');
+                    else if (strength < 4) passwordStrength.classList.add('medium');
+                    else passwordStrength.classList.add('strong');
+                }
+            }
+        };
+
+        // Fungsi Carousel
+        const carousel = {
+            init: () => {
+                carousel.render();
+                carousel.startAutoSlide();
+                
+                // Event listeners untuk navigasi carousel
+                document.getElementById('carouselPrev').addEventListener('click', carousel.prevSlide);
+                document.getElementById('carouselNext').addEventListener('click', carousel.nextSlide);
+                
+                // Touch events untuk swipe
+                const carouselElement = document.getElementById('carousel');
+                let startX = 0;
+                let endX = 0;
+                
+                carouselElement.addEventListener('touchstart', (e) => {
+                    startX = e.touches[0].clientX;
+                });
+                
+                carouselElement.addEventListener('touchmove', (e) => {
+                    endX = e.touches[0].clientX;
+                });
+                
+                carouselElement.addEventListener('touchend', () => {
+                    const diff = startX - endX;
+                    if (Math.abs(diff) > 50) { // Minimum swipe distance
+                        if (diff > 0) {
+                            carousel.nextSlide();
+                        } else {
+                            carousel.prevSlide();
+                        }
+                    }
+                });
+            },
+            
+            render: () => {
+                const carouselElement = document.getElementById('carousel');
+                const indicatorsElement = document.getElementById('carouselIndicators');
+                
+                carouselElement.innerHTML = '';
+                indicatorsElement.innerHTML = '';
+                
+                if (state.carouselImages.length === 0) {
+                    // Default slide jika tidak ada gambar
+                    const slide = document.createElement('div');
+                    slide.className = 'carousel-slide active';
+                    slide.innerHTML = `
+                        <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: white;">
+                            <div style="text-align: center;">
+                                <i class="fas fa-images" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                                <p>Upload gambar carousel di pengaturan</p>
+                            </div>
+                        </div>
+                    `;
+                    carouselElement.appendChild(slide);
+                    
+                    const indicator = document.createElement('span');
+                    indicator.className = 'carousel-indicator active';
+                    indicatorsElement.appendChild(indicator);
+                } else {
+                    state.carouselImages.forEach((image, index) => {
+                        const slide = document.createElement('div');
+                        slide.className = `carousel-slide ${index === state.currentCarouselIndex ? 'active' : ''}`;
+                        slide.innerHTML = `
+                            <img src="${image.url}" alt="Carousel Image ${index + 1}" class="carousel-image">
+                            <div class="carousel-overlay">
+                                <p>${image.title || 'Gambar Promosi'}</p>
+                            </div>
+                        `;
+                        carouselElement.appendChild(slide);
+                        
+                        const indicator = document.createElement('span');
+                        indicator.className = `carousel-indicator ${index === state.currentCarouselIndex ? 'active' : ''}`;
+                        indicator.addEventListener('click', () => carousel.goToSlide(index));
+                        indicatorsElement.appendChild(indicator);
+                    });
+                    
+                    carousel.updateCarouselPosition();
+                }
+            },
+            
+            nextSlide: () => {
+                state.currentCarouselIndex = (state.currentCarouselIndex + 1) % state.carouselImages.length;
+                carousel.render();
+            },
+            
+            prevSlide: () => {
+                state.currentCarouselIndex = state.currentCarouselIndex === 0 ? state.carouselImages.length - 1 : state.currentCarouselIndex - 1;
+                carousel.render();
+            },
+            
+            goToSlide: (index) => {
+                state.currentCarouselIndex = index;
+                carousel.render();
+            },
+            
+            updateCarouselPosition: () => {
+                const carouselElement = document.getElementById('carousel');
+                carouselElement.style.transform = `translateX(-${state.currentCarouselIndex * 100}%)`;
+            },
+            
+            startAutoSlide: () => {
+                // Hentikan interval sebelumnya jika ada
+                if (state.carouselInterval) {
+                    clearInterval(state.carouselInterval);
+                }
+                
+                // Mulai interval baru hanya jika ada lebih dari 1 gambar
+                if (state.carouselImages.length > 1) {
+                    state.carouselInterval = setInterval(() => {
+                        carousel.nextSlide();
+                    }, 5000); // Ganti slide setiap 5 detik
+                }
+            },
+            
+            stopAutoSlide: () => {
+                if (state.carouselInterval) {
+                    clearInterval(state.carouselInterval);
+                    state.carouselInterval = null;
+                }
             }
         };
 
@@ -1511,6 +2076,39 @@
                     `;
                     
                     transactionList.appendChild(transactionItem);
+                });
+                
+                // Juga update recent transactions di beranda
+                render.recentTransactions();
+            },
+            
+            recentTransactions: () => {
+                const recentTransactionsList = document.getElementById('recentTransactionsList');
+                recentTransactionsList.innerHTML = '';
+                
+                const confirmedTransactions = state.transactions
+                    .filter(t => t.status === 'success')
+                    .sort((a, b) => new Date(b.rawDate) - new Date(a.rawDate))
+                    .slice(0, 3); // Hanya ambil 3 transaksi terbaru
+                
+                if (confirmedTransactions.length === 0) {
+                    recentTransactionsList.innerHTML = '<div class="no-transactions">Belum ada transaksi yang berhasil</div>';
+                    return;
+                }
+                
+                confirmedTransactions.forEach(transaction => {
+                    const transactionCard = document.createElement('div');
+                    transactionCard.className = 'transaction-card';
+                    
+                    transactionCard.innerHTML = `
+                        <div class="transaction-header">
+                            <div class="transaction-id">${transaction.id}</div>
+                            <div class="transaction-date">${transaction.date}</div>
+                        </div>
+                        <div class="transaction-amount">Rp ${helpers.formatNumber(transaction.amount)}</div>
+                    `;
+                    
+                    recentTransactionsList.appendChild(transactionCard);
                 });
             },
             
@@ -1723,6 +2321,38 @@
                         <p>Masukkan kode QRIS statis di pengaturan</p>
                     `;
                 }
+            },
+            
+            carouselPreview: () => {
+                const carouselPreview = document.getElementById('carouselPreview');
+                const carouselPreviewImages = document.getElementById('carouselPreviewImages');
+                
+                carouselPreviewImages.innerHTML = '';
+                
+                if (state.carouselImages.length === 0) {
+                    carouselPreview.style.display = 'none';
+                    return;
+                }
+                
+                carouselPreview.style.display = 'block';
+                
+                state.carouselImages.forEach((image, index) => {
+                    const imgContainer = document.createElement('div');
+                    imgContainer.style.marginBottom = '10px';
+                    imgContainer.innerHTML = `
+                        <img src="${image.url}" alt="Carousel Preview ${index + 1}" style="max-width: 100px; height: auto; border-radius: 4px; margin-right: 10px;">
+                        <span>Gambar ${index + 1}</span>
+                        <button class="clear-button" data-index="${index}" style="padding: 4px 8px; margin-left: 10px;">Hapus</button>
+                    `;
+                    
+                    imgContainer.querySelector('button').addEventListener('click', (e) => {
+                        const indexToRemove = parseInt(e.target.getAttribute('data-index'));
+                        state.carouselImages.splice(indexToRemove, 1);
+                        settings.saveCarouselSettings();
+                    });
+                    
+                    carouselPreviewImages.appendChild(imgContainer);
+                });
             }
         };
 
@@ -1755,6 +2385,9 @@
                     render.shoppingList();
                 } else if (pageId === 'calculatorPage') {
                     calculator.renderHistory();
+                } else if (pageId === 'homePage') {
+                    render.recentTransactions();
+                    carousel.init();
                 }
             }
         };
@@ -1777,15 +2410,258 @@
             }
         };
 
+        // Fungsi pengaturan
+        const settings = {
+            initializeSettings: () => {
+                // Set nilai default
+                document.getElementById('merchantName').value = state.savedMerchant;
+                document.getElementById('headerTitleInput').value = state.savedHeaderTitle;
+                document.getElementById('headerSubtitleInput').value = state.savedHeaderSubtitle;
+                document.getElementById('footerTextInput').value = state.savedFooterText;
+                document.getElementById('qrisStaticCode').value = state.savedQrisStaticCode;
+                
+                if (state.savedQrisImage) {
+                    document.getElementById('qrisPreview').style.display = 'block';
+                    document.getElementById('qrisPreviewImg').src = state.savedQrisImage;
+                }
+                
+                render.carouselPreview();
+            },
+            
+            saveQrisSettings: () => {
+                const fields = [
+                    { input: document.getElementById('merchantName'), errorId: 'merchantNameError', message: 'Nama merchant harus diisi' },
+                    { input: document.getElementById('qrisStaticCode'), errorId: 'qrisStaticCodeError', message: 'Kode QRIS statis harus diisi' }
+                ];
+                
+                if (!helpers.validateRequiredFields(fields)) return;
+                
+                state.savedMerchant = document.getElementById('merchantName').value.trim();
+                state.savedQrisStaticCode = document.getElementById('qrisStaticCode').value.trim();
+                
+                localStorage.setItem('merchantName', state.savedMerchant);
+                localStorage.setItem('qrisStaticCode', state.savedQrisStaticCode);
+                
+                if (state.savedQrisImage) {
+                    localStorage.setItem('qrisImage', state.savedQrisImage);
+                }
+                
+                // Update tampilan
+                document.getElementById('paymentMerchant').textContent = state.savedMerchant;
+                
+                alert('Pengaturan QRIS berhasil disimpan!');
+            },
+            
+            saveTextSettings: () => {
+                const fields = [
+                    { input: document.getElementById('headerTitleInput'), errorId: 'headerTitleError', message: 'Judul halaman harus diisi' },
+                    { input: document.getElementById('headerSubtitleInput'), errorId: 'headerSubtitleError', message: 'Subjudul halaman harus diisi' },
+                    { input: document.getElementById('footerTextInput'), errorId: 'footerTextError', message: 'Teks footer harus diisi' }
+                ];
+                
+                if (!helpers.validateRequiredFields(fields)) return;
+                
+                state.savedHeaderTitle = document.getElementById('headerTitleInput').value.trim();
+                state.savedHeaderSubtitle = document.getElementById('headerSubtitleInput').value.trim();
+                state.savedFooterText = document.getElementById('footerTextInput').value.trim();
+                
+                localStorage.setItem('headerTitle', state.savedHeaderTitle);
+                localStorage.setItem('headerSubtitle', state.savedHeaderSubtitle);
+                localStorage.setItem('footerText', state.savedFooterText);
+                
+                // Update tampilan
+                document.getElementById('headerTitle').textContent = state.savedHeaderTitle;
+                document.getElementById('headerSubtitle').textContent = state.savedHeaderSubtitle;
+                document.getElementById('footerText').textContent = state.savedFooterText;
+                document.getElementById('paymentTitle').textContent = state.savedHeaderTitle;
+                
+                alert('Pengaturan teks berhasil disimpan!');
+            },
+            
+            saveCarouselSettings: () => {
+                localStorage.setItem('carouselImages', JSON.stringify(state.carouselImages));
+                render.carouselPreview();
+                carousel.init();
+                alert('Pengaturan carousel berhasil disimpan!');
+            },
+            
+            changePassword: () => {
+                const fields = [
+                    { input: document.getElementById('currentPassword'), errorId: 'currentPasswordError', message: 'Sandi saat ini harus diisi' },
+                    { input: document.getElementById('newPassword'), errorId: 'newPasswordError', message: 'Sandi baru harus 6 digit' },
+                    { input: document.getElementById('confirmPassword'), errorId: 'confirmPasswordError', message: 'Konfirmasi sandi harus diisi' }
+                ];
+                
+                if (!helpers.validateRequiredFields(fields)) return;
+                
+                if (document.getElementById('currentPassword').value !== state.appPassword) {
+                    helpers.showError('currentPasswordError', 'Sandi saat ini tidak benar');
+                    return;
+                }
+                
+                if (document.getElementById('newPassword').value.length !== 6) {
+                    helpers.showError('newPasswordError', 'Sandi baru harus 6 digit');
+                    return;
+                }
+                
+                if (document.getElementById('newPassword').value !== document.getElementById('confirmPassword').value) {
+                    helpers.showError('confirmPasswordError', 'Konfirmasi sandi tidak sesuai');
+                    return;
+                }
+                
+                state.appPassword = document.getElementById('newPassword').value;
+                localStorage.setItem('appPassword', state.appPassword);
+                
+                document.getElementById('passwordSuccess').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('passwordSuccess').style.display = 'none';
+                }, 3000);
+                
+                document.getElementById('currentPassword').value = '';
+                document.getElementById('newPassword').value = '';
+                document.getElementById('confirmPassword').value = '';
+                document.getElementById('passwordStrength').className = 'password-strength';
+            },
+            
+            backupData: () => {
+                const data = {
+                    merchantName: state.savedMerchant,
+                    headerTitle: state.savedHeaderTitle,
+                    headerSubtitle: state.savedHeaderSubtitle,
+                    footerText: state.savedFooterText,
+                    qrisStaticCode: state.savedQrisStaticCode,
+                    qrisImage: state.savedQrisImage,
+                    carouselImages: state.carouselImages,
+                    appPassword: state.appPassword,
+                    phoneHistory: state.phoneHistoryData,
+                    transactions: state.transactions,
+                    debts: state.debts,
+                    inventory: state.inventory,
+                    calculatorHistory: state.calculatorHistory,
+                    backupDate: new Date().toISOString()
+                };
+                
+                const dataStr = JSON.stringify(data, null, 2);
+                const blob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `qrisku-backup-${new Date().toISOString().split('T')[0]}.json`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                alert('Backup data berhasil dibuat!');
+            },
+            
+            restoreData: (file) => {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    try {
+                        const data = JSON.parse(event.target.result);
+                        
+                        if (confirm('Apakah Anda yakin ingin memulihkan data dari backup? Data saat ini akan diganti.')) {
+                            if (data.merchantName) {
+                                state.savedMerchant = data.merchantName;
+                                localStorage.setItem('merchantName', data.merchantName);
+                            }
+                            
+                            if (data.headerTitle) {
+                                state.savedHeaderTitle = data.headerTitle;
+                                localStorage.setItem('headerTitle', data.headerTitle);
+                            }
+                            
+                            if (data.headerSubtitle) {
+                                state.savedHeaderSubtitle = data.headerSubtitle;
+                                localStorage.setItem('headerSubtitle', data.headerSubtitle);
+                            }
+                            
+                            if (data.footerText) {
+                                state.savedFooterText = data.footerText;
+                                localStorage.setItem('footerText', data.footerText);
+                            }
+                            
+                            if (data.qrisStaticCode) {
+                                state.savedQrisStaticCode = data.qrisStaticCode;
+                                localStorage.setItem('qrisStaticCode', data.qrisStaticCode);
+                            }
+                            
+                            if (data.qrisImage) {
+                                state.savedQrisImage = data.qrisImage;
+                                localStorage.setItem('qrisImage', data.qrisImage);
+                            }
+                            
+                            if (data.carouselImages) {
+                                state.carouselImages = data.carouselImages;
+                                localStorage.setItem('carouselImages', JSON.stringify(data.carouselImages));
+                            }
+                            
+                            if (data.appPassword) {
+                                state.appPassword = data.appPassword;
+                                localStorage.setItem('appPassword', data.appPassword);
+                            }
+                            
+                            if (data.phoneHistory) {
+                                state.phoneHistoryData = data.phoneHistory;
+                                localStorage.setItem('phoneHistory', JSON.stringify(data.phoneHistory));
+                            }
+                            
+                            if (data.transactions) {
+                                state.transactions = data.transactions;
+                                localStorage.setItem('transactions', JSON.stringify(data.transactions));
+                            }
+                            
+                            if (data.debts) {
+                                state.debts = data.debts;
+                                localStorage.setItem('debts', JSON.stringify(data.debts));
+                            }
+                            
+                            if (data.inventory) {
+                                state.inventory = data.inventory;
+                                localStorage.setItem('inventory', JSON.stringify(data.inventory));
+                            }
+                            
+                            if (data.calculatorHistory) {
+                                state.calculatorHistory = data.calculatorHistory;
+                                localStorage.setItem('calculatorHistory', JSON.stringify(data.calculatorHistory));
+                            }
+                            
+                            // Refresh tampilan
+                            settings.initializeSettings();
+                            render.phoneHistory();
+                            render.transactions();
+                            render.debts();
+                            render.inventory();
+                            render.shoppingList();
+                            calculator.renderHistory();
+                            carousel.init();
+                            
+                            alert('Data berhasil dipulihkan dari backup!');
+                        }
+                    } catch (error) {
+                        alert('Terjadi kesalahan saat membaca file backup: ' + error.message);
+                    }
+                };
+                reader.readAsText(file);
+            },
+            
+            resetAllData: () => {
+                if (confirm('PERINGATAN: Apakah Anda yakin ingin mereset semua data? Tindakan ini tidak dapat dibatalkan!')) {
+                    if (confirm('Semua data akan dihapus dan aplikasi akan dikembalikan ke pengaturan default. Lanjutkan?')) {
+                        localStorage.clear();
+                        alert('Semua data telah direset. Halaman akan dimuat ulang.');
+                        location.reload();
+                    }
+                }
+            }
+        };
+
         // Inisialisasi aplikasi
         const initializeApp = () => {
             // Set nilai default
-            document.getElementById('merchantName').value = state.savedMerchant;
-            document.getElementById('headerTitleInput').value = state.savedHeaderTitle;
-            document.getElementById('headerSubtitleInput').value = state.savedHeaderSubtitle;
-            document.getElementById('footerTextInput').value = state.savedFooterText;
-            document.getElementById('qrisStaticCode').value = state.savedQrisStaticCode;
+            settings.initializeSettings();
             
+            // Update tampilan
             document.getElementById('paymentMerchant').textContent = state.savedMerchant;
             document.getElementById('headerTitle').textContent = state.savedHeaderTitle;
             document.getElementById('headerSubtitle').textContent = state.savedHeaderSubtitle;
@@ -1800,6 +2676,7 @@
             render.inventory();
             render.shoppingList();
             calculator.renderHistory();
+            carousel.init();
             
             // Update waktu
             helpers.updateTime();
@@ -1871,6 +2748,118 @@
                     }, 2000);
                 }
             });
+            
+            // Pengaturan tabs
+            document.querySelectorAll('.settings-tabs .tab-btn').forEach(tabBtn => {
+                tabBtn.addEventListener('click', () => {
+                    const tabId = tabBtn.getAttribute('data-tab');
+                    
+                    document.querySelectorAll('.settings-tabs .tab-btn').forEach(btn => btn.classList.remove('active'));
+                    document.querySelectorAll('#settingsModal .tab-content').forEach(content => content.classList.remove('active'));
+                    
+                    tabBtn.classList.add('active');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // Pengaturan QRIS
+            document.getElementById('qrisDropArea').addEventListener('click', () => {
+                document.getElementById('qrisInput').click();
+            });
+            
+            document.getElementById('qrisInput').addEventListener('change', (e) => {
+                if (e.target.files.length) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        state.savedQrisImage = event.target.result;
+                        document.getElementById('qrisPreview').style.display = 'block';
+                        document.getElementById('qrisPreviewImg').src = state.savedQrisImage;
+                    };
+                    reader.readAsDataURL(e.target.files[0]);
+                }
+            });
+            
+            document.getElementById('resetQrisButton').addEventListener('click', () => {
+                if (confirm('Apakah Anda yakin ingin menghapus gambar QRIS?')) {
+                    state.savedQrisImage = '';
+                    document.getElementById('qrisPreview').style.display = 'none';
+                }
+            });
+            
+            document.getElementById('saveQrisButton').addEventListener('click', settings.saveQrisSettings);
+            
+            // Pengaturan teks
+            document.getElementById('resetTextButton').addEventListener('click', () => {
+                if (confirm('Apakah Anda yakin ingin mengembalikan teks ke default?')) {
+                    document.getElementById('headerTitleInput').value = 'QRISku';
+                    document.getElementById('headerSubtitleInput').value = 'Pembayaran QRIS Mudah dan Cepat';
+                    document.getElementById('footerTextInput').value = '© 2025 QRISku - Pembayaran QRIS';
+                }
+            });
+            
+            document.getElementById('saveTextButton').addEventListener('click', settings.saveTextSettings);
+            
+            // Pengaturan carousel
+            document.getElementById('carouselDropArea').addEventListener('click', () => {
+                document.getElementById('carouselInput').click();
+            });
+            
+            document.getElementById('carouselInput').addEventListener('change', (e) => {
+                if (e.target.files.length) {
+                    const files = Array.from(e.target.files);
+                    files.forEach(file => {
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            state.carouselImages.push({
+                                url: event.target.result,
+                                title: file.name.replace(/\.[^/.]+$/, "") // Hapus ekstensi file
+                            });
+                            render.carouselPreview();
+                        };
+                        reader.readAsDataURL(file);
+                    });
+                }
+            });
+            
+            document.getElementById('resetCarouselButton').addEventListener('click', () => {
+                if (confirm('Apakah Anda yakin ingin menghapus semua gambar carousel?')) {
+                    state.carouselImages = [];
+                    settings.saveCarouselSettings();
+                }
+            });
+            
+            document.getElementById('saveCarouselButton').addEventListener('click', settings.saveCarouselSettings);
+            
+            // Pengaturan keamanan
+            document.getElementById('newPassword').addEventListener('input', () => {
+                helpers.checkPasswordStrength(document.getElementById('newPassword').value);
+            });
+            
+            document.getElementById('resetPasswordButton').addEventListener('click', () => {
+                if (confirm('Apakah Anda yakin ingin mengembalikan sandi ke default (131313)?')) {
+                    state.appPassword = '131313';
+                    localStorage.setItem('appPassword', state.appPassword);
+                    alert('Sandi telah direset ke default: 131313');
+                }
+            });
+            
+            document.getElementById('changePasswordButton').addEventListener('click', settings.changePassword);
+            
+            // Backup & restore
+            document.getElementById('backupDataButton').addEventListener('click', settings.backupData);
+            
+            document.getElementById('restoreDropArea').addEventListener('click', () => {
+                document.getElementById('restoreInput').click();
+            });
+            
+            document.getElementById('restoreInput').addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    settings.restoreData(file);
+                }
+            });
+            
+            document.getElementById('resetAllButton').addEventListener('click', settings.resetAllData);
             
             // Keypad beranda
             document.querySelectorAll('#homePage .key[data-value]').forEach(key => {
@@ -2000,9 +2989,8 @@
                         document.getElementById('paymentModal').style.display = 'none';
                         state.currentTransactionIdForConfirmation = null;
 
-                        if (document.getElementById('financePage').classList.contains('active')) {
-                            render.transactions();
-                        }
+                        // Update tampilan transaksi
+                        render.transactions();
                     }
                 }
             });
@@ -2021,6 +3009,11 @@
             
             document.getElementById('closePayment').addEventListener('click', () => {
                 document.getElementById('paymentModal').style.display = 'none';
+            });
+            
+            // Tutup modal pengaturan
+            document.getElementById('closeSettings').addEventListener('click', () => {
+                document.getElementById('settingsModal').style.display = 'none';
             });
         });
     </script>
