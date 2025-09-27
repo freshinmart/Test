@@ -1,4 +1,3 @@
-<html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -32,25 +31,29 @@
             color: #1e293b;
             line-height: 1.5;
             position: relative;
-        }
-
-        /* Container */
-        .container {
-            max-width: 480px;
-            margin: 0 auto;
-            height: 100vh;
             display: flex;
             flex-direction: column;
-            padding: 16px;
-            padding-bottom: 72px;
+        }
+
+        /* Container - Diperbaiki untuk mobile */
+        .container {
+            width: 100%;
+            max-width: 100%;
+            margin: 0 auto;
+            min-height: 100vh;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            padding: 12px;
+            padding-bottom: 80px; /* Space untuk bottom nav */
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
             background-color: #ffffff;
-            border-radius: 16px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            flex: 1;
         }
 
-        /* Header */
+        /* Header - Diperbaiki ukuran untuk mobile */
         header {
             text-align: center;
             margin-bottom: 16px;
@@ -61,27 +64,31 @@
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
             flex-shrink: 0;
             position: relative;
+            width: 100%;
         }
 
         header h1 {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 600;
             margin-bottom: 4px;
+            padding: 0 40px; /* Space untuk tombol */
         }
 
         header p {
-            font-size: 0.875rem;
+            font-size: 0.8rem;
             opacity: 0.85;
             font-weight: 400;
+            padding: 0 20px;
         }
 
         .profile-btn, .fullscreen-btn {
             position: absolute;
-            top: 12px;
+            top: 50%;
+            transform: translateY(-50%);
             background: rgba(255, 255, 255, 0.15);
             border: none;
             color: #ffffff;
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             cursor: pointer;
             width: 36px;
             height: 36px;
@@ -100,12 +107,7 @@
             left: 12px;
         }
 
-        .profile-btn:hover, .fullscreen-btn:hover {
-            background-color: rgba(255, 255, 255, 0.25);
-            transform: scale(1.05);
-        }
-
-        /* Input Section - Beranda (Keypad lebih kecil) */
+        /* Input Section - Diperbaiki untuk mobile */
         .input-section {
             margin-bottom: 16px;
             background-color: #ffffff;
@@ -116,13 +118,13 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
+            min-height: 300px; /* Minimum height untuk konten */
         }
 
         .input-section h3 {
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             color: #1e293b;
-            font-size: 0.9rem;
+            font-size: 1rem;
             font-weight: 500;
             text-align: center;
             flex-shrink: 0;
@@ -130,36 +132,36 @@
 
         .amount-display, .phone-display, .calculator-display {
             text-align: right;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             font-weight: 600;
-            margin-bottom: 10px;
-            padding: 10px;
+            margin-bottom: 12px;
+            padding: 12px;
             background-color: #f1f5f9;
             border-radius: 8px;
             border: 1px solid #e2e8f0;
             color: #1e293b;
-            min-height: 50px;
+            min-height: 60px;
             display: flex;
             align-items: center;
             justify-content: flex-end;
             word-break: break-all;
             flex-shrink: 0;
+            width: 100%;
         }
 
-        /* Keypads - Beranda (Keypad lebih kecil) */
+        /* Keypads - Diperbaiki untuk mobile */
         .numeric-keypad-container {
             flex: 1;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
+            min-height: 200px; /* Minimum height untuk keypad */
         }
 
         .numeric-keypad {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 6px;
+            gap: 8px;
             flex: 1;
-            min-height: 0;
         }
 
         .calculator-keypad {
@@ -167,24 +169,24 @@
             grid-template-columns: repeat(4, 1fr);
             gap: 8px;
             flex: 1;
-            min-height: 0;
         }
 
         .key {
-            padding: 8px;
+            padding: 12px 8px;
             background: linear-gradient(145deg, #ffffff, #f1f5f9);
             color: #1e293b;
             border: 1px solid #e2e8f0;
-            border-radius: 6px;
-            font-size: 1rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s ease;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            min-height: 40px;
+            min-height: 50px;
             display: flex;
             align-items: center;
             justify-content: center;
+            aspect-ratio: 1; /* Membuat tombol persegi */
         }
 
         .operator-key {
@@ -213,24 +215,25 @@
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
         }
 
-        /* Action Buttons */
+        /* Action Buttons - Diperbaiki ukuran */
         .action-buttons {
             display: grid;
             grid-template-columns: 2fr 1fr;
-            gap: 6px;
-            margin-top: 10px;
+            gap: 8px;
+            margin-top: 12px;
             flex-shrink: 0;
         }
 
         .convert-button, .clear-button, .save-button, .confirm-payment {
-            padding: 8px;
-            border-radius: 6px;
-            font-size: 0.875rem;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 1rem;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s ease;
             border: none;
             width: 100%;
+            min-height: 44px;
         }
 
         .convert-button, .save-button {
@@ -265,7 +268,7 @@
             transform: translateY(-1px);
         }
 
-        /* Navigation */
+        /* Navigation - Diperbaiki posisi */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -275,7 +278,7 @@
             display: flex;
             justify-content: space-around;
             padding: 8px 0;
-            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
             z-index: 999;
             border-top: 1px solid #e2e8f0;
         }
@@ -292,7 +295,8 @@
             cursor: pointer;
             transition: color 0.2s ease, transform 0.2s ease;
             flex: 1;
-            padding: 8px;
+            padding: 8px 4px;
+            min-height: 60px;
         }
 
         .nav-btn.active {
@@ -311,10 +315,10 @@
 
         .inventory-btn {
             position: fixed;
-            bottom: 80px;
+            bottom: 70px;
             right: 16px;
-            width: 48px;
-            height: 48px;
+            width: 50px;
+            height: 50px;
             background: linear-gradient(135deg, #1e3a8a, #3b82f6);
             color: #ffffff;
             border: none;
@@ -334,12 +338,13 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
-        /* Pages */
+        /* Pages - Diperbaiki layout */
         .page {
             display: none;
             animation: fadeIn 0.3s ease;
-            height: 100%;
+            min-height: calc(100vh - 140px);
             flex-direction: column;
+            width: 100%;
         }
 
         .page.active {
@@ -380,7 +385,7 @@
             display: block;
         }
 
-        /* Modal - Diperbaiki ukuran dan scroll */
+        /* Modal - Diperbaiki untuk mobile */
         .settings-modal, .payment-modal, .pulsa-modal, .password-modal, .debt-edit-modal, .inventory-edit-modal {
             display: none;
             position: fixed;
@@ -388,12 +393,13 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.4);
+            background-color: rgba(0, 0, 0, 0.5);
             z-index: 1000;
             justify-content: center;
-            align-items: center;
-            padding: 16px;
+            align-items: flex-start; /* Diubah dari center ke flex-start */
+            padding: 20px 16px;
             animation: fadeIn 0.3s ease;
+            overflow-y: auto;
         }
 
         .settings-content, .payment-content, .pulsa-content, .password-content, .debt-edit-content, .inventory-edit-content {
@@ -401,22 +407,21 @@
             padding: 20px;
             border-radius: 12px;
             width: 100%;
-            max-width: 400px;
+            max-width: 100%;
             max-height: 90vh;
             overflow-y: auto;
             position: relative;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             animation: slideUp 0.3s ease;
+            margin-top: 20px; /* Memberi jarak dari atas */
         }
 
-        /* Modal Pembayaran - Diperbaiki ukuran dan tata letak */
+        /* Modal Pembayaran - Diperbaiki untuk mobile */
         .payment-content {
-            max-width: 320px;
-            max-height: 85vh;
+            max-width: 100%;
+            max-height: 95vh;
             padding: 15px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
+            overflow-y: auto;
         }
 
         .payment-header {
@@ -463,9 +468,9 @@
         }
 
         .payment-qr img {
-            width: 180px;
-            height: 180px;
-            max-width: 100%;
+            width: 200px;
+            height: 200px;
+            max-width: 80%;
             border-radius: 8px;
             border: 1px solid #e2e8f0;
         }
@@ -509,9 +514,9 @@
             color: #1e293b;
         }
 
-        /* Form Elements */
+        /* Form Elements - Diperbaiki untuk mobile */
         .form-group {
-            margin-bottom: 12px;
+            margin-bottom: 16px;
         }
 
         .form-group label {
@@ -524,10 +529,10 @@
 
         .form-group input, .form-group textarea, .form-group select {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             border: 1px solid #e2e8f0;
             border-radius: 8px;
-            font-size: 0.9375rem;
+            font-size: 1rem;
             color: #1e293b;
             background-color: #f8fafc;
             transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -550,17 +555,19 @@
             position: relative;
         }
 
-        /* Kalkulator - Riwayat dipisahkan */
+        /* Kalkulator - Diperbaiki layout untuk mobile */
         .calculator-container {
             display: flex;
             flex-direction: column;
-            height: 100%;
+            height: auto;
+            min-height: 400px;
         }
 
         .calculator-main {
             display: flex;
+            flex-direction: column;
+            gap: 15px;
             flex: 1;
-            gap: 10px;
         }
 
         .calculator-display-section {
@@ -573,7 +580,7 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            max-height: 300px;
+            max-height: 200px;
         }
 
         .calculator-history {
@@ -581,8 +588,9 @@
             overflow-y: auto;
             border: 1px solid #e2e8f0;
             border-radius: 8px;
-            padding: 8px;
+            padding: 10px;
             background-color: #f8fafc;
+            min-height: 150px;
         }
 
         .calculator-history-title {
@@ -613,27 +621,12 @@
         /* Footer */
         footer {
             text-align: center;
-            margin-top: 24px;
+            margin-top: 20px;
             padding: 12px;
             color: #64748b;
             font-size: 0.75rem;
             flex-shrink: 0;
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes slideUp {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            width: 100%;
         }
 
         /* Loading */
@@ -655,75 +648,160 @@
             margin-bottom: 12px;
         }
 
-        /* Responsive */
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive improvements untuk layar sangat kecil */
         @media (max-width: 360px) {
             .container {
-                padding: 12px;
-                padding-bottom: 64px;
+                padding: 10px;
+                padding-bottom: 70px;
             }
+            
             header {
+                padding: 10px 12px;
+            }
+            
+            header h1 {
+                font-size: 1.2rem;
+                padding: 0 35px;
+            }
+            
+            header p {
+                font-size: 0.75rem;
+                padding: 0 15px;
+            }
+            
+            .profile-btn, .fullscreen-btn {
+                width: 32px;
+                height: 32px;
+                font-size: 1rem;
+            }
+            
+            .amount-display, .phone-display, .calculator-display {
+                font-size: 1.2rem;
+                min-height: 50px;
                 padding: 10px;
             }
-            header h1 {
-                font-size: 1.25rem;
-            }
-            .amount-display, .phone-display, .calculator-display {
-                font-size: 1.3rem;
-                min-height: 45px;
-                padding: 8px;
-            }
+            
             .key {
-                padding: 6px;
-                font-size: 0.9rem;
-                min-height: 35px;
+                padding: 10px 6px;
+                font-size: 1rem;
+                min-height: 45px;
             }
+            
             .numeric-keypad, .calculator-keypad {
-                gap: 4px;
+                gap: 6px;
             }
+            
             .input-section {
                 padding: 10px;
             }
-            .input-section h3 {
-                font-size: 0.85rem;
-            }
+            
             .nav-btn {
-                font-size: 0.6875rem;
+                font-size: 0.7rem;
+                padding: 6px 2px;
             }
+            
             .nav-btn i {
-                font-size: 1.125rem;
+                font-size: 1.1rem;
             }
+            
             .inventory-btn {
-                bottom: 72px;
+                bottom: 65px;
                 right: 12px;
-                width: 44px;
-                height: 44px;
-                font-size: 1.125rem;
+                width: 45px;
+                height: 45px;
+                font-size: 1.1rem;
             }
-            .payment-content {
-                max-width: 300px;
-                padding: 12px;
-            }
+            
             .payment-qr img {
-                width: 160px;
-                height: 160px;
-            }
-            .calculator-main {
-                flex-direction: column;
-            }
-            .calculator-history-section {
-                max-height: 200px;
+                width: 180px;
+                height: 180px;
             }
         }
 
-        /* Fullscreen */
+        @media (max-height: 600px) {
+            .input-section {
+                min-height: 250px;
+            }
+            
+            .numeric-keypad-container {
+                min-height: 150px;
+            }
+            
+            .key {
+                min-height: 40px;
+                padding: 8px 4px;
+            }
+            
+            header h1 {
+                font-size: 1.1rem;
+            }
+            
+            header p {
+                font-size: 0.7rem;
+            }
+        }
+
+        /* Landscape mode improvements */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .container {
+                padding-bottom: 70px;
+            }
+            
+            .page {
+                min-height: auto;
+            }
+            
+            .input-section {
+                min-height: 200px;
+            }
+            
+            .numeric-keypad-container {
+                min-height: 120px;
+            }
+        }
+
+        /* Fullscreen improvements */
         body:fullscreen {
             background-color: #f8fafc;
         }
-        
+
         body:fullscreen .container {
             max-width: 100%;
             border-radius: 0;
             box-shadow: none;
+            height: 100vh;
+        }
+
+        /* Pastikan konten tidak terpotong saat keyboard muncul */
+        @media (max-height: 500px) {
+            .container {
+                padding-bottom: 60px;
+            }
+            
+            .bottom-nav {
+                padding: 6px 0;
+            }
+            
+            .nav-btn {
+                min-height: 50px;
+                padding: 4px 2px;
+            }
         }
     </style>
 </head>
