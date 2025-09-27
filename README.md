@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -22,7 +23,7 @@
 
         html, body {
             height: 100%;
-            overflow: hidden;
+            overflow: auto;
             margin: 0;
             background-color: #f8fafc;
         }
@@ -35,7 +36,7 @@
             flex-direction: column;
         }
 
-        /* Container - Diperbaiki untuk mobile */
+        /* Container - Diperbaiki untuk scroll */
         .container {
             width: 100%;
             max-width: 100%;
@@ -47,6 +48,7 @@
             padding: 12px;
             padding-bottom: 80px; /* Space untuk bottom nav */
             overflow-y: auto;
+            overflow-x: hidden;
             -webkit-overflow-scrolling: touch;
             background-color: #ffffff;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
@@ -107,7 +109,7 @@
             left: 12px;
         }
 
-        /* Input Section - Diperbaiki untuk mobile */
+        /* Input Section - Diperbaiki untuk mobile dengan scroll */
         .input-section {
             margin-bottom: 16px;
             background-color: #ffffff;
@@ -115,10 +117,10 @@
             border-radius: 12px;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
             border: 1px solid #e2e8f0;
-            flex: 1;
             display: flex;
             flex-direction: column;
-            min-height: 300px; /* Minimum height untuk konten */
+            min-height: auto;
+            flex: 1;
         }
 
         .input-section h3 {
@@ -149,12 +151,12 @@
             width: 100%;
         }
 
-        /* Keypads - Diperbaiki untuk mobile */
+        /* Keypads - Diperbaiki untuk mobile dengan tombol besar */
         .numeric-keypad-container {
             flex: 1;
             display: flex;
             flex-direction: column;
-            min-height: 200px; /* Minimum height untuk keypad */
+            min-height: 250px; /* Minimum height untuk keypad lebih besar */
         }
 
         .numeric-keypad {
@@ -172,17 +174,17 @@
         }
 
         .key {
-            padding: 12px 8px;
+            padding: 15px 8px;
             background: linear-gradient(145deg, #ffffff, #f1f5f9);
             color: #1e293b;
             border: 1px solid #e2e8f0;
             border-radius: 8px;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s ease;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            min-height: 50px;
+            min-height: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -215,25 +217,25 @@
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
         }
 
-        /* Action Buttons - Diperbaiki ukuran */
+        /* Action Buttons - Diperbaiki ukuran dan posisi */
         .action-buttons {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
+            display: flex;
+            flex-direction: column;
             gap: 8px;
             margin-top: 12px;
             flex-shrink: 0;
         }
 
         .convert-button, .clear-button, .save-button, .confirm-payment {
-            padding: 12px;
+            padding: 14px;
             border-radius: 8px;
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s ease;
             border: none;
             width: 100%;
-            min-height: 44px;
+            min-height: 50px;
         }
 
         .convert-button, .save-button {
@@ -338,13 +340,15 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
-        /* Pages - Diperbaiki layout */
+        /* Pages - Diperbaiki layout untuk scroll */
         .page {
             display: none;
             animation: fadeIn 0.3s ease;
             min-height: calc(100vh - 140px);
             flex-direction: column;
             width: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
         }
 
         .page.active {
@@ -386,7 +390,7 @@
         }
 
         /* Modal - Diperbaiki untuk mobile */
-        .settings-modal, .payment-modal, .pulsa-modal, .password-modal, .debt-edit-modal, .inventory-edit-modal {
+        .settings-modal, .payment-modal, .pulsa-modal, .password-modal, .debt-edit-modal, .inventory-edit-modal, .debt-detail-modal {
             display: none;
             position: fixed;
             top: 0;
@@ -396,13 +400,13 @@
             background-color: rgba(0, 0, 0, 0.5);
             z-index: 1000;
             justify-content: center;
-            align-items: flex-start; /* Diubah dari center ke flex-start */
+            align-items: flex-start;
             padding: 20px 16px;
             animation: fadeIn 0.3s ease;
             overflow-y: auto;
         }
 
-        .settings-content, .payment-content, .pulsa-content, .password-content, .debt-edit-content, .inventory-edit-content {
+        .settings-content, .payment-content, .pulsa-content, .password-content, .debt-edit-content, .inventory-edit-content, .debt-detail-content {
             background: #ffffff;
             padding: 20px;
             border-radius: 12px;
@@ -413,7 +417,7 @@
             position: relative;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             animation: slideUp 0.3s ease;
-            margin-top: 20px; /* Memberi jarak dari atas */
+            margin-top: 20px;
         }
 
         /* Modal Pembayaran - Diperbaiki untuk mobile */
@@ -545,7 +549,7 @@
         }
 
         /* Items */
-        .transaction-item, .debt-item, .inventory-item, .calculator-history-item {
+        .transaction-item, .debt-item, .inventory-item, .calculator-history-item, .debt-group-item {
             background: #ffffff;
             padding: 12px;
             border-radius: 8px;
@@ -553,6 +557,32 @@
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
             border: 1px solid #e2e8f0;
             position: relative;
+        }
+
+        .debt-group-item {
+            cursor: pointer;
+        }
+
+        .debt-group-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .debt-group-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .debt-group-total {
+            font-weight: 600;
+            color: #1e3a8a;
+        }
+
+        .debt-group-details {
+            font-size: 0.9rem;
+            color: #64748b;
         }
 
         /* Kalkulator - Diperbaiki layout untuk mobile */
@@ -648,6 +678,77 @@
             margin-bottom: 12px;
         }
 
+        /* Welcome Modal */
+        .welcome-modal {
+            display: flex;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .welcome-content {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            animation: slideUp 0.5s ease;
+        }
+
+        .welcome-image {
+            width: 100%;
+            max-height: 300px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .welcome-image:hover {
+            transform: scale(1.02);
+        }
+
+        .welcome-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #1e293b;
+        }
+
+        .welcome-text {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-bottom: 20px;
+        }
+
+        .welcome-close {
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .welcome-close:hover {
+            background: linear-gradient(135deg, #1e40af, #60a5fa);
+            transform: translateY(-1px);
+        }
+
         /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -698,9 +799,9 @@
             }
             
             .key {
-                padding: 10px 6px;
-                font-size: 1rem;
-                min-height: 45px;
+                padding: 12px 6px;
+                font-size: 1.1rem;
+                min-height: 55px;
             }
             
             .numeric-keypad, .calculator-keypad {
@@ -736,16 +837,16 @@
 
         @media (max-height: 600px) {
             .input-section {
-                min-height: 250px;
+                min-height: auto;
             }
             
             .numeric-keypad-container {
-                min-height: 150px;
+                min-height: 200px;
             }
             
             .key {
-                min-height: 40px;
-                padding: 8px 4px;
+                min-height: 50px;
+                padding: 10px 4px;
             }
             
             header h1 {
@@ -768,11 +869,11 @@
             }
             
             .input-section {
-                min-height: 200px;
+                min-height: auto;
             }
             
             .numeric-keypad-container {
-                min-height: 120px;
+                min-height: 150px;
             }
         }
 
@@ -806,6 +907,16 @@
     </style>
 </head>
 <body>
+    <!-- Welcome Modal -->
+    <div class="welcome-modal" id="welcomeModal">
+        <div class="welcome-content">
+            <img class="welcome-image" id="welcomeImage" src="" alt="Selamat Datang di QRISku">
+            <h2 class="welcome-title" id="welcomeTitle">Selamat Datang di QRISku</h2>
+            <p class="welcome-text" id="welcomeText">Aplikasi pembayaran QRIS yang mudah dan cepat. Klik gambar untuk mode fullscreen.</p>
+            <button class="welcome-close" id="welcomeClose">Mulai Menggunakan</button>
+        </div>
+    </div>
+
     <div class="container">
         <!-- Home Page -->
         <div class="page active" id="homePage">
@@ -1123,6 +1234,7 @@
                 <button class="tab-btn active" data-tab="qris-settings">QRIS</button>
                 <button class="tab-btn" data-tab="text-settings">Teks</button>
                 <button class="tab-btn" data-tab="security-settings">Keamanan</button>
+                <button class="tab-btn" data-tab="welcome-settings">Welcome</button>
             </div>
             
             <div class="tab-content active" id="qris-settings">
@@ -1173,6 +1285,30 @@
                 </div>
                 
                 <button class="save-button" id="changePasswordButton">Ubah Sandi</button>
+            </div>
+            
+            <div class="tab-content" id="welcome-settings">
+                <div class="form-group">
+                    <label for="welcomeTitleInput">Judul Welcome</label>
+                    <input type="text" id="welcomeTitleInput" placeholder="Judul Welcome">
+                </div>
+                
+                <div class="form-group">
+                    <label for="welcomeTextInput">Teks Welcome</label>
+                    <textarea id="welcomeTextInput" placeholder="Teks Welcome" rows="3"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="welcomeImageInput">Gambar Welcome (URL)</label>
+                    <input type="text" id="welcomeImageInput" placeholder="URL gambar welcome">
+                </div>
+                
+                <div class="form-group">
+                    <label for="welcomeImageFile">Atau Upload Gambar</label>
+                    <input type="file" id="welcomeImageFile" accept="image/*">
+                </div>
+                
+                <button class="clear-button" id="resetWelcomeButton">Reset Welcome</button>
             </div>
             
             <button class="save-button" id="saveButton">Simpan Pengaturan</button>
@@ -1282,6 +1418,32 @@
         </div>
     </div>
 
+    <div class="debt-detail-modal" id="debtDetailModal">
+        <div class="debt-detail-content">
+            <h2>Detail Hutang - <span id="debtDetailName"></span></h2>
+            <div class="debt-detail-info">
+                <div class="info-item">
+                    <span class="info-label">Total Hutang:</span>
+                    <span class="info-value" id="debtDetailTotal">Rp 0</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Jumlah Hutang:</span>
+                    <span class="info-value" id="debtDetailCount">0</span>
+                </div>
+            </div>
+            
+            <div class="debt-detail-list" id="debtDetailList">
+                <!-- Daftar hutang akan ditampilkan di sini -->
+            </div>
+            
+            <div class="debt-detail-actions">
+                <button class="save-button" id="payAllDebtButton">Lunasi Semua</button>
+                <button class="clear-button" id="payPartialDebtButton">Lunasi Sebagian</button>
+                <button class="clear-button" id="closeDebtDetailModal">Tutup</button>
+            </div>
+        </div>
+    </div>
+
     <div class="inventory-edit-modal" id="inventoryEditModal">
         <div class="inventory-edit-content">
             <h2>Edit Barang</h2>
@@ -1327,6 +1489,9 @@
             savedHeaderSubtitle: localStorage.getItem('headerSubtitle') || 'Pembayaran QRIS Mudah dan Cepat',
             savedFooterText: localStorage.getItem('footerText') || '© 2025 QRISku - Pembayaran QRIS',
             savedQrisStaticCode: localStorage.getItem('qrisStaticCode') || '',
+            welcomeTitle: localStorage.getItem('welcomeTitle') || 'Selamat Datang di QRISku',
+            welcomeText: localStorage.getItem('welcomeText') || 'Aplikasi pembayaran QRIS yang mudah dan cepat. Klik gambar untuk mode fullscreen.',
+            welcomeImage: localStorage.getItem('welcomeImage') || '',
             currentQrUrl: '',
             currentTransactionIdForConfirmation: null,
             phoneHistoryData: JSON.parse(localStorage.getItem('phoneHistory')) || [],
@@ -1344,7 +1509,9 @@
             calculatorPreviousInput: '',
             calculatorOperator: '',
             calculatorShouldResetDisplay: false,
-            calculatorHistory: JSON.parse(localStorage.getItem('calculatorHistory')) || []
+            calculatorHistory: JSON.parse(localStorage.getItem('calculatorHistory')) || [],
+            // State untuk welcome modal
+            welcomeShown: localStorage.getItem('welcomeShown') || false
         };
 
         // Helper functions
@@ -1399,6 +1566,28 @@
                     'sembako': 'Sembako', 'lainnya': 'Lainnya'
                 };
                 return categories[category] || 'Lainnya';
+            },
+            
+            // Fungsi untuk mengelompokkan hutang berdasarkan nama
+            groupDebtsByName: (debts) => {
+                const grouped = {};
+                debts.forEach(debt => {
+                    if (!grouped[debt.name]) {
+                        grouped[debt.name] = {
+                            name: debt.name,
+                            phone: debt.phone,
+                            debts: [],
+                            totalAmount: 0,
+                            pendingCount: 0
+                        };
+                    }
+                    grouped[debt.name].debts.push(debt);
+                    grouped[debt.name].totalAmount += parseInt(debt.amount);
+                    if (debt.status === 'pending') {
+                        grouped[debt.name].pendingCount++;
+                    }
+                });
+                return grouped;
             }
         };
 
@@ -1601,19 +1790,56 @@
                     return;
                 }
                 
-                state.debts.forEach(debt => {
+                // Kelompokkan hutang berdasarkan nama
+                const groupedDebts = helpers.groupDebtsByName(state.debts);
+                
+                // Tampilkan kelompok hutang
+                Object.values(groupedDebts).forEach(group => {
+                    const debtGroupItem = document.createElement('div');
+                    debtGroupItem.className = 'debt-group-item';
+                    debtGroupItem.dataset.name = group.name;
+                    
+                    debtGroupItem.innerHTML = `
+                        <div class="debt-group-header">
+                            <div class="debt-group-name">${group.name}</div>
+                            <div class="debt-group-total">Rp ${helpers.formatNumber(group.totalAmount)}</div>
+                        </div>
+                        <div class="debt-group-details">
+                            <div>${group.debts.length} hutang • ${group.pendingCount} belum lunas</div>
+                            <div>${group.phone || 'Tidak ada telepon'}</div>
+                        </div>
+                    `;
+                    
+                    debtGroupItem.addEventListener('click', () => {
+                        modals.showDebtDetail(group.name);
+                    });
+                    
+                    debtList.appendChild(debtGroupItem);
+                });
+            },
+            
+            debtDetail: (name) => {
+                const debtDetailList = document.getElementById('debtDetailList');
+                debtDetailList.innerHTML = '';
+                
+                const groupedDebts = helpers.groupDebtsByName(state.debts);
+                const group = groupedDebts[name];
+                
+                if (!group) return;
+                
+                // Update info header
+                document.getElementById('debtDetailName').textContent = name;
+                document.getElementById('debtDetailTotal').textContent = `Rp ${helpers.formatNumber(group.totalAmount)}`;
+                document.getElementById('debtDetailCount').textContent = group.debts.length;
+                
+                // Tampilkan daftar hutang
+                group.debts.forEach(debt => {
                     const debtItem = document.createElement('div');
                     debtItem.className = 'debt-item';
                     debtItem.dataset.id = debt.id;
                     
                     debtItem.innerHTML = `
                         <div class="debt-header">
-                            <div>
-                                <div class="debt-name">${debt.name}</div>
-                                <div class="debt-phone">${debt.phone}</div>
-                            </div>
-                        </div>
-                        <div class="debt-details">
                             <div>
                                 <div class="debt-item-name">${debt.item}</div>
                                 <div class="debt-amount">Rp ${helpers.formatNumber(debt.amount)}</div>
@@ -1633,7 +1859,7 @@
                         }
                     });
                     
-                    debtList.appendChild(debtItem);
+                    debtDetailList.appendChild(debtItem);
                 });
             },
             
@@ -1801,6 +2027,18 @@
                         <p>Masukkan kode QRIS statis di pengaturan</p>
                     `;
                 }
+            },
+            
+            welcomeModal: () => {
+                document.getElementById('welcomeTitle').textContent = state.welcomeTitle;
+                document.getElementById('welcomeText').textContent = state.welcomeText;
+                
+                if (state.welcomeImage) {
+                    document.getElementById('welcomeImage').src = state.welcomeImage;
+                    document.getElementById('welcomeImage').style.display = 'block';
+                } else {
+                    document.getElementById('welcomeImage').style.display = 'none';
+                }
             }
         };
 
@@ -1848,10 +2086,23 @@
                 document.getElementById('passwordInput').focus();
             },
             
+            showDebtDetail: (name) => {
+                render.debtDetail(name);
+                document.getElementById('debtDetailModal').style.display = 'flex';
+            },
+            
             closeAllModals: () => {
-                document.querySelectorAll('.settings-modal, .payment-modal, .pulsa-modal, .password-modal, .debt-edit-modal, .inventory-edit-modal').forEach(modal => {
+                document.querySelectorAll('.settings-modal, .payment-modal, .pulsa-modal, .password-modal, .debt-edit-modal, .inventory-edit-modal, .debt-detail-modal').forEach(modal => {
                     modal.style.display = 'none';
                 });
+            },
+            
+            showWelcomeModal: () => {
+                if (!state.welcomeShown && state.welcomeImage) {
+                    document.getElementById('welcomeModal').style.display = 'flex';
+                    state.welcomeShown = true;
+                    localStorage.setItem('welcomeShown', 'true');
+                }
             }
         };
 
@@ -1863,6 +2114,9 @@
             document.getElementById('headerSubtitleInput').value = state.savedHeaderSubtitle;
             document.getElementById('footerTextInput').value = state.savedFooterText;
             document.getElementById('qrisStaticCode').value = state.savedQrisStaticCode;
+            document.getElementById('welcomeTitleInput').value = state.welcomeTitle;
+            document.getElementById('welcomeTextInput').value = state.welcomeText;
+            document.getElementById('welcomeImageInput').value = state.welcomeImage;
             
             document.getElementById('paymentMerchant').textContent = state.savedMerchant;
             document.getElementById('headerTitle').textContent = state.savedHeaderTitle;
@@ -1878,9 +2132,13 @@
             render.inventory();
             render.shoppingList();
             calculator.renderHistory();
+            render.welcomeModal();
             
             // Update waktu
             helpers.updateTime();
+            
+            // Tampilkan welcome modal jika belum ditampilkan
+            modals.showWelcomeModal();
             
             // Event listener untuk fullscreen
             document.addEventListener('fullscreenchange', () => {
@@ -1937,6 +2195,9 @@
                             state.debts[debtIndex].status = 'paid';
                             localStorage.setItem('debts', JSON.stringify(state.debts));
                             render.debts();
+                            
+                            // Tutup modal detail hutang jika terbuka
+                            document.getElementById('debtDetailModal').style.display = 'none';
                         }
                     } else {
                         document.getElementById('settingsModal').style.display = 'flex';
@@ -2086,7 +2347,7 @@
             });
             
             // Tutup modal dengan klik di luar
-            document.querySelectorAll('.settings-modal, .payment-modal, .pulsa-modal, .password-modal, .debt-edit-modal, .inventory-edit-modal').forEach(modal => {
+            document.querySelectorAll('.settings-modal, .payment-modal, .pulsa-modal, .password-modal, .debt-edit-modal, .inventory-edit-modal, .debt-detail-modal, .welcome-modal').forEach(modal => {
                 modal.addEventListener('click', (e) => {
                     if (e.target === modal) modal.style.display = 'none';
                 });
@@ -2099,6 +2360,130 @@
             
             document.getElementById('closePayment').addEventListener('click', () => {
                 document.getElementById('paymentModal').style.display = 'none';
+            });
+            
+            // Tutup modal detail hutang
+            document.getElementById('closeDebtDetailModal').addEventListener('click', () => {
+                document.getElementById('debtDetailModal').style.display = 'none';
+            });
+            
+            // Lunasi semua hutang
+            document.getElementById('payAllDebtButton').addEventListener('click', () => {
+                const name = document.getElementById('debtDetailName').textContent;
+                const groupedDebts = helpers.groupDebtsByName(state.debts);
+                const group = groupedDebts[name];
+                
+                if (group) {
+                    modals.showPasswordPrompt('payAll', name);
+                }
+            });
+            
+            // Lunasi sebagian hutang
+            document.getElementById('payPartialDebtButton').addEventListener('click', () => {
+                const name = document.getElementById('debtDetailName').textContent;
+                const groupedDebts = helpers.groupDebtsByName(state.debts);
+                const group = groupedDebts[name];
+                
+                if (group) {
+                    const amount = prompt(`Masukkan jumlah yang ingin dilunasi dari hutang ${name} (Total: Rp ${helpers.formatNumber(group.totalAmount)})`, "");
+                    
+                    if (amount === null || amount.trim() === '') return;
+                    
+                    const payAmount = parseInt(amount);
+                    if (isNaN(payAmount) || payAmount <= 0) {
+                        alert("Jumlah tidak valid.");
+                        return;
+                    }
+                    
+                    if (payAmount > group.totalAmount) {
+                        alert(`Jumlah pembayaran melebihi total hutang. Total hutang: Rp ${helpers.formatNumber(group.totalAmount)}`);
+                        return;
+                    }
+                    
+                    modals.showPasswordPrompt('payPartial', {name, amount: payAmount});
+                }
+            });
+            
+            // Welcome modal
+            document.getElementById('welcomeClose').addEventListener('click', () => {
+                document.getElementById('welcomeModal').style.display = 'none';
+            });
+            
+            document.getElementById('welcomeImage').addEventListener('click', () => {
+                helpers.toggleFullscreen();
+            });
+            
+            // Pengaturan welcome
+            document.getElementById('welcomeImageFile').addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        state.welcomeImage = event.target.result;
+                        localStorage.setItem('welcomeImage', state.welcomeImage);
+                        render.welcomeModal();
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+            
+            // Simpan pengaturan
+            document.getElementById('saveButton').addEventListener('click', () => {
+                // Simpan pengaturan QRIS
+                state.savedMerchant = document.getElementById('merchantName').value;
+                state.savedHeaderTitle = document.getElementById('headerTitleInput').value;
+                state.savedHeaderSubtitle = document.getElementById('headerSubtitleInput').value;
+                state.savedFooterText = document.getElementById('footerTextInput').value;
+                state.savedQrisStaticCode = document.getElementById('qrisStaticCode').value;
+                state.welcomeTitle = document.getElementById('welcomeTitleInput').value;
+                state.welcomeText = document.getElementById('welcomeTextInput').value;
+                
+                // Jika ada URL gambar baru
+                const newImageUrl = document.getElementById('welcomeImageInput').value;
+                if (newImageUrl) {
+                    state.welcomeImage = newImageUrl;
+                }
+                
+                // Simpan ke localStorage
+                localStorage.setItem('merchantName', state.savedMerchant);
+                localStorage.setItem('headerTitle', state.savedHeaderTitle);
+                localStorage.setItem('headerSubtitle', state.savedHeaderSubtitle);
+                localStorage.setItem('footerText', state.savedFooterText);
+                localStorage.setItem('qrisStaticCode', state.savedQrisStaticCode);
+                localStorage.setItem('welcomeTitle', state.welcomeTitle);
+                localStorage.setItem('welcomeText', state.welcomeText);
+                localStorage.setItem('welcomeImage', state.welcomeImage);
+                
+                // Update tampilan
+                document.getElementById('paymentMerchant').textContent = state.savedMerchant;
+                document.getElementById('headerTitle').textContent = state.savedHeaderTitle;
+                document.getElementById('headerSubtitle').textContent = state.savedHeaderSubtitle;
+                document.getElementById('footerText').textContent = state.savedFooterText;
+                document.getElementById('paymentTitle').textContent = state.savedHeaderTitle;
+                render.welcomeModal();
+                render.qrCodeDisplay();
+                
+                alert('Pengaturan berhasil disimpan!');
+                document.getElementById('settingsModal').style.display = 'none';
+            });
+            
+            // Reset welcome
+            document.getElementById('resetWelcomeButton').addEventListener('click', () => {
+                state.welcomeTitle = 'Selamat Datang di QRISku';
+                state.welcomeText = 'Aplikasi pembayaran QRIS yang mudah dan cepat. Klik gambar untuk mode fullscreen.';
+                state.welcomeImage = '';
+                
+                document.getElementById('welcomeTitleInput').value = state.welcomeTitle;
+                document.getElementById('welcomeTextInput').value = state.welcomeText;
+                document.getElementById('welcomeImageInput').value = '';
+                document.getElementById('welcomeImageFile').value = '';
+                
+                localStorage.setItem('welcomeTitle', state.welcomeTitle);
+                localStorage.setItem('welcomeText', state.welcomeText);
+                localStorage.setItem('welcomeImage', state.welcomeImage);
+                
+                render.welcomeModal();
+                alert('Pengaturan welcome telah direset!');
             });
         });
     </script>
