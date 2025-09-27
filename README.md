@@ -749,6 +749,65 @@
             transform: translateY(-1px);
         }
 
+        /* Pulsa Options */
+        .pulsa-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .pulsa-option {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .pulsa-option:hover {
+            border-color: #3b82f6;
+            transform: translateY(-2px);
+        }
+
+        .pulsa-amount {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+
+        .pulsa-price {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        /* Inventory Buttons */
+        .inventory-btn-small {
+            padding: 6px 10px;
+            margin: 0 2px;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            background-color: #f1f5f9;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s ease;
+        }
+
+        .inventory-btn-small:hover {
+            background-color: #e2e8f0;
+        }
+
+        .stock-warning {
+            color: #dc2626;
+            font-weight: 500;
+        }
+
+        .stock-adequate {
+            color: #16a34a;
+            font-weight: 500;
+        }
+
         /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -832,6 +891,10 @@
             .payment-qr img {
                 width: 180px;
                 height: 180px;
+            }
+            
+            .pulsa-options {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -1177,11 +1240,11 @@
             <div class="inventory-management">
                 <h3>Manajemen Data Inventori</h3>
                 <div class="management-buttons">
-                    <button id="downloadCsvButton">Download CSV</button>
-                    <button id="backupButton">Backup JSON</button>
-                    <label for="restoreInput">Restore JSON</label>
+                    <button class="save-button" id="downloadCsvButton">Download CSV</button>
+                    <button class="save-button" id="backupButton">Backup JSON</button>
+                    <label for="restoreInput" class="save-button" style="display: inline-block; padding: 10px; text-align: center;">Restore JSON</label>
                     <input type="file" id="restoreInput" accept=".json" style="display:none;">
-                    <label for="importCsvInput">Import CSV</label>
+                    <label for="importCsvInput" class="save-button" style="display: inline-block; padding: 10px; text-align: center;">Import CSV</label>
                     <input type="file" id="importCsvInput" accept=".csv" style="display:none;">
                 </div>
                 <p style="font-size: 0.75rem; text-align:center; color: #64748b;">Gunakan file .csv atau .json untuk menambah atau memulihkan data.</p>
@@ -1244,8 +1307,13 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="qrisStaticCode">Kode QRIS Statis</label>
+                    <label for="qrisStaticCode">Kode QRIS Statis (Teks)</label>
                     <textarea class="text-input" id="qrisStaticCode" placeholder="Tempel Kode QRIS statis di sini..." rows="4"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="qrisImageFile">Atau Upload Gambar QRIS</label>
+                    <input type="file" id="qrisImageFile" accept="image/*">
                 </div>
                 
                 <button class="clear-button" id="resetQrisButton">Reset QRIS</button>
@@ -2098,7 +2166,7 @@
             },
             
             showWelcomeModal: () => {
-                if (!state.welcomeShown && state.welcomeImage) {
+                if (!state.welcomeShown) {
                     document.getElementById('welcomeModal').style.display = 'flex';
                     state.welcomeShown = true;
                     localStorage.setItem('welcomeShown', 'true');
@@ -2198,6 +2266,58 @@
                             
                             // Tutup modal detail hutang jika terbuka
                             document.getElementById('debtDetailModal').style.display = 'none';
+                        }
+                    } else if (state.passwordContext === 'payAll') {
+                        const name = state.currentDebtId;
+                        const groupedDebts = helpers.groupDebtsByName(state.debts);
+                        const group = groupedDebts[name];
+                        
+                        if (group) {
+                            group.debts.forEach(debt => {
+                                const debtIndex = state.debts.findIndex(d => d.id === debt.id);
+                                if (debtIndex >= 0) {
+                                    state.debts[debtIndex].status = 'paid';
+                                }
+                            });
+                            
+                            localStorage.setItem('debts', JSON.stringify(state.debts));
+                            render.debts();
+                            document.getElementById('debtDetailModal').style.display = 'none';
+                            alert(`Semua hutang ${name} telah dilunasi!`);
+                        }
+                    } else if (state.passwordContext === 'payPartial') {
+                        const { name, amount } = state.currentDebtId;
+                        const groupedDebts = helpers.groupDebtsByName(state.debts);
+                        const group = groupedDebts[name];
+                        
+                        if (group) {
+                            let remainingAmount = amount;
+                            
+                            // Lunasi hutang satu per satu sampai jumlah yang diminta terpenuhi
+                            for (let debt of group.debts) {
+                                if (debt.status === 'pending') {
+                                    const debtAmount = parseInt(debt.amount);
+                                    
+                                    if (remainingAmount >= debtAmount) {
+                                        // Lunasi seluruh hutang ini
+                                        const debtIndex = state.debts.findIndex(d => d.id === debt.id);
+                                        if (debtIndex >= 0) {
+                                            state.debts[debtIndex].status = 'paid';
+                                            remainingAmount -= debtAmount;
+                                        }
+                                    } else {
+                                        // Tidak cukup untuk melunasi seluruh hutang ini
+                                        break;
+                                    }
+                                    
+                                    if (remainingAmount <= 0) break;
+                                }
+                            }
+                            
+                            localStorage.setItem('debts', JSON.stringify(state.debts));
+                            render.debts();
+                            document.getElementById('debtDetailModal').style.display = 'none';
+                            alert(`Sebagian hutang ${name} telah dilunasi!`);
                         }
                     } else {
                         document.getElementById('settingsModal').style.display = 'flex';
@@ -2407,6 +2527,7 @@
             // Welcome modal
             document.getElementById('welcomeClose').addEventListener('click', () => {
                 document.getElementById('welcomeModal').style.display = 'none';
+                helpers.toggleFullscreen();
             });
             
             document.getElementById('welcomeImage').addEventListener('click', () => {
@@ -2422,6 +2543,20 @@
                         state.welcomeImage = event.target.result;
                         localStorage.setItem('welcomeImage', state.welcomeImage);
                         render.welcomeModal();
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // Pengaturan QRIS gambar
+            document.getElementById('qrisImageFile').addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        state.savedQrisImage = event.target.result;
+                        localStorage.setItem('qrisImage', state.savedQrisImage);
+                        render.qrCodeDisplay();
                     };
                     reader.readAsDataURL(file);
                 }
@@ -2484,6 +2619,241 @@
                 
                 render.welcomeModal();
                 alert('Pengaturan welcome telah direset!');
+            });
+
+            // Reset QRIS
+            document.getElementById('resetQrisButton').addEventListener('click', () => {
+                state.savedQrisImage = '';
+                state.savedQrisStaticCode = '';
+                
+                document.getElementById('qrisStaticCode').value = '';
+                document.getElementById('qrisImageFile').value = '';
+                
+                localStorage.setItem('qrisImage', '');
+                localStorage.setItem('qrisStaticCode', '');
+                
+                render.qrCodeDisplay();
+                alert('Pengaturan QRIS telah direset!');
+            });
+
+            // Ubah password
+            document.getElementById('changePasswordButton').addEventListener('click', () => {
+                const currentPassword = document.getElementById('currentPassword').value;
+                const newPassword = document.getElementById('newPassword').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+                
+                if (currentPassword !== state.appPassword) {
+                    alert('Sandi saat ini salah!');
+                    return;
+                }
+                
+                if (newPassword.length !== 6) {
+                    alert('Sandi baru harus 6 digit!');
+                    return;
+                }
+                
+                if (newPassword !== confirmPassword) {
+                    alert('Konfirmasi sandi baru tidak cocok!');
+                    return;
+                }
+                
+                state.appPassword = newPassword;
+                localStorage.setItem('appPassword', state.appPassword);
+                
+                document.getElementById('currentPassword').value = '';
+                document.getElementById('newPassword').value = '';
+                document.getElementById('confirmPassword').value = '';
+                
+                alert('Sandi berhasil diubah!');
+            });
+
+            // Tabs pengaturan
+            document.querySelectorAll('.tab-btn').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabId = tab.getAttribute('data-tab');
+                    
+                    // Nonaktifkan semua tab
+                    document.querySelectorAll('.tab-btn').forEach(t => {
+                        t.classList.remove('active');
+                    });
+                    document.querySelectorAll('.tab-content').forEach(c => {
+                        c.classList.remove('active');
+                    });
+                    
+                    // Aktifkan tab yang dipilih
+                    tab.classList.add('active');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+
+            // Tutup settings modal
+            document.getElementById('closeSettings').addEventListener('click', () => {
+                document.getElementById('settingsModal').style.display = 'none';
+            });
+
+            // Tambah hutang
+            document.getElementById('addDebtButton').addEventListener('click', () => {
+                const name = document.getElementById('debtName').value;
+                const phone = document.getElementById('debtPhone').value;
+                const item = document.getElementById('debtItem').value;
+                const amount = document.getElementById('debtAmount').value;
+                
+                if (!name || !item || !amount) {
+                    alert('Harap isi semua field yang diperlukan!');
+                    return;
+                }
+                
+                const newDebt = {
+                    id: 'DEBT-' + Date.now(),
+                    name,
+                    phone,
+                    item,
+                    amount: parseInt(amount),
+                    status: 'pending',
+                    date: new Date().toLocaleDateString('id-ID')
+                };
+                
+                state.debts.push(newDebt);
+                localStorage.setItem('debts', JSON.stringify(state.debts));
+                
+                // Reset form
+                document.getElementById('debtName').value = '';
+                document.getElementById('debtPhone').value = '';
+                document.getElementById('debtItem').value = '';
+                document.getElementById('debtAmount').value = '';
+                
+                render.debts();
+                alert('Hutang berhasil ditambahkan!');
+            });
+
+            // Tambah item inventori
+            document.getElementById('addItemButton').addEventListener('click', () => {
+                const name = document.getElementById('itemName').value;
+                const price = document.getElementById('itemPrice').value;
+                const category = document.getElementById('itemCategory').value;
+                const stock = document.getElementById('itemStock').value;
+                const minStock = document.getElementById('itemMinStock').value;
+                
+                if (!name || !price || !stock || !minStock) {
+                    alert('Harap isi semua field yang diperlukan!');
+                    return;
+                }
+                
+                const newItem = {
+                    id: 'ITEM-' + Date.now(),
+                    name,
+                    price: parseInt(price),
+                    category,
+                    stock: parseInt(stock),
+                    minStock: parseInt(minStock)
+                };
+                
+                state.inventory.push(newItem);
+                localStorage.setItem('inventory', JSON.stringify(state.inventory));
+                
+                // Reset form
+                document.getElementById('itemName').value = '';
+                document.getElementById('itemPrice').value = '';
+                document.getElementById('itemCategory').value = 'makanan';
+                document.getElementById('itemStock').value = '';
+                document.getElementById('itemMinStock').value = '';
+                
+                render.inventory();
+                render.shoppingList();
+                alert('Barang berhasil ditambahkan!');
+            });
+            
+            // Pulsa options
+            document.querySelectorAll('.pulsa-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    const amount = option.getAttribute('data-amount');
+                    state.selectedPulsaAmount = parseInt(amount);
+                    
+                    // Reset semua opsi
+                    document.querySelectorAll('.pulsa-option').forEach(opt => {
+                        opt.style.borderColor = '#e2e8f0';
+                    });
+                    
+                    // Highlight opsi yang dipilih
+                    option.style.borderColor = '#3b82f6';
+                    
+                    // Tampilkan input custom jika dipilih
+                    if (amount === '0') {
+                        document.getElementById('customAmountGroup').style.display = 'block';
+                    } else {
+                        document.getElementById('customAmountGroup').style.display = 'none';
+                    }
+                });
+            });
+            
+            // Simpan nomor telepon
+            document.getElementById('savePhoneButton').addEventListener('click', () => {
+                if (state.currentPhone === '0') {
+                    alert('Harap masukkan nomor telepon terlebih dahulu!');
+                    return;
+                }
+                
+                document.getElementById('pulsaModal').style.display = 'flex';
+                state.selectedPhoneNumber = state.currentPhone;
+            });
+            
+            // Konfirmasi pulsa
+            document.getElementById('confirmPulsaButton').addEventListener('click', () => {
+                const phoneName = document.getElementById('phoneName').value;
+                let amount = state.selectedPulsaAmount;
+                
+                if (amount === 0) {
+                    amount = parseInt(document.getElementById('customAmount').value);
+                    if (isNaN(amount) || amount <= 0) {
+                        alert('Harap masukkan nominal pulsa yang valid!');
+                        return;
+                    }
+                }
+                
+                // Simpan ke riwayat
+                const phoneHistoryItem = {
+                    phone: state.selectedPhoneNumber,
+                    name: phoneName || 'Tidak ada nama',
+                    amount: amount,
+                    date: new Date().toLocaleDateString('id-ID')
+                };
+                
+                state.phoneHistoryData.push(phoneHistoryItem);
+                localStorage.setItem('phoneHistory', JSON.stringify(state.phoneHistoryData));
+                
+                // Reset
+                document.getElementById('phoneName').value = '';
+                document.getElementById('customAmount').value = '';
+                state.selectedPulsaAmount = 0;
+                state.selectedPhoneNumber = '';
+                
+                document.getElementById('pulsaModal').style.display = 'none';
+                render.phoneHistory();
+                alert(`Pulsa sebesar Rp ${helpers.formatNumber(amount)} untuk nomor ${state.currentPhone} berhasil disimpan!`);
+            });
+            
+            // Tutup modal pulsa
+            document.getElementById('closePulsaModal').addEventListener('click', () => {
+                document.getElementById('pulsaModal').style.display = 'none';
+            });
+            
+            // Finance tabs
+            document.querySelectorAll('.finance-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabId = tab.getAttribute('data-tab');
+                    
+                    // Nonaktifkan semua tab
+                    document.querySelectorAll('.finance-tab').forEach(t => {
+                        t.classList.remove('active');
+                    });
+                    document.querySelectorAll('.tab-content').forEach(c => {
+                        c.classList.remove('active');
+                    });
+                    
+                    // Aktifkan tab yang dipilih
+                    tab.classList.add('active');
+                    document.getElementById(tabId).classList.add('active');
+                });
             });
         });
     </script>
