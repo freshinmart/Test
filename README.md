@@ -1,4 +1,4 @@
-<html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -113,7 +113,7 @@
         .input-section {
             margin-bottom: 16px;
             background-color: #ffffff;
-            padding: 12px;
+            padding: 16px;
             border-radius: 12px;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
             border: 1px solid #e2e8f0;
@@ -121,6 +121,7 @@
             flex-direction: column;
             min-height: auto;
             flex: 1;
+            width: 100%;
         }
 
         .input-section h3 {
@@ -356,13 +357,13 @@
         }
 
         /* Tabs */
-        .finance-tabs, .settings-tabs {
+        .finance-tabs, .settings-tabs, .inventory-tabs, .debt-detail-tabs {
             display: flex;
             margin-bottom: 16px;
             border-bottom: 1px solid #e2e8f0;
         }
 
-        .finance-tab, .tab-btn {
+        .finance-tab, .tab-btn, .inventory-tab, .debt-detail-tab {
             flex: 1;
             padding: 10px;
             background: none;
@@ -374,7 +375,7 @@
             transition: all 0.2s ease;
         }
 
-        .finance-tab.active, .tab-btn.active {
+        .finance-tab.active, .tab-btn.active, .inventory-tab.active, .debt-detail-tab.active {
             color: #1e3a8a;
             border-bottom-color: #1e3a8a;
         }
@@ -383,6 +384,11 @@
             display: none;
             flex: 1;
             overflow-y: auto;
+            padding: 16px;
+            border-radius: 8px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 16px;
         }
 
         .tab-content.active {
@@ -390,7 +396,7 @@
         }
 
         /* Modal - Diperbaiki untuk mobile */
-        .settings-modal, .payment-modal, .pulsa-modal, .password-modal, .debt-edit-modal, .inventory-edit-modal, .debt-detail-modal {
+        .settings-modal, .payment-modal, .pulsa-modal, .password-modal, .debt-edit-modal, .inventory-edit-modal, .debt-detail-modal, .pos-modal, .receipt-modal {
             display: none;
             position: fixed;
             top: 0;
@@ -406,7 +412,7 @@
             overflow-y: auto;
         }
 
-        .settings-content, .payment-content, .pulsa-content, .password-content, .debt-edit-content, .inventory-edit-content, .debt-detail-content {
+        .settings-content, .payment-content, .pulsa-content, .password-content, .debt-edit-content, .inventory-edit-content, .debt-detail-content, .pos-content, .receipt-content {
             background: #ffffff;
             padding: 20px;
             border-radius: 12px;
@@ -549,7 +555,7 @@
         }
 
         /* Items */
-        .transaction-item, .debt-item, .inventory-item, .calculator-history-item, .debt-group-item {
+        .transaction-item, .debt-item, .inventory-item, .calculator-history-item, .debt-group-item, .pos-cart-item, .payment-history-item {
             background: #ffffff;
             padding: 12px;
             border-radius: 8px;
@@ -559,7 +565,7 @@
             position: relative;
         }
 
-        .debt-group-item {
+        .debt-group-item, .pos-cart-item {
             cursor: pointer;
         }
 
@@ -806,6 +812,229 @@
         .stock-adequate {
             color: #16a34a;
             font-weight: 500;
+        }
+
+        /* POS Styles */
+        .pos-container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .pos-search {
+            display: flex;
+            gap: 10px;
+        }
+
+        .pos-search input {
+            flex: 1;
+        }
+
+        .pos-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .pos-item {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .pos-item:hover {
+            border-color: #3b82f6;
+            transform: translateY(-2px);
+        }
+
+        .pos-item-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .pos-item-price {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .pos-cart {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .pos-cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .pos-cart-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .pos-cart-items {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+        }
+
+        .pos-cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .pos-cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .pos-cart-item-info {
+            flex: 1;
+        }
+
+        .pos-cart-item-name {
+            font-weight: 500;
+        }
+
+        .pos-cart-item-price {
+            color: #64748b;
+            font-size: 0.8rem;
+        }
+
+        .pos-cart-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .pos-cart-item-quantity button {
+            width: 24px;
+            height: 24px;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            background-color: #f1f5f9;
+            cursor: pointer;
+        }
+
+        .pos-cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 10px 0;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .pos-payment-options {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .pos-payment-options button {
+            flex: 1;
+        }
+
+        /* Receipt Styles */
+        .receipt {
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            line-height: 1.4;
+            padding: 15px;
+            border: 1px dashed #e2e8f0;
+            border-radius: 8px;
+            background-color: #ffffff;
+        }
+
+        .receipt-header {
+            text-align: center;
+            margin-bottom: 10px;
+            border-bottom: 1px dashed #e2e8f0;
+            padding-bottom: 10px;
+        }
+
+        .receipt-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .receipt-address {
+            font-size: 0.7rem;
+            color: #64748b;
+        }
+
+        .receipt-items {
+            margin-bottom: 10px;
+        }
+
+        .receipt-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .receipt-total {
+            border-top: 1px dashed #e2e8f0;
+            padding-top: 10px;
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+        }
+
+        .receipt-footer {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.7rem;
+            color: #64748b;
+        }
+
+        /* Payment History */
+        .payment-history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .payment-history-date {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        .payment-history-amount {
+            font-weight: 600;
+        }
+
+        .payment-history-status {
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .status-paid {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+
+        .status-partial {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-pending {
+            background-color: #fee2e2;
+            color: #991b1b;
         }
 
         /* Animations */
@@ -1202,60 +1431,104 @@
             <header>
                 <button class="fullscreen-btn"><i class="fas fa-expand"></i></button>
                 <h1>Manajemen Inventori</h1>
-                <p>Kelola stok barang dan daftar belanja</p>
+                <p>Kelola stok barang dan sistem POS</p>
                 <button class="profile-btn" id="inventoryProfileBtn"><i class="fas fa-user"></i></button>
             </header>
 
-            <div class="inventory-form">
-                <h3>Tambah Barang Baru</h3>
-                <div class="form-group">
-                    <label for="itemName">Nama Barang</label>
-                    <input type="text" id="itemName" placeholder="Nama barang">
-                </div>
-                <div class="form-group">
-                    <label for="itemPrice">Harga Jual</label>
-                    <input type="number" id="itemPrice" placeholder="Harga Jual per item">
-                </div>
-                <div class="form-group">
-                    <label for="itemCategory">Kategori</label>
-                    <select id="itemCategory">
-                        <option value="makanan">Makanan</option>
-                        <option value="minuman">Minuman</option>
-                        <option value="snack">Snack</option>
-                        <option value="sembako">Sembako</option>
-                        <option value="lainnya">Lainnya</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="itemStock">Stok Awal</label>
-                    <input type="number" id="itemStock" placeholder="Jumlah stok">
-                </div>
-                <div class="form-group">
-                    <label for="itemMinStock">Stok Minimum</label>
-                    <input type="number" id="itemMinStock" placeholder="Batas stok minimum">
-                </div>
-                <button class="save-button" id="addItemButton">Tambah Barang</button>
-            </div>
-            
-            <div class="inventory-management">
-                <h3>Manajemen Data Inventori</h3>
-                <div class="management-buttons">
-                    <button class="save-button" id="downloadCsvButton">Download CSV</button>
-                    <button class="save-button" id="backupButton">Backup JSON</button>
-                    <label for="restoreInput" class="save-button" style="display: inline-block; padding: 10px; text-align: center;">Restore JSON</label>
-                    <input type="file" id="restoreInput" accept=".json" style="display:none;">
-                    <label for="importCsvInput" class="save-button" style="display: inline-block; padding: 10px; text-align: center;">Import CSV</label>
-                    <input type="file" id="importCsvInput" accept=".csv" style="display:none;">
-                </div>
-                <p style="font-size: 0.75rem; text-align:center; color: #64748b;">Gunakan file .csv atau .json untuk menambah atau memulihkan data.</p>
+            <div class="inventory-tabs">
+                <button class="inventory-tab active" data-tab="inventory-tab">Inventori</button>
+                <button class="inventory-tab" data-tab="pos-tab">POS Kasir</button>
+                <button class="inventory-tab" data-tab="shopping-tab">Daftar Belanja</button>
             </div>
 
-            <div class="inventory-list" id="inventoryList">
-                <h3>Daftar Inventori</h3>
+            <div id="inventory-tab" class="tab-content active">
+                <div class="inventory-form">
+                    <h3>Tambah Barang Baru</h3>
+                    <div class="form-group">
+                        <label for="itemName">Nama Barang</label>
+                        <input type="text" id="itemName" placeholder="Nama barang">
+                    </div>
+                    <div class="form-group">
+                        <label for="itemPrice">Harga Jual</label>
+                        <input type="number" id="itemPrice" placeholder="Harga Jual per item">
+                    </div>
+                    <div class="form-group">
+                        <label for="itemCategory">Kategori</label>
+                        <select id="itemCategory">
+                            <option value="makanan">Makanan</option>
+                            <option value="minuman">Minuman</option>
+                            <option value="snack">Snack</option>
+                            <option value="sembako">Sembako</option>
+                            <option value="lainnya">Lainnya</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="itemStock">Stok Awal</label>
+                        <input type="number" id="itemStock" placeholder="Jumlah stok">
+                    </div>
+                    <div class="form-group">
+                        <label for="itemMinStock">Stok Minimum</label>
+                        <input type="number" id="itemMinStock" placeholder="Batas stok minimum">
+                    </div>
+                    <button class="save-button" id="addItemButton">Tambah Barang</button>
+                </div>
+                
+                <div class="inventory-management">
+                    <h3>Manajemen Data Inventori</h3>
+                    <div class="management-buttons">
+                        <button class="save-button" id="downloadCsvButton">Download CSV</button>
+                        <button class="save-button" id="backupButton">Backup JSON</button>
+                        <label for="restoreInput" class="save-button" style="display: inline-block; padding: 10px; text-align: center;">Restore JSON</label>
+                        <input type="file" id="restoreInput" accept=".json" style="display:none;">
+                        <label for="importCsvInput" class="save-button" style="display: inline-block; padding: 10px; text-align: center;">Import CSV</label>
+                        <input type="file" id="importCsvInput" accept=".csv" style="display:none;">
+                    </div>
+                    <p style="font-size: 0.75rem; text-align:center; color: #64748b;">Gunakan file .csv atau .json untuk menambah atau memulihkan data.</p>
+                </div>
+
+                <div class="inventory-list" id="inventoryList">
+                    <h3>Daftar Inventori</h3>
+                </div>
             </div>
 
-            <div class="shopping-list" id="shoppingList">
-                <h3>Daftar Belanja</h3>
+            <div id="pos-tab" class="tab-content">
+                <div class="pos-container">
+                    <div class="pos-search">
+                        <input type="text" id="posSearch" placeholder="Cari barang...">
+                        <button class="save-button" id="posClearCart">Kosongkan</button>
+                    </div>
+                    
+                    <div class="pos-items" id="posItems">
+                        <!-- Daftar barang akan ditampilkan di sini -->
+                    </div>
+                    
+                    <div class="pos-cart">
+                        <div class="pos-cart-header">
+                            <div class="pos-cart-title">Keranjang Belanja</div>
+                            <div class="pos-cart-count" id="posCartCount">0 item</div>
+                        </div>
+                        
+                        <div class="pos-cart-items" id="posCartItems">
+                            <!-- Item keranjang akan ditampilkan di sini -->
+                        </div>
+                        
+                        <div class="pos-cart-total">
+                            <span>Total:</span>
+                            <span id="posCartTotal">Rp 0</span>
+                        </div>
+                        
+                        <div class="pos-payment-options">
+                            <button class="save-button" id="posCashButton">Bayar Cash</button>
+                            <button class="save-button" id="posQrisButton">Bayar QRIS</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="shopping-tab" class="tab-content">
+                <div class="shopping-list" id="shoppingList">
+                    <h3>Daftar Belanja (Stok Rendah)</h3>
+                </div>
             </div>
 
             <footer>
@@ -1298,6 +1571,7 @@
                 <button class="tab-btn" data-tab="text-settings">Teks</button>
                 <button class="tab-btn" data-tab="security-settings">Keamanan</button>
                 <button class="tab-btn" data-tab="welcome-settings">Welcome</button>
+                <button class="tab-btn" data-tab="receipt-settings">Struk</button>
             </div>
             
             <div class="tab-content active" id="qris-settings">
@@ -1377,6 +1651,35 @@
                 </div>
                 
                 <button class="clear-button" id="resetWelcomeButton">Reset Welcome</button>
+            </div>
+            
+            <div class="tab-content" id="receipt-settings">
+                <div class="form-group">
+                    <label for="receiptShopName">Nama Toko</label>
+                    <input type="text" id="receiptShopName" placeholder="Nama Toko">
+                </div>
+                
+                <div class="form-group">
+                    <label for="receiptAddress">Alamat Toko</label>
+                    <textarea id="receiptAddress" placeholder="Alamat Toko" rows="2"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="receiptPhone">Telepon</label>
+                    <input type="text" id="receiptPhone" placeholder="Nomor Telepon">
+                </div>
+                
+                <div class="form-group">
+                    <label for="receiptFooter">Footer Struk</label>
+                    <textarea id="receiptFooter" placeholder="Footer Struk" rows="2"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="receiptLogo">Logo (URL)</label>
+                    <input type="text" id="receiptLogo" placeholder="URL Logo">
+                </div>
+                
+                <button class="clear-button" id="resetReceiptButton">Reset Struk</button>
             </div>
             
             <button class="save-button" id="saveButton">Simpan Pengaturan</button>
@@ -1489,19 +1792,41 @@
     <div class="debt-detail-modal" id="debtDetailModal">
         <div class="debt-detail-content">
             <h2>Detail Hutang - <span id="debtDetailName"></span></h2>
-            <div class="debt-detail-info">
-                <div class="info-item">
-                    <span class="info-label">Total Hutang:</span>
-                    <span class="info-value" id="debtDetailTotal">Rp 0</span>
+            
+            <div class="debt-detail-tabs">
+                <button class="debt-detail-tab active" data-tab="debt-items-tab">Daftar Hutang</button>
+                <button class="debt-detail-tab" data-tab="payment-history-tab">Riwayat Pembayaran</button>
+            </div>
+            
+            <div id="debt-items-tab" class="tab-content active">
+                <div class="debt-detail-info">
+                    <div class="info-item">
+                        <span class="info-label">Total Hutang:</span>
+                        <span class="info-value" id="debtDetailTotal">Rp 0</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Jumlah Hutang:</span>
+                        <span class="info-value" id="debtDetailCount">0</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Total Dibayar:</span>
+                        <span class="info-value" id="debtDetailPaid">Rp 0</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Sisa Hutang:</span>
+                        <span class="info-value" id="debtDetailRemaining">Rp 0</span>
+                    </div>
                 </div>
-                <div class="info-item">
-                    <span class="info-label">Jumlah Hutang:</span>
-                    <span class="info-value" id="debtDetailCount">0</span>
+                
+                <div class="debt-detail-list" id="debtDetailList">
+                    <!-- Daftar hutang akan ditampilkan di sini -->
                 </div>
             </div>
             
-            <div class="debt-detail-list" id="debtDetailList">
-                <!-- Daftar hutang akan ditampilkan di sini -->
+            <div id="payment-history-tab" class="tab-content">
+                <div class="payment-history-list" id="paymentHistoryList">
+                    <!-- Riwayat pembayaran akan ditampilkan di sini -->
+                </div>
             </div>
             
             <div class="debt-detail-actions">
@@ -1546,6 +1871,67 @@
         </div>
     </div>
 
+    <div class="pos-modal" id="posModal">
+        <div class="pos-content">
+            <h2>Pembayaran</h2>
+            <div class="form-group">
+                <label for="paymentMethod">Metode Pembayaran</label>
+                <select id="paymentMethod">
+                    <option value="cash">Cash</option>
+                    <option value="qris">QRIS</option>
+                </select>
+            </div>
+            
+            <div id="cashPayment" class="payment-section">
+                <div class="form-group">
+                    <label for="cashAmount">Jumlah Uang Diterima</label>
+                    <input type="number" id="cashAmount" placeholder="Masukkan jumlah uang">
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Total Belanja:</span>
+                    <span class="info-value" id="posTotalAmount">Rp 0</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Kembalian:</span>
+                    <span class="info-value" id="cashChange">Rp 0</span>
+                </div>
+            </div>
+            
+            <div id="qrisPayment" class="payment-section" style="display: none;">
+                <div class="payment-qr">
+                    <img id="posPaymentQr" src="" alt="QR Code">
+                </div>
+                <div class="payment-info">
+                    <div class="info-item">
+                        <span class="info-label">Total:</span>
+                        <span class="info-value" id="qrisTotalAmount">Rp 0</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Transaction ID:</span>
+                        <span class="info-value" id="posTransactionId">TRX-789012</span>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="save-button" id="confirmPosPayment">Konfirmasi Pembayaran</button>
+            <button class="clear-button" id="closePosModal">Tutup</button>
+        </div>
+    </div>
+
+    <div class="receipt-modal" id="receiptModal">
+        <div class="receipt-content">
+            <h2>Struk Pembayaran</h2>
+            <div class="receipt" id="receiptContent">
+                <!-- Struk akan ditampilkan di sini -->
+            </div>
+            <div class="action-buttons">
+                <button class="save-button" id="printReceipt">Cetak Struk</button>
+                <button class="save-button" id="downloadReceipt">Download Struk</button>
+                <button class="clear-button" id="closeReceiptModal">Tutup</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Inisialisasi state aplikasi
         const state = {
@@ -1579,7 +1965,16 @@
             calculatorShouldResetDisplay: false,
             calculatorHistory: JSON.parse(localStorage.getItem('calculatorHistory')) || [],
             // State untuk welcome modal
-            welcomeShown: localStorage.getItem('welcomeShown') || false
+            welcomeShown: localStorage.getItem('welcomeShown') || false,
+            // State untuk POS
+            posCart: JSON.parse(localStorage.getItem('posCart')) || [],
+            posSearchTerm: '',
+            // State untuk struk
+            receiptShopName: localStorage.getItem('receiptShopName') || 'QRISku Store',
+            receiptAddress: localStorage.getItem('receiptAddress') || 'Jl. Contoh No. 123',
+            receiptPhone: localStorage.getItem('receiptPhone') || '+62 812-3456-7890',
+            receiptFooter: localStorage.getItem('receiptFooter') || 'Terima kasih atas kunjungan Anda',
+            receiptLogo: localStorage.getItem('receiptLogo') || ''
         };
 
         // Helper functions
@@ -1646,16 +2041,74 @@
                             phone: debt.phone,
                             debts: [],
                             totalAmount: 0,
-                            pendingCount: 0
+                            paidAmount: 0,
+                            remainingAmount: 0,
+                            paymentHistory: debt.paymentHistory || []
                         };
                     }
                     grouped[debt.name].debts.push(debt);
                     grouped[debt.name].totalAmount += parseInt(debt.amount);
-                    if (debt.status === 'pending') {
-                        grouped[debt.name].pendingCount++;
+                    
+                    // Hitung jumlah yang sudah dibayar
+                    if (debt.paymentHistory) {
+                        debt.paymentHistory.forEach(payment => {
+                            if (payment.status === 'paid') {
+                                grouped[debt.name].paidAmount += parseInt(payment.amount);
+                            }
+                        });
                     }
+                    
+                    grouped[debt.name].remainingAmount = grouped[debt.name].totalAmount - grouped[debt.name].paidAmount;
                 });
                 return grouped;
+            },
+            
+            // Fungsi untuk membuat struk
+            generateReceipt: (transaction) => {
+                const receipt = document.getElementById('receiptContent');
+                const now = new Date();
+                const dateStr = now.toLocaleDateString('id-ID');
+                const timeStr = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+                
+                let receiptHTML = `
+                    <div class="receipt-header">
+                        <div class="receipt-title">${state.receiptShopName}</div>
+                        <div class="receipt-address">${state.receiptAddress}</div>
+                        <div class="receipt-address">${state.receiptPhone}</div>
+                    </div>
+                    <div class="receipt-info">
+                        <div>${dateStr} ${timeStr}</div>
+                        <div>No: ${transaction.id}</div>
+                    </div>
+                    <div class="receipt-items">
+                `;
+                
+                transaction.items.forEach(item => {
+                    receiptHTML += `
+                        <div class="receipt-item">
+                            <div>${item.name} x${item.quantity}</div>
+                            <div>Rp ${helpers.formatNumber(item.price * item.quantity)}</div>
+                        </div>
+                    `;
+                });
+                
+                receiptHTML += `
+                    </div>
+                    <div class="receipt-total">
+                        <div>TOTAL</div>
+                        <div>Rp ${helpers.formatNumber(transaction.total)}</div>
+                    </div>
+                    <div class="receipt-payment">
+                        <div>Pembayaran: ${transaction.paymentMethod}</div>
+                        ${transaction.paymentMethod === 'cash' ? `<div>Bayar: Rp ${helpers.formatNumber(transaction.cashAmount)}</div>` : ''}
+                        ${transaction.paymentMethod === 'cash' ? `<div>Kembali: Rp ${helpers.formatNumber(transaction.change)}</div>` : ''}
+                    </div>
+                    <div class="receipt-footer">
+                        ${state.receiptFooter}
+                    </div>
+                `;
+                
+                receipt.innerHTML = receiptHTML;
             }
         };
 
@@ -1789,6 +2242,253 @@
             }
         };
 
+        // Fungsi POS
+        const pos = {
+            addToCart: (item) => {
+                const existingItem = state.posCart.find(cartItem => cartItem.id === item.id);
+                
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                } else {
+                    state.posCart.push({
+                        id: item.id,
+                        name: item.name,
+                        price: item.price,
+                        quantity: 1
+                    });
+                }
+                
+                localStorage.setItem('posCart', JSON.stringify(state.posCart));
+                pos.renderCart();
+            },
+            
+            removeFromCart: (itemId) => {
+                state.posCart = state.posCart.filter(item => item.id !== itemId);
+                localStorage.setItem('posCart', JSON.stringify(state.posCart));
+                pos.renderCart();
+            },
+            
+            updateQuantity: (itemId, newQuantity) => {
+                const item = state.posCart.find(cartItem => cartItem.id === itemId);
+                if (item) {
+                    if (newQuantity <= 0) {
+                        pos.removeFromCart(itemId);
+                    } else {
+                        item.quantity = newQuantity;
+                        localStorage.setItem('posCart', JSON.stringify(state.posCart));
+                        pos.renderCart();
+                    }
+                }
+            },
+            
+            clearCart: () => {
+                state.posCart = [];
+                localStorage.setItem('posCart', JSON.stringify(state.posCart));
+                pos.renderCart();
+            },
+            
+            renderCart: () => {
+                const posCartItems = document.getElementById('posCartItems');
+                const posCartCount = document.getElementById('posCartCount');
+                const posCartTotal = document.getElementById('posCartTotal');
+                
+                posCartItems.innerHTML = '';
+                
+                if (state.posCart.length === 0) {
+                    posCartItems.innerHTML = '<div style="text-align: center; color: #64748b; padding: 20px;">Keranjang kosong</div>';
+                    posCartCount.textContent = '0 item';
+                    posCartTotal.textContent = 'Rp 0';
+                    return;
+                }
+                
+                let total = 0;
+                let itemCount = 0;
+                
+                state.posCart.forEach(item => {
+                    const itemTotal = item.price * item.quantity;
+                    total += itemTotal;
+                    itemCount += item.quantity;
+                    
+                    const cartItem = document.createElement('div');
+                    cartItem.className = 'pos-cart-item';
+                    cartItem.innerHTML = `
+                        <div class="pos-cart-item-info">
+                            <div class="pos-cart-item-name">${item.name}</div>
+                            <div class="pos-cart-item-price">Rp ${helpers.formatNumber(item.price)}</div>
+                        </div>
+                        <div class="pos-cart-item-quantity">
+                            <button class="quantity-decrease" data-id="${item.id}">-</button>
+                            <span>${item.quantity}</span>
+                            <button class="quantity-increase" data-id="${item.id}">+</button>
+                            <button class="quantity-remove" data-id="${item.id}"><i class="fas fa-trash"></i></button>
+                        </div>
+                    `;
+                    
+                    cartItem.querySelector('.quantity-decrease').addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const id = e.target.getAttribute('data-id');
+                        pos.updateQuantity(id, item.quantity - 1);
+                    });
+                    
+                    cartItem.querySelector('.quantity-increase').addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const id = e.target.getAttribute('data-id');
+                        pos.updateQuantity(id, item.quantity + 1);
+                    });
+                    
+                    cartItem.querySelector('.quantity-remove').addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const id = e.target.getAttribute('data-id');
+                        pos.removeFromCart(id);
+                    });
+                    
+                    posCartItems.appendChild(cartItem);
+                });
+                
+                posCartCount.textContent = `${itemCount} item`;
+                posCartTotal.textContent = `Rp ${helpers.formatNumber(total)}`;
+            },
+            
+            renderItems: () => {
+                const posItems = document.getElementById('posItems');
+                posItems.innerHTML = '';
+                
+                let filteredItems = state.inventory;
+                
+                if (state.posSearchTerm) {
+                    filteredItems = state.inventory.filter(item => 
+                        item.name.toLowerCase().includes(state.posSearchTerm.toLowerCase())
+                    );
+                }
+                
+                if (filteredItems.length === 0) {
+                    posItems.innerHTML = '<div style="text-align: center; color: #64748b; padding: 20px;">Tidak ada barang ditemukan</div>';
+                    return;
+                }
+                
+                filteredItems.forEach(item => {
+                    const posItem = document.createElement('div');
+                    posItem.className = 'pos-item';
+                    posItem.innerHTML = `
+                        <div class="pos-item-name">${item.name}</div>
+                        <div class="pos-item-price">Rp ${helpers.formatNumber(item.price)}</div>
+                        <div class="pos-item-stock">Stok: ${item.stock}</div>
+                    `;
+                    
+                    posItem.addEventListener('click', () => {
+                        if (item.stock > 0) {
+                            pos.addToCart(item);
+                        } else {
+                            alert('Stok barang habis!');
+                        }
+                    });
+                    
+                    posItems.appendChild(posItem);
+                });
+            },
+            
+            processPayment: async (method) => {
+                if (state.posCart.length === 0) {
+                    alert('Keranjang belanja kosong!');
+                    return;
+                }
+                
+                const total = state.posCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                
+                if (method === 'cash') {
+                    document.getElementById('posTotalAmount').textContent = `Rp ${helpers.formatNumber(total)}`;
+                    document.getElementById('cashAmount').value = '';
+                    document.getElementById('cashChange').textContent = 'Rp 0';
+                    
+                    document.getElementById('paymentMethod').value = 'cash';
+                    document.getElementById('cashPayment').style.display = 'block';
+                    document.getElementById('qrisPayment').style.display = 'none';
+                    
+                    document.getElementById('posModal').style.display = 'flex';
+                } else if (method === 'qris') {
+                    document.getElementById('qrisTotalAmount').textContent = `Rp ${helpers.formatNumber(total)}`;
+                    
+                    document.getElementById('paymentMethod').value = 'qris';
+                    document.getElementById('cashPayment').style.display = 'none';
+                    document.getElementById('qrisPayment').style.display = 'block';
+                    
+                    // Generate QR Code
+                    try {
+                        const qrisData = state.savedQrisStaticCode;
+                        if (!qrisData) {
+                            alert('Harap masukkan Kode QRIS statis di pengaturan dahulu!');
+                            return;
+                        }
+                        
+                        const encodedQris = encodeURIComponent(qrisData);
+                        const response = await fetch(`https://cekid-ariepulsa.my.id/api/?qris_data=${encodedQris}&nominal=${total}`);
+                        const data = await response.json();
+                        
+                        if (data.status === 'success') {
+                            document.getElementById('posPaymentQr').src = data.link_qris;
+                            document.getElementById('posTransactionId').textContent = helpers.generateTransactionId();
+                            document.getElementById('posModal').style.display = 'flex';
+                        } else {
+                            alert('Gagal menghasilkan QR Code: ' + (data.message || 'Unknown error'));
+                        }
+                    } catch (error) {
+                        alert('Terjadi kesalahan: ' + error.message);
+                    }
+                }
+            },
+            
+            completePayment: (paymentMethod, cashAmount = 0) => {
+                const total = state.posCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                const change = cashAmount - total;
+                
+                if (paymentMethod === 'cash' && cashAmount < total) {
+                    alert('Jumlah uang tidak cukup!');
+                    return;
+                }
+                
+                // Update stok barang
+                state.posCart.forEach(cartItem => {
+                    const inventoryItem = state.inventory.find(item => item.id === cartItem.id);
+                    if (inventoryItem) {
+                        inventoryItem.stock -= cartItem.quantity;
+                    }
+                });
+                
+                localStorage.setItem('inventory', JSON.stringify(state.inventory));
+                
+                // Buat transaksi
+                const transaction = {
+                    id: helpers.generateTransactionId(),
+                    date: new Date().toLocaleDateString('id-ID', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
+                    rawDate: new Date().toISOString(),
+                    items: [...state.posCart],
+                    total: total,
+                    paymentMethod: paymentMethod,
+                    cashAmount: cashAmount,
+                    change: change,
+                    status: 'success',
+                    type: 'pos'
+                };
+                
+                state.transactions.push(transaction);
+                localStorage.setItem('transactions', JSON.stringify(state.transactions));
+                
+                // Generate struk
+                helpers.generateReceipt(transaction);
+                
+                // Reset keranjang
+                pos.clearCart();
+                
+                // Tutup modal pembayaran
+                document.getElementById('posModal').style.display = 'none';
+                
+                // Tampilkan modal struk
+                document.getElementById('receiptModal').style.display = 'flex';
+                
+                alert('Pembayaran berhasil!');
+            }
+        };
+
         // Fungsi render data
         const render = {
             phoneHistory: () => {
@@ -1840,7 +2540,7 @@
                             <div class="transaction-date">${transaction.date}</div>
                         </div>
                         <div class="transaction-details">
-                            <div class="transaction-amount">Rp ${helpers.formatNumber(transaction.amount)}</div>
+                            <div class="transaction-amount">Rp ${helpers.formatNumber(transaction.amount || transaction.total)}</div>
                             <div class="transaction-status status-success">Berhasil</div>
                         </div>
                     `;
@@ -1873,8 +2573,8 @@
                             <div class="debt-group-total">Rp ${helpers.formatNumber(group.totalAmount)}</div>
                         </div>
                         <div class="debt-group-details">
-                            <div>${group.debts.length} hutang • ${group.pendingCount} belum lunas</div>
-                            <div>${group.phone || 'Tidak ada telepon'}</div>
+                            <div>${group.debts.length} hutang • ${group.remainingAmount > 0 ? 'Belum Lunas' : 'Lunas'}</div>
+                            <div>Sisa: Rp ${helpers.formatNumber(group.remainingAmount)}</div>
                         </div>
                     `;
                     
@@ -1888,7 +2588,9 @@
             
             debtDetail: (name) => {
                 const debtDetailList = document.getElementById('debtDetailList');
+                const paymentHistoryList = document.getElementById('paymentHistoryList');
                 debtDetailList.innerHTML = '';
+                paymentHistoryList.innerHTML = '';
                 
                 const groupedDebts = helpers.groupDebtsByName(state.debts);
                 const group = groupedDebts[name];
@@ -1899,6 +2601,8 @@
                 document.getElementById('debtDetailName').textContent = name;
                 document.getElementById('debtDetailTotal').textContent = `Rp ${helpers.formatNumber(group.totalAmount)}`;
                 document.getElementById('debtDetailCount').textContent = group.debts.length;
+                document.getElementById('debtDetailPaid').textContent = `Rp ${helpers.formatNumber(group.paidAmount)}`;
+                document.getElementById('debtDetailRemaining').textContent = `Rp ${helpers.formatNumber(group.remainingAmount)}`;
                 
                 // Tampilkan daftar hutang
                 group.debts.forEach(debt => {
@@ -1906,29 +2610,53 @@
                     debtItem.className = 'debt-item';
                     debtItem.dataset.id = debt.id;
                     
+                    // Hitung jumlah yang sudah dibayar untuk hutang ini
+                    let paidAmount = 0;
+                    if (debt.paymentHistory) {
+                        debt.paymentHistory.forEach(payment => {
+                            if (payment.status === 'paid') {
+                                paidAmount += parseInt(payment.amount);
+                            }
+                        });
+                    }
+                    
+                    const remainingAmount = debt.amount - paidAmount;
+                    
                     debtItem.innerHTML = `
                         <div class="debt-header">
                             <div>
                                 <div class="debt-item-name">${debt.item}</div>
                                 <div class="debt-amount">Rp ${helpers.formatNumber(debt.amount)}</div>
+                                <div class="debt-paid">Dibayar: Rp ${helpers.formatNumber(paidAmount)}</div>
+                                <div class="debt-remaining">Sisa: Rp ${helpers.formatNumber(remainingAmount)}</div>
                             </div>
-                            <div class="debt-status status-${debt.status}" data-id="${debt.id}">${debt.status === 'paid' ? 'Lunas' : 'Belum Lunas'}</div>
+                            <div class="debt-status status-${remainingAmount > 0 ? 'pending' : 'paid'}" data-id="${debt.id}">${remainingAmount > 0 ? 'Belum Lunas' : 'Lunas'}</div>
                         </div>
                     `;
                     
-                    const statusElement = debtItem.querySelector('.debt-status');
-                    statusElement.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        const debtId = e.target.getAttribute('data-id');
-                        const debt = state.debts.find(d => d.id === debtId);
-                        
-                        if (debt.status === 'pending') {
-                            modals.showPasswordPrompt('status', debtId);
-                        }
-                    });
-                    
                     debtDetailList.appendChild(debtItem);
                 });
+                
+                // Tampilkan riwayat pembayaran
+                if (group.paymentHistory && group.paymentHistory.length > 0) {
+                    group.paymentHistory.forEach(payment => {
+                        const paymentItem = document.createElement('div');
+                        paymentItem.className = 'payment-history-item';
+                        
+                        paymentItem.innerHTML = `
+                            <div class="payment-history-info">
+                                <div class="payment-history-date">${payment.date}</div>
+                                <div class="payment-history-desc">${payment.description || 'Pembayaran hutang'}</div>
+                            </div>
+                            <div class="payment-history-amount">Rp ${helpers.formatNumber(payment.amount)}</div>
+                            <div class="payment-history-status status-${payment.status}">${payment.status === 'paid' ? 'Lunas' : 'Sebagian'}</div>
+                        `;
+                        
+                        paymentHistoryList.appendChild(paymentItem);
+                    });
+                } else {
+                    paymentHistoryList.innerHTML = '<div style="text-align: center; color: #64748b; padding: 20px;">Belum ada riwayat pembayaran</div>';
+                }
             },
             
             inventory: () => {
@@ -2137,6 +2865,8 @@
                 } else if (pageId === 'inventoryPage') {
                     render.inventory();
                     render.shoppingList();
+                    pos.renderItems();
+                    pos.renderCart();
                 } else if (pageId === 'calculatorPage') {
                     calculator.renderHistory();
                 }
@@ -2160,7 +2890,7 @@
             },
             
             closeAllModals: () => {
-                document.querySelectorAll('.settings-modal, .payment-modal, .pulsa-modal, .password-modal, .debt-edit-modal, .inventory-edit-modal, .debt-detail-modal').forEach(modal => {
+                document.querySelectorAll('.settings-modal, .payment-modal, .pulsa-modal, .password-modal, .debt-edit-modal, .inventory-edit-modal, .debt-detail-modal, .pos-modal, .receipt-modal').forEach(modal => {
                     modal.style.display = 'none';
                 });
             },
@@ -2185,6 +2915,13 @@
             document.getElementById('welcomeTitleInput').value = state.welcomeTitle;
             document.getElementById('welcomeTextInput').value = state.welcomeText;
             document.getElementById('welcomeImageInput').value = state.welcomeImage;
+            
+            // Set nilai struk
+            document.getElementById('receiptShopName').value = state.receiptShopName;
+            document.getElementById('receiptAddress').value = state.receiptAddress;
+            document.getElementById('receiptPhone').value = state.receiptPhone;
+            document.getElementById('receiptFooter').value = state.receiptFooter;
+            document.getElementById('receiptLogo').value = state.receiptLogo;
             
             document.getElementById('paymentMerchant').textContent = state.savedMerchant;
             document.getElementById('headerTitle').textContent = state.savedHeaderTitle;
@@ -2260,7 +2997,18 @@
                     if (state.passwordContext === 'status') {
                         const debtIndex = state.debts.findIndex(d => d.id === state.currentDebtId);
                         if (debtIndex >= 0) {
-                            state.debts[debtIndex].status = 'paid';
+                            // Tandai hutang sebagai lunas
+                            if (!state.debts[debtIndex].paymentHistory) {
+                                state.debts[debtIndex].paymentHistory = [];
+                            }
+                            
+                            state.debts[debtIndex].paymentHistory.push({
+                                date: new Date().toLocaleDateString('id-ID'),
+                                amount: state.debts[debtIndex].amount,
+                                description: 'Pelunasan hutang',
+                                status: 'paid'
+                            });
+                            
                             localStorage.setItem('debts', JSON.stringify(state.debts));
                             render.debts();
                             
@@ -2275,8 +3023,17 @@
                         if (group) {
                             group.debts.forEach(debt => {
                                 const debtIndex = state.debts.findIndex(d => d.id === debt.id);
-                                if (debtIndex >= 0) {
-                                    state.debts[debtIndex].status = 'paid';
+                                if (debtIndex >= 0 && debt.remainingAmount > 0) {
+                                    if (!state.debts[debtIndex].paymentHistory) {
+                                        state.debts[debtIndex].paymentHistory = [];
+                                    }
+                                    
+                                    state.debts[debtIndex].paymentHistory.push({
+                                        date: new Date().toLocaleDateString('id-ID'),
+                                        amount: debt.remainingAmount,
+                                        description: 'Pelunasan semua hutang',
+                                        status: 'paid'
+                                    });
                                 }
                             });
                             
@@ -2295,19 +3052,23 @@
                             
                             // Lunasi hutang satu per satu sampai jumlah yang diminta terpenuhi
                             for (let debt of group.debts) {
-                                if (debt.status === 'pending') {
-                                    const debtAmount = parseInt(debt.amount);
-                                    
-                                    if (remainingAmount >= debtAmount) {
-                                        // Lunasi seluruh hutang ini
-                                        const debtIndex = state.debts.findIndex(d => d.id === debt.id);
-                                        if (debtIndex >= 0) {
-                                            state.debts[debtIndex].status = 'paid';
-                                            remainingAmount -= debtAmount;
+                                if (debt.remainingAmount > 0) {
+                                    const debtIndex = state.debts.findIndex(d => d.id === debt.id);
+                                    if (debtIndex >= 0) {
+                                        const paymentAmount = Math.min(remainingAmount, debt.remainingAmount);
+                                        
+                                        if (!state.debts[debtIndex].paymentHistory) {
+                                            state.debts[debtIndex].paymentHistory = [];
                                         }
-                                    } else {
-                                        // Tidak cukup untuk melunasi seluruh hutang ini
-                                        break;
+                                        
+                                        state.debts[debtIndex].paymentHistory.push({
+                                            date: new Date().toLocaleDateString('id-ID'),
+                                            amount: paymentAmount,
+                                            description: 'Pembayaran sebagian hutang',
+                                            status: paymentAmount >= debt.remainingAmount ? 'paid' : 'partial'
+                                        });
+                                        
+                                        remainingAmount -= paymentAmount;
                                     }
                                     
                                     if (remainingAmount <= 0) break;
@@ -2467,7 +3228,7 @@
             });
             
             // Tutup modal dengan klik di luar
-            document.querySelectorAll('.settings-modal, .payment-modal, .pulsa-modal, .password-modal, .debt-edit-modal, .inventory-edit-modal, .debt-detail-modal, .welcome-modal').forEach(modal => {
+            document.querySelectorAll('.settings-modal, .payment-modal, .pulsa-modal, .password-modal, .debt-edit-modal, .inventory-edit-modal, .debt-detail-modal, .pos-modal, .receipt-modal, .welcome-modal').forEach(modal => {
                 modal.addEventListener('click', (e) => {
                     if (e.target === modal) modal.style.display = 'none';
                 });
@@ -2505,7 +3266,7 @@
                 const group = groupedDebts[name];
                 
                 if (group) {
-                    const amount = prompt(`Masukkan jumlah yang ingin dilunasi dari hutang ${name} (Total: Rp ${helpers.formatNumber(group.totalAmount)})`, "");
+                    const amount = prompt(`Masukkan jumlah yang ingin dilunasi dari hutang ${name} (Sisa: Rp ${helpers.formatNumber(group.remainingAmount)})`, "");
                     
                     if (amount === null || amount.trim() === '') return;
                     
@@ -2515,8 +3276,8 @@
                         return;
                     }
                     
-                    if (payAmount > group.totalAmount) {
-                        alert(`Jumlah pembayaran melebihi total hutang. Total hutang: Rp ${helpers.formatNumber(group.totalAmount)}`);
+                    if (payAmount > group.remainingAmount) {
+                        alert(`Jumlah pembayaran melebihi sisa hutang. Sisa hutang: Rp ${helpers.formatNumber(group.remainingAmount)}`);
                         return;
                     }
                     
@@ -2573,6 +3334,13 @@
                 state.welcomeTitle = document.getElementById('welcomeTitleInput').value;
                 state.welcomeText = document.getElementById('welcomeTextInput').value;
                 
+                // Simpan pengaturan struk
+                state.receiptShopName = document.getElementById('receiptShopName').value;
+                state.receiptAddress = document.getElementById('receiptAddress').value;
+                state.receiptPhone = document.getElementById('receiptPhone').value;
+                state.receiptFooter = document.getElementById('receiptFooter').value;
+                state.receiptLogo = document.getElementById('receiptLogo').value;
+                
                 // Jika ada URL gambar baru
                 const newImageUrl = document.getElementById('welcomeImageInput').value;
                 if (newImageUrl) {
@@ -2588,6 +3356,12 @@
                 localStorage.setItem('welcomeTitle', state.welcomeTitle);
                 localStorage.setItem('welcomeText', state.welcomeText);
                 localStorage.setItem('welcomeImage', state.welcomeImage);
+                
+                localStorage.setItem('receiptShopName', state.receiptShopName);
+                localStorage.setItem('receiptAddress', state.receiptAddress);
+                localStorage.setItem('receiptPhone', state.receiptPhone);
+                localStorage.setItem('receiptFooter', state.receiptFooter);
+                localStorage.setItem('receiptLogo', state.receiptLogo);
                 
                 // Update tampilan
                 document.getElementById('paymentMerchant').textContent = state.savedMerchant;
@@ -2634,6 +3408,29 @@
                 
                 render.qrCodeDisplay();
                 alert('Pengaturan QRIS telah direset!');
+            });
+
+            // Reset struk
+            document.getElementById('resetReceiptButton').addEventListener('click', () => {
+                state.receiptShopName = 'QRISku Store';
+                state.receiptAddress = 'Jl. Contoh No. 123';
+                state.receiptPhone = '+62 812-3456-7890';
+                state.receiptFooter = 'Terima kasih atas kunjungan Anda';
+                state.receiptLogo = '';
+                
+                document.getElementById('receiptShopName').value = state.receiptShopName;
+                document.getElementById('receiptAddress').value = state.receiptAddress;
+                document.getElementById('receiptPhone').value = state.receiptPhone;
+                document.getElementById('receiptFooter').value = state.receiptFooter;
+                document.getElementById('receiptLogo').value = '';
+                
+                localStorage.setItem('receiptShopName', state.receiptShopName);
+                localStorage.setItem('receiptAddress', state.receiptAddress);
+                localStorage.setItem('receiptPhone', state.receiptPhone);
+                localStorage.setItem('receiptFooter', state.receiptFooter);
+                localStorage.setItem('receiptLogo', state.receiptLogo);
+                
+                alert('Pengaturan struk telah direset!');
             });
 
             // Ubah password
@@ -2686,6 +3483,44 @@
                 });
             });
 
+            // Tabs inventory
+            document.querySelectorAll('.inventory-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabId = tab.getAttribute('data-tab');
+                    
+                    // Nonaktifkan semua tab
+                    document.querySelectorAll('.inventory-tab').forEach(t => {
+                        t.classList.remove('active');
+                    });
+                    document.querySelectorAll('.tab-content').forEach(c => {
+                        c.classList.remove('active');
+                    });
+                    
+                    // Aktifkan tab yang dipilih
+                    tab.classList.add('active');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+
+            // Tabs debt detail
+            document.querySelectorAll('.debt-detail-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const tabId = tab.getAttribute('data-tab');
+                    
+                    // Nonaktifkan semua tab
+                    document.querySelectorAll('.debt-detail-tab').forEach(t => {
+                        t.classList.remove('active');
+                    });
+                    document.querySelectorAll('.tab-content').forEach(c => {
+                        c.classList.remove('active');
+                    });
+                    
+                    // Aktifkan tab yang dipilih
+                    tab.classList.add('active');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+
             // Tutup settings modal
             document.getElementById('closeSettings').addEventListener('click', () => {
                 document.getElementById('settingsModal').style.display = 'none';
@@ -2710,7 +3545,8 @@
                     item,
                     amount: parseInt(amount),
                     status: 'pending',
-                    date: new Date().toLocaleDateString('id-ID')
+                    date: new Date().toLocaleDateString('id-ID'),
+                    paymentHistory: []
                 };
                 
                 state.debts.push(newDebt);
@@ -2760,6 +3596,7 @@
                 
                 render.inventory();
                 render.shoppingList();
+                pos.renderItems();
                 alert('Barang berhasil ditambahkan!');
             });
             
@@ -2854,6 +3691,83 @@
                     tab.classList.add('active');
                     document.getElementById(tabId).classList.add('active');
                 });
+            });
+            
+            // POS functionality
+            document.getElementById('posSearch').addEventListener('input', (e) => {
+                state.posSearchTerm = e.target.value;
+                pos.renderItems();
+            });
+            
+            document.getElementById('posClearCart').addEventListener('click', () => {
+                if (confirm('Apakah Anda yakin ingin mengosongkan keranjang?')) {
+                    pos.clearCart();
+                }
+            });
+            
+            document.getElementById('posCashButton').addEventListener('click', () => {
+                pos.processPayment('cash');
+            });
+            
+            document.getElementById('posQrisButton').addEventListener('click', () => {
+                pos.processPayment('qris');
+            });
+            
+            // POS payment modal
+            document.getElementById('paymentMethod').addEventListener('change', (e) => {
+                const method = e.target.value;
+                if (method === 'cash') {
+                    document.getElementById('cashPayment').style.display = 'block';
+                    document.getElementById('qrisPayment').style.display = 'none';
+                } else {
+                    document.getElementById('cashPayment').style.display = 'none';
+                    document.getElementById('qrisPayment').style.display = 'block';
+                }
+            });
+            
+            document.getElementById('cashAmount').addEventListener('input', (e) => {
+                const cashAmount = parseInt(e.target.value) || 0;
+                const total = state.posCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                const change = cashAmount - total;
+                
+                document.getElementById('cashChange').textContent = `Rp ${helpers.formatNumber(Math.max(0, change))}`;
+            });
+            
+            document.getElementById('confirmPosPayment').addEventListener('click', () => {
+                const paymentMethod = document.getElementById('paymentMethod').value;
+                
+                if (paymentMethod === 'cash') {
+                    const cashAmount = parseInt(document.getElementById('cashAmount').value) || 0;
+                    pos.completePayment('cash', cashAmount);
+                } else {
+                    pos.completePayment('qris');
+                }
+            });
+            
+            document.getElementById('closePosModal').addEventListener('click', () => {
+                document.getElementById('posModal').style.display = 'none';
+            });
+            
+            // Receipt functionality
+            document.getElementById('printReceipt').addEventListener('click', () => {
+                window.print();
+            });
+            
+            document.getElementById('downloadReceipt').addEventListener('click', () => {
+                const receiptContent = document.getElementById('receiptContent').innerHTML;
+                const blob = new Blob([receiptContent], { type: 'text/html' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'struk-pembayaran.html';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+            
+            document.getElementById('closeReceiptModal').addEventListener('click', () => {
+                document.getElementById('receiptModal').style.display = 'none';
             });
         });
     </script>
